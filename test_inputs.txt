@@ -1,0 +1,3 @@
+"question_number": 5,
+"topic": "effects of invasive species",
+"standards": "HS-LS2-7. Design, evaluate, and refine a solution for reducing the impacts of human activities on the environment and biodiversity."
