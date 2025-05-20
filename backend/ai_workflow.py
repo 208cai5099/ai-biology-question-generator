@@ -1,4 +1,3 @@
-import warnings
 import os
 from dotenv import load_dotenv
 from crewai import Process, Crew, Agent, Task
@@ -7,7 +6,6 @@ from typing import List, Union, Literal
 
 load_dotenv()
 
-warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 model_name = os.getenv("MODEL")
 
@@ -166,11 +164,5 @@ class QuestionGenerator():
             agents=[self.biology_writer_agent(), self.ngss_agent(), self.biology_expert_agent()],
             tasks=[self.writing_task(), self.question_task(), self.fact_checking_task()],
             process=Process.sequential,
-            verbose=True
+            verbose=False
         )
-
-inputs = {
-    "question_number": 5,
-    "topic": "effects of invasive species",
-    "standards": "HS-LS2-7. Design, evaluate, and refine a solution for reducing the impacts of human activities on the environment and biodiversity."
-}

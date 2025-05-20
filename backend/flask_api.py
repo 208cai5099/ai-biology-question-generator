@@ -21,9 +21,4 @@ def get_questions():
     crew = gen.crew()
     result = crew.kickoff(inputs=inputs)
 
-    # print(dir(result))
-    # print(result.model_dump_json())
-    # print(result.to_dict())
-
-
     return result.to_dict()
