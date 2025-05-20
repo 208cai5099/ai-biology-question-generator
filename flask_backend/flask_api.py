@@ -4,6 +4,10 @@ import json
 
 app = Flask(__name__)
 
+@app.route("/")
+def home_page():
+    return "<h1>AI Biology Question Generator</h1>"
+
 @app.route("/generate")
 def get_questions():
 
