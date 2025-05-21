@@ -1,4 +1,6 @@
-export default function Slider() {
+'use client'
+
+export default function Slider(props) {
 
     return (
         <div className="flex flex-row py-3">
@@ -6,7 +8,7 @@ export default function Slider() {
           <span className="px-5 text-lg font-bold">Question Number: </span>
 
           <div className="w-full max-w-xs">
-            <input type="range" min={0} max={5} className="range" step="1" />
+            <input type="range" min={0} max={5} className="range" step="1" defaultValue={props.defaultValue} onChange={props.updateInput}/>
             <div className="flex justify-between px-2.5 mt-2 text-xs">
               <span>|</span>
               <span>|</span>
