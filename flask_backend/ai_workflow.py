@@ -146,10 +146,10 @@ class QuestionGenerator():
                 "question_num" : 2,
                 "question_type": multiple choice,
                 "question": [insert question 2],
-                "choice_a" : [insert choice a],
-                "choice_b" : [insert choice b],
-                "choice_c" : [insert choice c],
-                "choice_d" : [insert choice d],
+                "choice_a" : A) [insert choice a],
+                "choice_b" : B) [insert choice b],
+                "choice_c" : C) [insert choice c],
+                "choice_d" : D) [insert choice d],
                 "answer": [insert answer for question 2]
                 },
                 ...

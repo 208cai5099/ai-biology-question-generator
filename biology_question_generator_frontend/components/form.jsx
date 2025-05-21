@@ -2,7 +2,6 @@
 
 import { endpoint } from "@/utils";
 import Input from "./text-input";
-import Slider from "./question-num-slider";
 import { useState } from "react";
 
 export default function IntakeForm() {
@@ -37,7 +36,8 @@ export default function IntakeForm() {
 
         <Input updateInput={(i) => {setStandards(i.target.value)}} name="NGSS Standard" placeholder="Design, evaluate, and refine a solution for reducing the impacts of human activities on the environment and biodiversity" />
 
-        <Slider updateInput={(i) => {setNumQuestions(i.target.value)}} name="Number of Questions" defaultValue={3} />
+        <Input updateInput={(i) => {setNumQuestions(parseInt(i.target.value))}} name="Number of Questions " placeholder="5" class="w-20 input text-lg"/>
+
 
         <div>
             {click ? 
