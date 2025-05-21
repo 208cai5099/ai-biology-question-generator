@@ -1,32 +1,19 @@
 'use client'
 
-import { endpoint } from "@/utils";
 import Input from "./text-input";
 import { useState } from "react";
+import { useRouter } from 'next/navigation'
 
 export default function IntakeForm() {
+
+    const router = useRouter()
 
     const [topic, setTopic] = useState("")
     const [standards, setStandards] = useState("")
     const [numQuestions, setNumQuestions] = useState(3)
-    const [click, setClick] = useState(false)
 
-    const generateQuestions = async () => {
-
-        let generateURL = endpoint + "/generate?"
-
-        generateURL += ("question_number=" + numQuestions + "&")
-        generateURL += ("topic=" + topic + "&")
-        generateURL += ("standards=" + standards)
-
-        try {
-            // const questions = await fetch(generateURL).then((response) => {return response.json()})
-            
-            setClick(false)
-
-        } catch (error) {
-            console.log("Error: " + error)
-        }
+    const redirectToView = () => {
+        router.push(`/view?topic=${topic}&standards=${standards}&numQuestions=${numQuestions}`)
     }
 
     return (
@@ -39,20 +26,7 @@ export default function IntakeForm() {
         <Input updateInput={(i) => {setNumQuestions(parseInt(i.target.value))}} name="Number of Questions " placeholder="5" class="w-20 input text-lg"/>
 
 
-        <div>
-            {click ? 
-                <div> 
-                    <button className="btn">
-                        <span className="loading loading-spinner text-green-700"></span>
-                        Generating...
-                    </button>
-                </div> : 
-            <button onClick={() => {
-                setClick(true)
-                generateQuestions()
-            }} className="btn btn-outline btn-success">Generate</button>
-            }
-        </div>
+        <button onClick={() => {redirectToView()}} className="btn btn-outline btn-success">Generate</button>
 
       </div>
     )

@@ -1,14 +1,10 @@
 'use client'
 
-import jsonData from '/Users/zhuobiaocai/Desktop/ai-biology-question-generator/test_result.json' assert { type: 'json' };
-
 export default function QuestionCards(props) {
-
-    const questions = jsonData.question_list
 
     return (
         <div>
-            {questions.map((question, idx) => {
+            {props.questionsList.map((question, idx) => {
 
                 if (question.question_type === "multiple choice") {
 
@@ -23,8 +19,8 @@ export default function QuestionCards(props) {
                                     <p></p>
                                     {choices.map((choice, idx) => {
                                         return (
-                                            <div>
-                                                <p key={idx}>{choice}</p>
+                                            <div key={idx}>
+                                                <p>{choice}</p>
                                                 <p></p>
                                             </div>
                                         )
