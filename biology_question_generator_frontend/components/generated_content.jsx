@@ -27,12 +27,12 @@ export default function GeneratedContent() {
         generateURL += ("standards=" + searchParams.get("standards"))
 
         try {
-            const res = await fetch(generateURL).then((response) => {return response.json()})
+            // const res = await fetch(generateURL).then((response) => {return response.json()})
 
-            setQuestionsList(res.question_list)
-            setReading(res.reading)
-            setData(res.data)
-            setIsGenerated(true)
+            // setQuestionsList(res.question_list)
+            // setReading(res.reading)
+            // setData(res.data)
+            // setIsGenerated(true)
             
         } catch (error) {
             console.log("Error: " + error)
@@ -61,7 +61,7 @@ export default function GeneratedContent() {
                 <div> 
                     {questionsList.map((q, idx) => {
                         return (
-                            <div key={idx} className="card flex flex-col items-center justify-center h-50 w-200 bg-white my-5">
+                            <div key={idx} className="card flex flex-col items-center justify-center animate-pulse h-50 w-200 bg-white my-5">
                                 <span className="loading loading-spinner loading-xl "></span>
                             </div>
                         )

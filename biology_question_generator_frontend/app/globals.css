@@ -5,5 +5,8 @@
 
 @theme {
   --color-customBackground: #E6F7F5;
-  --color-customNavBar: #90D1CA;
+  --color-customLightGreen: #90D1CA;
+  --color-customMediumGreen: #129990;
+  --color-customDarkGreen: #096B68;
+
 }
