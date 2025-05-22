@@ -10,9 +10,11 @@ import { useSearchParams } from 'next/navigation'
 export default function GeneratedContent() {
 
     const [isGenerated, setIsGenerated] = useState(false)
-    const [questionsList, setQuestionsList] = useState([])
+    const [questionsList, setQuestionsList] = useState(new Array(3).fill({}))
     const [reading, setReading] = useState({})
     const [data, setData] = useState({})
+
+    console.log(questionsList)
 
     const searchParams = useSearchParams()
 
@@ -45,14 +47,27 @@ export default function GeneratedContent() {
 
         <div className="flex flex-col items-center">
             { isGenerated ?
-            <div>
+            <div className="flex flex-col items-center">
+                <h1 className="my-5 text-xl">Your questions are shown below. You can edit the questions or export them as a PDF.</h1>
                 <Reading title={reading.title} content={reading.content}/>
                 <DataTable title={data.title} colNames={data.col_names} rows={data.row_values}/>
                 <QuestionCards questionsList={questionsList}/>
             </div> :
-            <div role="alert" className="alert alert-success lg:w-120 md:w-90 sm:w-60 my-5">
-                <span className="loading loading-spinner loading-lg"></span>
-                <span>Your questions are being generated</span>
+            <div className="flex flex-col items-center justify-center">
+                <div role="alert" className="alert alert-success w-70 my-5 mb-10">
+                    <span>Your questions are being generated</span>
+                </div>
+
+                <div> 
+                    {questionsList.map((q, idx) => {
+                        return (
+                            <div key={idx} className="card flex flex-col items-center justify-center h-50 w-200 bg-white my-5">
+                                <span className="loading loading-spinner loading-xl "></span>
+                            </div>
+                        )
+                    })
+                    }
+                </div>
             </div>
             }
         </div>
