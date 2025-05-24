@@ -29,7 +29,7 @@ def username_exists(username: str) -> bool:
     return False
 
 # creates the user account
-def create_user(username: str, password: str) -> None:
+def create_user(username: str, password: str) -> bool:
 
     hashed_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
     user = Account(username=username, password=hashed_password)
@@ -37,6 +37,9 @@ def create_user(username: str, password: str) -> None:
     with db_session() as session:
         session.add(user)
         session.commit()
+        return True
+    
+    return False
 
 # authenticates the user login
 def auth_user(username: str, password: str) -> bool:
@@ -44,7 +47,7 @@ def auth_user(username: str, password: str) -> bool:
     with db_session() as session:
         user_acc = session.query(Account).filter(Account.username == username).first()
 
-        if bcrypt.checkpw(password.encode("utf-8", user_acc.password)) is True:
+        if user_acc is not None and bcrypt.checkpw(password.encode("utf-8"), user_acc.password) is True:
             return True
     
     return False

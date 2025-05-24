@@ -4,7 +4,6 @@ import DataTable from "./data-table"
 import QuestionCards from "./question-cards"
 import Reading from "./reading"
 import { useState, useEffect } from "react"
-import { endpoint } from "@/utils"
 import { useSearchParams } from 'next/navigation'
 
 export default function GeneratedContent() {
@@ -20,14 +19,23 @@ export default function GeneratedContent() {
 
     const generateQuestions = async () => {
 
-        let generateURL = endpoint + "/generate?"
-
-        generateURL += ("question_number=" + searchParams.get("numQuestions") + "&")
-        generateURL += ("topic=" + searchParams.get("topic") + "&")
-        generateURL += ("standards=" + searchParams.get("standards"))
+        const question_number = searchParams.get("numQuestions")
+        const topic = searchParams.get("topic")
+        const standards = searchParams.get("standards")
 
         try {
-            // const res = await fetch(generateURL).then((response) => {return response.json()})
+
+            // const res = await fetch(process.env.ENDPOINT, {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type" : "application/json"
+            //     },
+            //     body: {
+            //         "topic": topic,
+            //         "question_number": question_number,
+            //         "standards": standards
+            //     }
+            // })
 
             // setQuestionsList(res.question_list)
             // setReading(res.reading)

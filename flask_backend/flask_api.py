@@ -1,30 +1,79 @@
-from flask import Flask, request
+import os
+from dotenv import load_dotenv
+from flask import Flask, request, jsonify
 from ai_workflow import QuestionGenerator
 from flask_cors import CORS
-from sql_db_setup import username_exists, create_user, auth_user, delete_user
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from sql_db_setup import *
+from typing import Dict, Any
+
+load_dotenv()
 
 app = Flask(__name__)
+app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
+jwt = JWTManager(app)
+
 CORS(app)
 
 @app.route("/")
-def home_page():
+def home_page() -> str:
     return "<h1>AI Biology Question Generator</h1>"
 
+@app.route("/signup", methods=["PUT"])
+def signup() -> Dict[str, str]:
+    if request.is_json is True:
+        username = request.json.get("username")
+        password = request.json.get("password") 
+
+        try:
+            if username_exists(username):
+                return jsonify({"msg" : "username already exists"})
+            else:
+                if create_user(username, password):
+                    return jsonify({"msg" : "account created"})
+                else:
+                    return jsonfiy({"msg" : "internal error: account is not created"})
+        
+        except:
+            return jsonfiy({"msg" : "internal error: account is not created"})
+
+@app.route("/login", methods=["POST"])
+def login() -> Dict[str, str]:
+    if request.is_json is True:
+        username = request.json.get("username")
+        password = request.json.get("password")
+
+        try:
+            if username_exists(username) is False:
+                return jsonify({"msg" : "no such username exists"})
+
+            if auth_user(username, password) is True:
+                jwt_token = create_access_token(identity=username)
+                return jsonify({"access_token" : jwt_token})
+            else:
+                return jsonify({"msg" : "invalid username and password combination"})
+        except:
+            return jsonify({"msg" : "internal error: cannot login"})
+
+
 @app.route("/generate")
-def get_questions():
+@jwt_required()
+def get_questions() -> Dict[str, Any]:
 
-    topic = request.args.get("topic")
-    question_number = request.args.get("question_number")
-    standards = request.args.get("standards")
+    if request.is_json is True:
 
-    inputs = {
-        "topic": topic,
-        "question_number": question_number,
-        "standards": standards
-    }
+        topic = request.json.get("topic")
+        question_number = request.json.get("question_number")
+        standards = request.json.get("standards")
 
-    gen = QuestionGenerator()
-    crew = gen.crew()
-    result = crew.kickoff(inputs=inputs)
+        inputs = {
+            "topic": topic,
+            "question_number": question_number,
+            "standards": standards
+        }
 
-    return result.to_dict()
+        gen = QuestionGenerator()
+        crew = gen.crew()
+        result = crew.kickoff(inputs=inputs)
+
+        return result.to_dict()

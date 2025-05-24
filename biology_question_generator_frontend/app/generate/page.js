@@ -1,7 +1,7 @@
 import IntakeForm from "@/components/intake-form";
 import Navbar from "@/components/navbar";
 
-export default function Input() {
+export default function Generate() {
   return (
     <div className="bg-customBackground min-h-screen">
 
