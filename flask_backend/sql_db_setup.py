@@ -23,7 +23,7 @@ Base.metadata.create_all(db)
 # checks whether an account with the given username already exists
 def username_exists(username: str) -> bool:
     with db_session() as session:
-        if len(session.query(Account).all()) > 0:
+        if len(session.query(Account).filter(Account.username == username).all()) > 0:
             return True
     
     return False

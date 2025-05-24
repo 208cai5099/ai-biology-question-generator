@@ -4,7 +4,8 @@
 }
 
 @theme {
-  --color-customBackground: #E6F7F5;
+  /* --color-customBackground: #E6F7F5; */
+  --color-customBackground: #FFFFFF;
   --color-customLightGreen: #90D1CA;
   --color-customMediumGreen: #129990;
   --color-customDarkGreen: #096B68;

@@ -27,15 +27,15 @@ def signup() -> Dict[str, str]:
 
         try:
             if username_exists(username):
-                return jsonify({"msg" : "username already exists"})
+                return jsonify({"msg" : "Username already exists."})
             else:
                 if create_user(username, password):
-                    return jsonify({"msg" : "account created"})
+                    return jsonify({"msg" : "Account successfully created. You may now login."})
                 else:
-                    return jsonfiy({"msg" : "internal error: account is not created"})
+                    return jsonfiy({"msg" : "Internal error: account is not created."})
         
         except:
-            return jsonfiy({"msg" : "internal error: account is not created"})
+            return jsonfiy({"msg" : "Internal error: account is not created."})
 
 @app.route("/login", methods=["POST"])
 def login() -> Dict[str, str]:
@@ -45,15 +45,18 @@ def login() -> Dict[str, str]:
 
         try:
             if username_exists(username) is False:
-                return jsonify({"msg" : "no such username exists"})
+                return jsonify({"msg" : "No such username exists."})
 
             if auth_user(username, password) is True:
                 jwt_token = create_access_token(identity=username)
-                return jsonify({"access_token" : jwt_token})
+                return jsonify({
+                    "msg" : "Account successfully logged in.",
+                    "access_token" : jwt_token
+                    })
             else:
-                return jsonify({"msg" : "invalid username and password combination"})
+                return jsonify({"msg" : "Invalid username and password combination."})
         except:
-            return jsonify({"msg" : "internal error: cannot login"})
+            return jsonify({"msg" : "Internal error: cannot login at this moment."})
 
 
 @app.route("/generate")

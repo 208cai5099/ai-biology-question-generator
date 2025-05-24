@@ -7,9 +7,6 @@ export default function Navbar() {
             <Link className="navbar-start font-bold text-lg" href="/">
                 Biology Question Generator 🦠
             </Link>
-            <Link className="navbar-end font-bold text-lg" href="/login">
-                Sign Up/Login
-            </Link>
         </div>
     )
 }

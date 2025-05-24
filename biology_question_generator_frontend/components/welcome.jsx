@@ -1,6 +1,6 @@
 'use client'
 
-import { urlAndLabel } from "@/utils"
+import { urlAndLabel } from "@/components/utils"
 import { useState } from "react"
 import Link from "next/link"
 
@@ -28,7 +28,7 @@ export default function Welcome() {
         }
     }
 
-    setInterval(handleTransition, 10000)
+    // setInterval(handleTransition, 10000)
 
     return (
         <div>

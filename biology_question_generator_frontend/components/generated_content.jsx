@@ -69,7 +69,7 @@ export default function GeneratedContent() {
                 <div> 
                     {questionsList.map((q, idx) => {
                         return (
-                            <div key={idx} className="card flex flex-col items-center justify-center animate-pulse h-50 w-200 bg-white my-5">
+                            <div key={idx} className="card flex flex-col items-center justify-center animate-pulse h-50 w-200 bg-gray-100 my-5">
                                 <span className="loading loading-spinner loading-xl "></span>
                             </div>
                         )
