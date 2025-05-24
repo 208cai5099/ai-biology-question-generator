@@ -45,3 +45,4 @@ flask_backend/__pycache__
 test_result.json
 test_input.txt
 test.md
+flask_backend/biology_question_generator.db

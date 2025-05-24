@@ -87,14 +87,13 @@ class QuestionGenerator():
 
             Design {question_number} high school-level biology questions based on the reading. Include hypothetical data values to accompany the reading and design questions based on the data values.
 
-            Include BOTH multiple-choice and open-ended questions.
+            Include BOTH multiple-choice and open-ended questions that are aligned to the following standard(s):
 
-            Make sure the questions align to the following standard(s): {standards}
+            Standard(s): {standards}
 
             Make sure the questions are solvable using high school-level biology knolwedge.
 
             Make sure that the question style matches the following requirements.
-
             1. **Conceptual Understanding**: The questions focus on understanding key biological concepts, such as ecosystem dynamics, carbon cycling, and evolutionary processes. This aligns with NGSS's emphasis on deep learning and comprehension of core ideas rather than rote memorization.
             2. **Evidence-Based Reasoning**: Questions require students to use evidence from provided data (e.g., graphs, diagrams) to support their answers. This reflects the NGSS goal of integrating scientific practices with content knowledge, encouraging students to engage in scientific reasoning.
             3. **Interdisciplinary Connections**: The questions often connect biology to environmental science, chemistry (e.g., carbon cycling), and earth science (e.g., historical climate changes). NGSS promotes the integration of different disciplines to provide a holistic understanding of science.

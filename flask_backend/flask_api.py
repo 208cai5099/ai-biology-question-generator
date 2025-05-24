@@ -1,7 +1,10 @@
 from flask import Flask, request
 from ai_workflow import QuestionGenerator
+from flask_cors import CORS
+from sql_db_setup import username_exists, create_user, auth_user, delete_user
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/")
 def home_page():

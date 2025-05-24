@@ -48,7 +48,7 @@ export default function GeneratedContent() {
         <div className="flex flex-col items-center">
             { isGenerated ?
             <div className="flex flex-col items-center">
-                <h1 className="my-5 text-xl">Your questions are shown below. You can edit the questions or export them as a PDF.</h1>
+                <h1 className="my-5 text-xl">Your questions are shown below.</h1>
                 <Reading title={reading.title} content={reading.content}/>
                 <DataTable title={data.title} colNames={data.col_names} rows={data.row_values}/>
                 <QuestionCards questionsList={questionsList}/>

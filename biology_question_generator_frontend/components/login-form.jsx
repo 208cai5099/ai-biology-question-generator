@@ -13,12 +13,12 @@ export default function LoginForm() {
     const [submitReady, setSubmitReady] = useState(false)
     const [submit, setSubmit] = useState(false)
 
-    console.log(usernameFirst)
-
     useEffect(() => {
 
         if (usernameFirst !== 'Select one' && usernameSecond !== '' && password !== '') {
             setSubmitReady(true)
+        } else {
+            setSubmitReady(false)
         }
 
     }, [usernameFirst, usernameSecond, password])

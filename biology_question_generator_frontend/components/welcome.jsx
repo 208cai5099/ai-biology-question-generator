@@ -41,12 +41,12 @@ export default function Welcome() {
                         </p>
                         <p></p>
                         <p className="text-center font-bold text-3xl my-10">
-                            Click <Link className="text-customDarkGreen underline" href="/input">here</Link> to get started
+                            <Link className="text-customDarkGreen underline" href="/login">Sign up</Link> to get started
                         </p>
 
                     </div>
                     <div className="w-1/3 max-h-sm">
-                        <img src={imageURL} alt="cartoon image" />
+                        <img src={imageURL} alt="cartoon image" className="animate-bounce"/>
                         <ul className="steps">
                             {urlAndLabel.map((i, idx) => {
                                 if (idx === index) {
