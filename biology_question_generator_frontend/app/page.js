@@ -3,7 +3,7 @@ import Welcome from "@/components/welcome";
 
 export default function Home() {
   return (
-    <div className="bg-customBackground min-h-screen">
+    <div className="min-h-screen bg-gradient-to-t from-customLightGreen via-customMediumGreen to-customDarkGreen">
       <Navbar/>
       <Welcome/>
     </div>

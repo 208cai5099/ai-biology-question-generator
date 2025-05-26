@@ -2,62 +2,59 @@
 
 import { urlAndLabel } from "@/components/utils"
 import { useState } from "react"
-import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export default function Welcome() {
 
+    const router = useRouter()
+
     const [index, setIndex] = useState(0)
-    const [progress, setProgress] = useState(0)
     const [imageURL, setImageURL] = useState(urlAndLabel[0][0])    
     const [label, setLabel] = useState(urlAndLabel[0][1])
 
-    const handleTransition = () => {
-
-        if (index === urlAndLabel.length - 1) {
-            setIndex(0)
-            setImageURL(urlAndLabel[0][0])
-            setLabel(urlAndLabel[0][1])
-            setProgress(0)
-        } else {
-
-            setIndex(index + 1)
-            setImageURL(urlAndLabel[index + 1][0])
-            setLabel(urlAndLabel[index + 1][1])
-
-            setProgress(Math.floor(progress + (100 / urlAndLabel.length)))
-        }
+    const updateImage = (idx) => {
+        setIndex(idx)
+        setImageURL(urlAndLabel[idx][0])
+        setLabel(urlAndLabel[idx][1])
     }
 
-    // setInterval(handleTransition, 10000)
-
     return (
-        <div>
-            <div className="hero sm:my-20">
+        <div className="grid place-items-center lg:mt-30 md:mt-30 mt-20">
+            <div className="hero">
                 <div className="hero-content flex-col lg:flex-row">
                     <div className="w-1/2">
                         <p className="text-center font-bold text-5xl">Generate questions about</p>
-                        <p className="text-center font-bold text-5xl text-customMediumGreen">
+                        <p className="text-center font-bold text-5xl">
                             {label}
-                        </p>
-                        <p></p>
-                        <p className="text-center font-bold text-3xl my-10">
-                            <Link className="text-customDarkGreen underline" href="/login">Sign up</Link> to get started
                         </p>
 
                     </div>
-                    <div className="w-1/3 max-h-sm">
-                        <img src={imageURL} alt="cartoon image" className="animate-bounce"/>
-                        <ul className="steps">
-                            {urlAndLabel.map((i, idx) => {
-                                if (idx === index) {
-                                    return <li key={idx} className="step step-accent"></li>
-                                } else {
-                                    return <li key={idx} className="step"></li>
-                                }
-                            })}
-                        </ul>
+                    <div className="flex flex-col justify-center items-center w-1/3 max-h-sm">
+                        <img src={imageURL} alt="cartoon image"/>
+                        <div className="join">
+                            {
+                                urlAndLabel.map((i, idx) => {
+                                    return (
+                                        <input 
+                                            key={idx}
+                                            className={index === idx ? "join-item btn btn-square btn-success" : "join-item btn btn-square"}
+                                            type="radio"
+                                            name="options" 
+                                            aria-label={`${idx+1}`}
+                                            checked={index === idx}
+                                            onChange={() => {updateImage(idx)}}
+                                        />
+                                    )
+                                })
+                            }
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div 
+                className="btn hover:bg-customDarkGreen bg-customMediumGreen rounded-md text-center font-bold text-white text-3xl my-5"
+                onClick={() => {router.push("/login")}}>
+                Get Started
             </div>
         </div>
     )
