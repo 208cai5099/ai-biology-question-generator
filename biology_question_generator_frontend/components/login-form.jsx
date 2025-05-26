@@ -3,6 +3,7 @@
 import { usernames } from "@/components/utils"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { fetchLogin } from "@/app/login/fetch-login"
 
 export default function LoginForm() {
 
@@ -26,34 +27,21 @@ export default function LoginForm() {
         setIsSignUp(false)
         setIsLogin(true)
     }
-
-    const submitLogin = async() => {
+    
+    const clickSubmit = async() => {
 
         setSubmitting(true)
 
-        const url = isSignUp ? (process.env.NEXT_PUBLIC_ENDPOINT + "/signup") : (process.env.NEXT_PUBLIC_ENDPOINT + "/login")
-
         try {
-            const res = await fetch(url, {
-                method: isSignUp ? "PUT" : "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    "username": usernameFirst + usernameSecond,
-                    "password": password
-                })
-            })
 
-            const resJSON = await res.json()
+            const msg = await fetchLogin({signUp: isSignUp, usernameFirst: usernameFirst, usernameSecond: usernameSecond, password: password})
 
             setUsernameFirst("Select one")
             setUsernameSecond("")
             setPassword("")
-            setMessage(resJSON.msg)
             setSubmitting(false)
 
-            if (isLogin === true && resJSON.msg === "Account successfully logged in.") {
+            if (isLogin === true && msg === "Account successfully logged in.") {
                 setTimeout(() => {router.push("/generate")}, 2000)
             }
 
@@ -140,7 +128,7 @@ export default function LoginForm() {
                             onChange={(i) => {setPassword(i.target.value)}}/>
                         </div>
 
-                        <button className={submitReady ? "btn w-70 mt-5" : "btn btn-disabled w-70 mt-5"} type="button" onClick={() => {submitLogin()}}>Submit</button>
+                        <button className={submitReady ? "btn w-70 mt-5" : "btn btn-disabled w-70 mt-5"} type="button" onClick={() => {clickSubmit()}}>Submit</button>
 
                     </fieldset>
                 }

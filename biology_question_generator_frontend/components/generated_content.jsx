@@ -5,6 +5,7 @@ import QuestionCards from "./question-cards"
 import Reading from "./reading"
 import { useState, useEffect } from "react"
 import { useSearchParams } from 'next/navigation'
+import { fetchGeneration } from "@/app/view/fetch-generation"
 
 export default function GeneratedContent() {
 
@@ -13,11 +14,9 @@ export default function GeneratedContent() {
     const [reading, setReading] = useState({})
     const [data, setData] = useState({})
 
-    console.log(questionsList)
-
     const searchParams = useSearchParams()
 
-    const generateQuestions = async () => {
+    const generateQuestions = async() => {
 
         const question_number = searchParams.get("numQuestions")
         const topic = searchParams.get("topic")
@@ -25,22 +24,12 @@ export default function GeneratedContent() {
 
         try {
 
-            // const res = await fetch(process.env.ENDPOINT, {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-Type" : "application/json"
-            //     },
-            //     body: {
-            //         "topic": topic,
-            //         "question_number": question_number,
-            //         "standards": standards
-            //     }
-            // })
+            const res = await fetchGeneration({question_number: question_number, topic: topic, standards: standards})
 
-            // setQuestionsList(res.question_list)
-            // setReading(res.reading)
-            // setData(res.data)
-            // setIsGenerated(true)
+            setQuestionsList(res.question_list)
+            setReading(res.reading)
+            setData(res.data)
+            setIsGenerated(true)
             
         } catch (error) {
             console.log("Error: " + error)

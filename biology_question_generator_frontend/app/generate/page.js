@@ -1,7 +1,9 @@
+import { cookies } from 'next/headers'
 import IntakeForm from "@/components/intake-form";
 import Navbar from "@/components/navbar";
 
-export default function Generate() {
+export default async function Generate() {
+  
   return (
     <div className="bg-customBackground min-h-screen">
 

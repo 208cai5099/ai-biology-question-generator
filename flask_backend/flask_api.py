@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response
 from ai_workflow import QuestionGenerator
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
@@ -49,17 +49,19 @@ def login() -> Dict[str, str]:
 
             if auth_user(username, password) is True:
                 jwt_token = create_access_token(identity=username)
+
                 return jsonify({
                     "msg" : "Account successfully logged in.",
-                    "access_token" : jwt_token
-                    })
+                    "jwt_token" : jwt_token
+                })
+
             else:
                 return jsonify({"msg" : "Invalid username and password combination."})
         except:
             return jsonify({"msg" : "Internal error: cannot login at this moment."})
 
 
-@app.route("/generate")
+@app.route("/generate", methods=["POST"])
 @jwt_required()
 def get_questions() -> Dict[str, Any]:
 
