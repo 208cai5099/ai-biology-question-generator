@@ -3,70 +3,15 @@
 import DataTable from "./data-table"
 import QuestionCards from "./question-cards"
 import Reading from "./reading"
-import { useState, useEffect } from "react"
-import { useSearchParams } from 'next/navigation'
-import { fetchGeneration } from "@/app/view/fetch-generation"
 
-export default function GeneratedContent() {
-
-    const [isGenerated, setIsGenerated] = useState(false)
-    const [questionsList, setQuestionsList] = useState(new Array(3).fill({}))
-    const [reading, setReading] = useState({})
-    const [data, setData] = useState({})
-
-    const searchParams = useSearchParams()
-
-    const generateQuestions = async() => {
-
-        const question_number = searchParams.get("numQuestions")
-        const topic = searchParams.get("topic")
-        const standards = searchParams.get("standards")
-
-        try {
-
-            const res = await fetchGeneration({question_number: question_number, topic: topic, standards: standards})
-
-            setQuestionsList(res.question_list)
-            setReading(res.reading)
-            setData(res.data)
-            setIsGenerated(true)
-            
-        } catch (error) {
-            console.log("Error: " + error)
-        }
-    }
-
-    useEffect(() => {
-        generateQuestions()
-    }, [])
+export default function GeneratedContent(props) {
 
     return (
 
         <div className="flex flex-col items-center">
-            { isGenerated ?
-            <div className="flex flex-col items-center">
-                <h1 className="my-5 text-xl">Your questions are shown below.</h1>
-                <Reading title={reading.title} content={reading.content}/>
-                <DataTable title={data.title} colNames={data.col_names} rows={data.row_values}/>
-                <QuestionCards questionsList={questionsList}/>
-            </div> :
-            <div className="flex flex-col items-center justify-center">
-                <div role="alert" className="alert alert-success w-70 my-5 mb-10">
-                    <span>Your questions are being generated</span>
-                </div>
-
-                <div> 
-                    {questionsList.map((q, idx) => {
-                        return (
-                            <div key={idx} className="card flex flex-col items-center justify-center animate-pulse h-50 w-200 bg-gray-100 my-5">
-                                <span className="loading loading-spinner loading-xl "></span>
-                            </div>
-                        )
-                    })
-                    }
-                </div>
-            </div>
-            }
+            <Reading title={props.readingTitle} content={props.readingContent}/>
+            <DataTable title={props.dataTitle} colNames={props.colNames} rows={props.rowValues}/>
+            <QuestionCards questionsList={props.questionsList}/>
         </div>
 
     )

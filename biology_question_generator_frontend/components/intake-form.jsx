@@ -1,53 +1,26 @@
 'use client'
 
 import Input from "./text-input";
-import { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation'
-import { checkLogin } from "@/app/generate/check-login";
 
-export default function IntakeForm() {
-
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-    useEffect(() => {
-
-      const callCheckLogin = async() => {
-        const status = await checkLogin()
-        setIsLoggedIn(status)
-      }
-
-      callCheckLogin()
-
-    }, [])
-
-    const router = useRouter()
-
-    const [topic, setTopic] = useState("Hunting down the Burmese python population in Florida")
-    const [standards, setStandards] = useState("Design, evaluate, and refine a solution for reducing the impacts of human activities on the environment and biodiversity")
-    const [numQuestions, setNumQuestions] = useState(3)
-
-    const redirectToView = () => {
-        router.push(`/view?topic=${topic}&standards=${standards}&numQuestions=${numQuestions}`)
-    }
+export default function IntakeForm(props) {
 
     return (
       <div className="flex flex-col items-center">
 
-        {
-          isLoggedIn ? 
-          <div className="flex flex-col items-center">
-            <Input updateInput={(i) => {setTopic(i.target.value)}} name="Real-Life Topic" placeholder="Hunting down the Burmese python population in Florida" />
+          <p className="text-center text-xl px-5 py-5"><span className="font-bold">Instructions: </span> Enter a topic and learning standard to generate a set of standard-aligned questions about the given topic.</p>
 
-            <Input updateInput={(i) => {setStandards(i.target.value)}} name="NGSS Standard" placeholder="Design, evaluate, and refine a solution for reducing the impacts of human activities on the environment and biodiversity" />
-
-            <Input updateInput={(i) => {setNumQuestions(parseInt(i.target.value))}} name="Number of Questions " placeholder="5" class="w-60 text-lg input"/>
-
-            <button onClick={() => {redirectToView()}} className="btn btn-success">Generate</button>
-          </div> :
-          <div>
-            <p>Please log in to use the question generation feature.</p>
+          <div className="join join-vertical">
+            <span className="label join-item text-xl text-black font-bold">Real-Life Topic: </span>
+            <textarea className="textarea join-item text-lg lg:w-250 w-100 h-20" onChange={(i) => {props.setTopic(i.target.value)}} placeholder="Hunting down the Burmese python population in Florida" />
           </div>
-        }
+
+          <div className="join join-vertical">
+            <span className="label join-item text-xl text-black font-bold">NGSS Standard: </span>
+            <textarea className="textarea join-item text-lg lg:w-250 w-100 h-20" onChange={(i) => {props.setStandards(i.target.value)}} placeholder="Design, evaluate, and refine a solution for reducing the impacts of human activities on the environment and biodiversity" />
+          </div>
+
+          <Input onChange={(i) => {props.setNumQuestions(parseInt(i.target.value))}} name="Number of Questions " placeholder="5" class="w-60 text-lg input"/>
+
       </div>
     )
 }
