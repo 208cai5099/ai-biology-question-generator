@@ -1,18 +1,20 @@
 'use client'
 
 import { urlAndLabel } from "@/components/utils"
+import TypewriterEffect from "./typewriter-effect"
 import { useState } from "react"
 
 export default function Welcome() {
 
     const [index, setIndex] = useState(0)
     const [imageURL, setImageURL] = useState(urlAndLabel[0][0])    
-    const [label, setLabel] = useState(urlAndLabel[0][1])
+    const [labels, setLabels] = useState(urlAndLabel[0][1])
+
 
     const updateImage = (idx) => {
         setIndex(idx)
         setImageURL(urlAndLabel[idx][0])
-        setLabel(urlAndLabel[idx][1])
+        setLabels(urlAndLabel[idx][1])
     }
 
     return (
@@ -21,10 +23,8 @@ export default function Welcome() {
                 <div className="hero-content flex-col lg:flex-row">
                     <div className="w-1/2">
                         <p className="text-center font-bold text-5xl">Generate questions about</p>
-                        <p className="text-center font-bold text-5xl">
-                            {label}
-                        </p>
-
+                        <p></p>
+                        <TypewriterEffect labels={labels}></TypewriterEffect>
                     </div>
                     <div className="flex flex-col justify-center items-center w-1/3 max-h-sm">
                         <img src={imageURL} alt="cartoon image"/>
