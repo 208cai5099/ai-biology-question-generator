@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers"
 
-export async function fetchLogin(props) {
+export async function login(props) {
 
     const url = props.signUp === true ? (process.env.NEXT_PUBLIC_ENDPOINT + "/signup") : (process.env.NEXT_PUBLIC_ENDPOINT + "/login")
 
@@ -25,6 +25,7 @@ export async function fetchLogin(props) {
         value: resJSON.jwt_token,
         httpOnly: true,
         path: '/',
+        maxAge: 1800
     })
 
     return resJSON.msg

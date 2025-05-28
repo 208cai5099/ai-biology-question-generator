@@ -2,11 +2,8 @@
 
 import { urlAndLabel } from "@/components/utils"
 import { useState } from "react"
-import { useRouter } from "next/navigation"
 
 export default function Welcome() {
-
-    const router = useRouter()
 
     const [index, setIndex] = useState(0)
     const [imageURL, setImageURL] = useState(urlAndLabel[0][0])    
@@ -50,11 +47,6 @@ export default function Welcome() {
                         </div>
                     </div>
                 </div>
-            </div>
-            <div 
-                className="btn hover:bg-customDarkGreen bg-customMediumGreen rounded-md text-center font-bold text-white text-3xl my-5"
-                onClick={() => {router.push("/login")}}>
-                Get Started
             </div>
         </div>
     )

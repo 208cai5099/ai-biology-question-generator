@@ -1,10 +1,10 @@
 'use client'
 
 import IntakeForm from "./intake-form"
-import { checkLogin } from "@/app/generate/check-login"
+import { checkLogin } from "@/app/middleware/check-login"
 import GeneratedContent from "./generated_content"
 import { useState, useEffect } from "react"
-import { fetchGeneration } from "@/app/generate/fetch-generation"
+import { fetchGeneration } from "@/app/middleware/fetch-generation"
 
 export default function GeneratePage() {
 
@@ -94,7 +94,7 @@ export default function GeneratePage() {
                     }
                 </div> :
                 <div role="alert" className="alert alert-warning mt-5">
-                    <img src="https://openmoji.org/data/color/svg/270B.svg" width="30" height="30" />
+                    <img src="https://openmoji.org/data/color/svg/270B.svg" width="30" height="30" alt="stop icon"/>
                     <span>Please log in to generate questions.</span>
                 </div>
             }

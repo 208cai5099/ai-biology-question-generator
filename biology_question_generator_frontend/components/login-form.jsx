@@ -3,7 +3,7 @@
 import { usernames } from "@/components/utils"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { fetchLogin } from "@/app/login/fetch-login"
+import { login } from "@/app/middleware/login"
 
 export default function LoginForm() {
 
@@ -15,7 +15,7 @@ export default function LoginForm() {
     const [isSignUp, setIsSignUp] = useState(true)
     const [isLogin, setIsLogin] = useState(false)
     const [submitReady, setSubmitReady] = useState(false)
-    const [submitting, setSubmitting] = useState(false)
+    const [processing, setProcessing] = useState(false)
     const [message, setMessage] = useState("")
 
     const confirmSignUp = () => {
@@ -30,20 +30,26 @@ export default function LoginForm() {
     
     const clickSubmit = async() => {
 
-        setSubmitting(true)
+        setProcessing(true)
 
         try {
 
-            const msg = await fetchLogin({signUp: isSignUp, usernameFirst: usernameFirst, usernameSecond: usernameSecond, password: password})
+            const msg = await login({signUp: isSignUp, usernameFirst: usernameFirst, usernameSecond: usernameSecond, password: password})
 
             setUsernameFirst("Select one")
             setUsernameSecond("")
             setPassword("")
-            setSubmitting(false)
+            setMessage(msg)
 
             if (isLogin === true && msg === "Account successfully logged in.") {
-                setTimeout(() => {router.push("/generate")}, 2000)
+                setTimeout(() => {
+                    setProcessing(false)
+                    router.push("/generate")
+                }, 2000)
+            } else {
+                setProcessing(false)
             }
+
 
         } catch (error) {
             console.log(error)
@@ -75,19 +81,22 @@ export default function LoginForm() {
             {
                 message === "" ?
                 <div></div> :
-                <div role="alert" className="alert alert-vertical sm:alert-horizontal mt-5 w-100">
-                    <span>{message}</span>
+                <div role="alert" className="grid grid-cols-4 alert alert-vertical sm:alert-horizontal mt-5 w-100">
+                    <span className="col-span-3">{message}</span>
                     <div>
-                        <button className="btn btn-sm" onClick={(i) => {setMessage("")}}>Close</button>
+                        <button className="col-span-1 btn btn-circle btn-xs" onClick={(i) => {setMessage("")}}>
+                            <img src="https://openmoji.org/data/color/svg/E24E.svg" width="15" height="15" alt="close icon"></img>
+                        </button>
                     </div>
                 </div>
             }
 
             <div className={message === "" ? "grid place-items-center lg:mt-30 md:mt-30 mt-20" : "grid place-items-center lg:mt-20 md:mt-20 mt-10"}>
                 {
-                    submitting ? 
+                    processing ? 
                     <div className="card flex flex-col justify-center items-center w-80 h-80 shadow-sm rounded-box">
                         <span className="loading loading-spinner text-accent"></span>
+                        <p>{message === "Account successfully logged in." ? "Redirecting..." : "Processing..."}</p>
                     </div> :
                     <fieldset className="fieldset flex flex-col justify-center items-center w-80 shadow-sm rounded-box">
 
