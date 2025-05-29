@@ -2,6 +2,8 @@
 
 export default function QuestionCards(props) {
 
+    console.log(props.questionsList)
+
     return (
         <div>
             {props.questionsList.map((question, idx) => {

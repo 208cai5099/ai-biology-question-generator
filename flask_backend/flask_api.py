@@ -68,12 +68,14 @@ def get_questions() -> Dict[str, Any]:
     if request.is_json is True:
 
         topic = request.json.get("topic")
-        question_number = request.json.get("question_number")
+        mc_number = request.json.get("mc_number")
+        open_number = request.json.get("open_number")
         standards = request.json.get("standards")
 
         inputs = {
             "topic": topic,
-            "question_number": question_number,
+            "mc_number": mc_number,
+            "open_number": open_number,
             "standards": standards
         }
 

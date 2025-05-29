@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter} from "next/navigation"
-import LoginButton from "./login-button"
+import LoginButton from "./login-components/login-button"
 
 export default function Navbar() {
 

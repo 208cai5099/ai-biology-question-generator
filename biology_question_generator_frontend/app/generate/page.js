@@ -1,5 +1,5 @@
 import Navbar from "@/components/navbar";
-import GeneratePage from "@/components/generate-page";
+import GeneratePage from "@/components/generate-components/generate-page";
 
 export default async function Generate() {
   

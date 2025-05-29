@@ -16,7 +16,8 @@ export async function fetchGeneration(props) {
         },
         body: JSON.stringify({
             "topic": props.topic,
-            "question_number": props.question_number,
+            "mc_number": props.mc_number,
+            "open_number": props.open_number,
             "standards": props.standards
         })
     })

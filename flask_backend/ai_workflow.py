@@ -1,13 +1,16 @@
 import os
 from dotenv import load_dotenv
-from crewai import Process, Crew, Agent, Task
+from crewai import Process, Crew, Agent, Task, LLM
+from crewai_tools import SerperDevTool
 from pydantic import BaseModel
 from typing import List, Union, Literal
 
 load_dotenv()
 
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
-model_name = os.getenv("MODEL")
+os.environ["SERPER_API_KEY"] = os.getenv("SERPER_API_KEY")
+gpt_4o_mini = LLM(model="openai/gpt-4o-mini")
+gpt_4o = LLM(model="openai/gpt-4o")
 
 class Reading(BaseModel):
     title: str
@@ -42,28 +45,30 @@ class QuestionGenerator():
             "You write brief articles about cool and exciting topics in biology, such as "
             "extinction events or advancements in biotechnology. You like to make the writings "
             "simple enough for even high school students to understand.",
-            llm=model_name
+            llm=gpt_4o_mini,
+            tools=[SerperDevTool()]
             )
     
     def ngss_agent(self) -> Agent:
         return Agent(
-            role="High School Biology Education Expert",
+            role="High School Biology Teacher",
             goal="Create biology questions that are aligned to Next Generation Science Standards.",
-            backstory="You are a veteran biology curriculum designer. You understand how the 3 dimensions "
+            backstory="You are a veteran biology teacher and curriculum designer. You understand how the 3 dimensions "
             "Science and Engineering Practices, Disciplinary Core Ideas, and Crosscutting Concepts are the basis "
             "for the Next Generation Science Standards. You have a talent for designing and editing biology questions "
             "rooted in real-world context.",
-            llm=model_name
+            llm=gpt_4o
         )
 
     def biology_expert_agent(self) -> Agent:
         return Agent(
-            role="Biology and Computer Science Professor",
+            role="Award-Winning Biology and Education Professor",
             goal="Verify the accuracy of biology content.",
-            backstory="You are a well-respected professor who apply your deep knowledge to help high school teachers spot any mistakes in "
-            "readings, images, or videos related to biology. You are very good at finding even the most subtle mistakes in "
+            backstory="You are a well-respected professor who apply your deep knowledge of K-12 biology education to help high school "
+            "teachers spot any mistakes in readings, images, or videos related to biology. You are very good at finding even the most subtle mistakes in "
             "conceptual understanding. You are also very good at formatting content in JSON syntax.",
-            llm=model_name
+            llm=gpt_4o,
+            tools=[SerperDevTool()]
             )
 
     def writing_task(self) -> Task:
@@ -74,7 +79,7 @@ class QuestionGenerator():
 
             Topic: {topic}.
                 
-            Make sure the writing is appropriate for a high school audience.""",
+            You can research relevant information to help you write. Make sure the writing is appropriate for a high school audience.""",
             expected_output="""
             A well-structured text with a descriptive title. DO NOT organize the writing as bullet points.""",
             agent=self.biology_writer_agent()
@@ -85,11 +90,13 @@ class QuestionGenerator():
             description= """
             Examine the reading from the previous task.
 
-            Design {question_number} high school-level biology questions based on the reading. Include hypothetical data values to accompany the reading and design questions based on the data values.
+            Design high school-level biology questions based on the reading. Include hypothetical data values to accompany the reading and design questions based on the data values.
 
-            Include BOTH multiple-choice and open-ended questions that are aligned to the following standard(s):
+            Design questions aligned to the following standard(s):
 
             Standard(s): {standards}
+
+            IMPORTANT: There should be {mc_number} multiple-choice question(s) and {open_number} open-ended question(s).
 
             Make sure the questions are solvable using high school-level biology knolwedge.
 
@@ -113,8 +120,18 @@ class QuestionGenerator():
     def fact_checking_task(self) -> Task:
         return Task(
             description="""
-            Examine the questions and sample answers from the previous task. Check for any conceptual mistakes or 
-            inaccuracies in the content. Correct them as needed. Format the content using JSON syntax.""",
+            Examine the questions and sample answers about {topic} for any mistakes. You can research online to help fact-check.
+            
+            The questions and sample answers should be aligned to the following NGSS standard(s):
+
+            Standard(s): {standards}
+
+            IMPORTANT: There should be {mc_number} multiple-choice question(s) and {open_number} open-ended question(s).
+            If there are not enough multiple-choice or open-ended questions, make new questions.
+            
+            If there are any factual mistakes or deviations from the above specifications, edit the content. You are allowed to edit any part of the content.
+            Format the content using JSON syntax.
+            """,
             expected_output="""
             The content should be separated into reading, hypothetical data, and questions.
             DO NOT start the output with ```json!!! DO NOT start with ```json.
@@ -163,5 +180,5 @@ class QuestionGenerator():
             agents=[self.biology_writer_agent(), self.ngss_agent(), self.biology_expert_agent()],
             tasks=[self.writing_task(), self.question_task(), self.fact_checking_task()],
             process=Process.sequential,
-            verbose=False
+            verbose=True
         )

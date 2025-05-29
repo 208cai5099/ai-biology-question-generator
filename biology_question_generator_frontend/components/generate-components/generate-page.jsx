@@ -9,9 +9,10 @@ import { fetchGeneration } from "@/app/middleware/fetch-generation"
 export default function GeneratePage() {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const [topic, setTopic] = useState("Hunting down the Burmese python population in Florida")
-    const [standards, setStandards] = useState("Design, evaluate, and refine a solution for reducing the impacts of human activities on the environment and biodiversity")
-    const [numQuestions, setNumQuestions] = useState(3)
+    const [topic, setTopic] = useState("")
+    const [standards, setStandards] = useState("")
+    const [MCQuestions, setMCQuestions] = useState(null)
+    const [openOuestions, setOpenQuestions] = useState(null)
     const [isGenerating, setIsGenerating] = useState(false)
     const [isGenerated, setIsGenerated] = useState(false)
     const [reading, setReading] = useState({})
@@ -36,7 +37,7 @@ export default function GeneratePage() {
             setIsGenerating(true)
             setIsGenerated(false)
 
-            const res = await fetchGeneration({question_number: numQuestions, topic: topic, standards: standards})
+            const res = await fetchGeneration({mc_number: MCQuestions, open_number: openOuestions, topic: topic, standards: standards})
 
             setQuestionsList(res.question_list)
             setReading(res.reading)
@@ -54,14 +55,22 @@ export default function GeneratePage() {
             {
                 isLoggedIn ?
                 <div className="flex flex-col items-center">
-                    <IntakeForm setTopic={setTopic} setStandards={setStandards} setNumQuestions={setNumQuestions} />
+                    <IntakeForm setTopic={setTopic} setStandards={setStandards} setMCQuestions={setMCQuestions} setOpenQuestions={setOpenQuestions}/>
                     {
                         isGenerating ?
                         <button className="btn btn-success text-lg" disabled={true}>
                             <span className="loading loading-spinner"></span>
                             Generating...
                         </button> :
-                        <button onClick={() => {generateQuestions()}} className="btn btn-success text-lg">
+                        <button 
+                            onClick={() => {generateQuestions()}} 
+                            className={"btn btn-success text-lg"}
+                            disabled={
+                                (topic !== "" && standards !== "" && MCQuestions !== null && openOuestions !== null) ?
+                                false :
+                                true
+                            }
+                            >
                             Generate
                         </button>
                     }
@@ -71,7 +80,7 @@ export default function GeneratePage() {
                             {[1, 1, 1].map((q, idx) => {
                                 return (
                                     <div key={idx} className="card flex flex-col items-center justify-center animate-pulse h-50 w-200 bg-gray-100 my-5">
-                                        <span className="loading loading-spinner loading-xl "></span>
+                                        <span className="loading loading-spinner loading-xl"></span>
                                     </div>
                                 )
                             })
