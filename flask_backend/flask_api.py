@@ -67,16 +67,18 @@ def get_questions() -> Dict[str, Any]:
 
     if request.is_json is True:
 
-        topic = request.json.get("topic")
+        core_idea = request.json.get("core_idea")
+        phenomenon = request.json.get("phenomenon")
+        performance_level_descriptions = request.json.get("performance_level_descriptions")
         mc_number = request.json.get("mc_number")
         open_number = request.json.get("open_number")
-        standards = request.json.get("standards")
 
         inputs = {
-            "topic": topic,
-            "mc_number": mc_number,
-            "open_number": open_number,
-            "standards": standards
+            "core_idea" : core_idea,
+            "phenomenon" : phenomenon,
+            "performance_level_descriptions" : performance_level_descriptions,
+            "mc_number" : mc_number,
+            "open_number" : open_number
         }
 
         gen = QuestionGenerator()

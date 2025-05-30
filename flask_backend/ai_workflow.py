@@ -9,7 +9,6 @@ load_dotenv()
 
 os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
 os.environ["SERPER_API_KEY"] = os.getenv("SERPER_API_KEY")
-gpt_4o_mini = LLM(model="openai/gpt-4o-mini")
 gpt_4o = LLM(model="openai/gpt-4o")
 
 class Reading(BaseModel):
@@ -31,109 +30,68 @@ class Question(BaseModel):
     choice_d: Union[str, None]
     answer: str
 
-class OutputFormat(BaseModel):
+class ExamFormat(BaseModel):
     reading: Reading
     data: Data
     question_list: List[Question]
 
 class QuestionGenerator():
-    def biology_writer_agent(self) -> Agent:
-        return Agent(
-            role="K-12 Biology Content Writer",
-            goal="Design interesting and informative short texts about a biological topic for students.",
-            backstory="You are a skilled biology writer for a publisher of K-12 educational books. "
-            "You write brief articles about cool and exciting topics in biology, such as "
-            "extinction events or advancements in biotechnology. You like to make the writings "
-            "simple enough for even high school students to understand.",
-            llm=gpt_4o_mini,
-            tools=[SerperDevTool()]
-            )
-    
-    def ngss_agent(self) -> Agent:
-        return Agent(
-            role="High School Biology Teacher",
-            goal="Create biology questions that are aligned to Next Generation Science Standards.",
-            backstory="You are a veteran biology teacher and curriculum designer. You understand how the 3 dimensions "
-            "Science and Engineering Practices, Disciplinary Core Ideas, and Crosscutting Concepts are the basis "
-            "for the Next Generation Science Standards. You have a talent for designing and editing biology questions "
-            "rooted in real-world context.",
-            llm=gpt_4o
-        )
 
-    def biology_expert_agent(self) -> Agent:
+    def phenomenon_agent(self) -> Agent:
         return Agent(
-            role="Award-Winning Biology and Education Professor",
-            goal="Verify the accuracy of biology content.",
-            backstory="You are a well-respected professor who apply your deep knowledge of K-12 biology education to help high school "
-            "teachers spot any mistakes in readings, images, or videos related to biology. You are very good at finding even the most subtle mistakes in "
-            "conceptual understanding. You are also very good at formatting content in JSON syntax.",
+            role="Award-Winning Biology Writer",
+            goal="Write about real-world examples of biological phenomena",
+            backstory="You are a highly knowledgeable biology writer with vast information about "
+            "every field of biology, from botany to biophysics. You have a passion for making biology "
+            "content easy to understand, so you regularly write blog posts about fascinating biology facts.",
             llm=gpt_4o,
             tools=[SerperDevTool()]
+        )
+
+    def exam_agent(self) -> Agent:
+        return Agent(
+            role="High School Biology Teacher",
+            goal="Design exam questions aligned to New York State life science standards",
+            backstory="You are a veteran teacher with expertise about high school biology education and "
+            "standardized biology exams. You have a deep understanding of the Next Generation Science "
+            "standrds. You are talented at writing exam questions that assess understanding of biological concepts.",
+            llm=gpt_4o,
             )
 
-    def writing_task(self) -> Task:
-        return Task(
-            description="""
-            Create a 2 paragraph (maximum of 150 words in total) reading about real-world example, observation, or 
-            application about the following topic:
 
-            Topic: {topic}.
-                
-            You can research relevant information to help you write. Make sure the writing is appropriate for a high school audience.""",
-            expected_output="""
-            A well-structured text with a descriptive title. DO NOT organize the writing as bullet points.""",
-            agent=self.biology_writer_agent()
-            )
-
-    def question_task(self) -> Task:
+    def story_task(self) -> Task:
         return Task(
             description= """
-            Examine the reading from the previous task.
-
-            Design high school-level biology questions based on the reading. Include hypothetical data values to accompany the reading and design questions based on the data values.
-
-            Design questions aligned to the following standard(s):
-
-            Standard(s): {standards}
-
-            IMPORTANT: There should be {mc_number} multiple-choice question(s) and {open_number} open-ended question(s).
-
-            Make sure the questions are solvable using high school-level biology knolwedge.
-
-            Make sure that the question style matches the following requirements.
-            1. **Conceptual Understanding**: The questions focus on understanding key biological concepts, such as ecosystem dynamics, carbon cycling, and evolutionary processes. This aligns with NGSS's emphasis on deep learning and comprehension of core ideas rather than rote memorization.
-            2. **Evidence-Based Reasoning**: Questions require students to use evidence from provided data (e.g., graphs, diagrams) to support their answers. This reflects the NGSS goal of integrating scientific practices with content knowledge, encouraging students to engage in scientific reasoning.
-            3. **Interdisciplinary Connections**: The questions often connect biology to environmental science, chemistry (e.g., carbon cycling), and earth science (e.g., historical climate changes). NGSS promotes the integration of different disciplines to provide a holistic understanding of science.
-            4. **Modeling and Analysis**: Some questions require students to use models (like graphical data or diagrams) to derive conclusions. This aligns with NGSS standards that emphasize the development and use of models as a practice for understanding and predicting phenomena.
-            5. **Real-World Applications**: The scenarios often involve current issues (e.g., climate change, conservation of coral reefs), allowing students to see the relevance of scientific learning in real-world contexts. NGSS encourages students to understand the implications of science in everyday life and society.""",
-            expected_output="""
-            The sample answers for the open-ended questions should be 2-3 sentences.
-            Follow this format:
-            [Insert reading]
-            [Insert data as rows and columns in a table, include a title]
-            Question: [insert question]
-            Answer: [Insert the answer]
-            Blank line before next question""",
-            agent=self.ngss_agent()
-            )
-    
-    def fact_checking_task(self) -> Task:
-        return Task(
-            description="""
-            Examine the questions and sample answers about {topic} for any mistakes. You can research online to help fact-check.
+            Your task is to write a 2-paragraph reading about a real-world biological phenomenon or event, such as coral reef 
+            restoration, Devonian extinction, and invasive kudzu species. 
             
-            The questions and sample answers should be aligned to the following NGSS standard(s):
-
-            Standard(s): {standards}
-
-            IMPORTANT: There should be {mc_number} multiple-choice question(s) and {open_number} open-ended question(s).
-            If there are not enough multiple-choice or open-ended questions, make new questions.
-            
-            If there are any factual mistakes or deviations from the above specifications, edit the content. You are allowed to edit any part of the content.
-            Format the content using JSON syntax.
+            If a biological phenomenon is provided below, write about it.
+            The phenomenon is {phenomenon}. If the phenomenon is not provided, research online for real-world examples to write about.
             """,
             expected_output="""
-            The content should be separated into reading, hypothetical data, and questions.
+            A text that has 2 distinct paragraphs about a real-life biological phenomenon or event.
+            """,
+            agent=self.phenomenon_agent()
+            )
+    
+    def exam_task(self) -> Task:
+        return Task(
+            description="""
+            Using the reading from the previous task, your task is to design exam questions about the reading.
+            Create hypothetical data values to help with question design.
+
+            Follow these specifications:
+            1) The questions should be higher-order questions at the levels of Apply, Analyze, Evaluate, and Create from Bloom's taxonomy.
+            2) The answers should NOT be found directly in the reading or data values! Students must critically think to arrive at the answers.
+            3) The exam questions should be fitting for high school biology.
+            4) The questions should follow the biological theme of {core_idea}.
+            5) The questions should follow AT LEAST ONE of the following learning outcomes.
+            Learning outcomes: {performance_level_descriptions}
+
+            There should be {mc_number} multiple-choice question(s) and {open_number} open-ended question(s).
+            """,
+            expected_output="""
+            The exam content should be separated into reading, hypothetical data, and questions.
             DO NOT start the output with ```json!!! DO NOT start with ```json.
             
             Follow this format for the output. Notice where you need to insert the necessary information.
@@ -171,14 +129,14 @@ class QuestionGenerator():
                 ...
             ]
             }""",
-            agent=self.biology_expert_agent(),
-            output_json=OutputFormat
+            agent=self.exam_agent(),
+            output_json=ExamFormat
         )
     
     def crew(self) -> Crew:
         return Crew(
-            agents=[self.biology_writer_agent(), self.ngss_agent(), self.biology_expert_agent()],
-            tasks=[self.writing_task(), self.question_task(), self.fact_checking_task()],
+            agents=[self.phenomenon_agent(), self.exam_agent()],
+            tasks=[self.story_task(), self.exam_task()],
             process=Process.sequential,
             verbose=True
         )
