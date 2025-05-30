@@ -77,7 +77,9 @@ class QuestionGenerator():
     def exam_task(self) -> Task:
         return Task(
             description="""
-            Using the reading from the previous task, your task is to design exam questions about the reading.
+            Using the reading from the previous task, your task is to design exam questions that relate 
+            the reading to major biological concepts.
+            
             Create hypothetical data values to help with question design.
 
             Follow these specifications:
@@ -85,7 +87,8 @@ class QuestionGenerator():
             2) The answers should NOT be found directly in the reading or data values! Students must critically think to arrive at the answers.
             3) The exam questions should be fitting for high school biology.
             4) The questions should follow the biological theme of {core_idea}.
-            5) The questions should follow AT LEAST ONE of the following learning outcomes.
+            5) The questions should assess AT LEAST ONE of the following learning outcomes.
+            
             Learning outcomes: {performance_level_descriptions}
 
             There should be {mc_number} multiple-choice question(s) and {open_number} open-ended question(s).
