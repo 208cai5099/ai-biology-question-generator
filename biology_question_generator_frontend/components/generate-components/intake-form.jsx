@@ -1,27 +1,37 @@
 'use client'
 
 import Input from "./text-input"
-import { useState } from "react"
-import { ngssLifeScience } from "../utils"
+import { PLD } from "../utils"
 
 export default function IntakeForm(props) {
 
-  const [standards, setStandards] = useState(new Set())
+  const updateCore = (core) => {
+    props.setCore(core)
+    props.setPLD(new Set())
+  }
 
-  const updateStandards = (newStandard) => {
+  const updatePLD = (newPLD) => {
 
     let current = new Set()
 
-    standards.forEach((standard) => {{current.add(standard)}})
+    props.PLD.forEach((pld) => {{current.add(pld)}})
 
-    if (current.has(newStandard)) {
-      current.delete(newStandard)
+    if (current.has(newPLD)) {
+      current.delete(newPLD)
     } else {
-      current.add(newStandard)
+      current.add(newPLD)
     }
 
-    setStandards(current)
+    props.setPLD(current)
 
+  }
+
+  const updatePhenmenon = (phenomenon) => {
+    if (phenomenon.trim() === "") {
+      props.setPhenomenon("not provided")
+    } else {
+      props.setPhenomenon(phenomenon.trim())
+    }
   }
 
     return (
@@ -29,41 +39,104 @@ export default function IntakeForm(props) {
 
           <p className="text-center text-lg mx-5 my-5">
             <span className="font-bold">Instructions: </span> 
-            Enter a topic and learning standard to generate a set of Next Generation Science Standards-aligned questions about the given topic.
+            Fill out the form to generate exam preparation content.
           </p>
 
-          <div className="join join-vertical">
-            <span className="label join-item text-xl text-black font-bold">Real-Life Topic: </span>
-            <textarea className="textarea join-item text-lg lg:w-250 w-90 h-20" onChange={(i) => {props.setTopic(i.target.value)}} placeholder="Hunting down the Burmese python population in Florida" />
-          </div>
+          <div className="join join-vertical bg-base-100 lg:w-300 w-90 mb-5">
 
-          <div className="join join-vertical">
-            <span className="label join-item text-xl text-black font-bold">NGSS Standards: </span>
-            <div className="dropdown lg:w-250 w-90">
-              <div tabIndex={0} role="button" className="btn lg:w-250 lg:text-lg w-90 text-md h-10 bg-white">
-                Choose up to 2 standards
-              </div>
-              <ul tabIndex={0} className="dropdown-content rounded-box lg:w-250 lg:text-lg w-90 bg-white">
-                {
-                  ngssLifeScience.map((standard, idx) => {
-                    return (
-                      <div key={idx} className="grid grid-cols-20 card lg:w-250 lg:text-lg text-md my-1">
-                        <div className="col-span-1">
-                          <input type="checkbox" className="checkbox checkbox-accent lg:checkbox-md checkbox-xs" onClick={() => {updateStandards(standard)}}/>
-                        </div>
-                        <p className="col-span-19 lg:text-lg text-sm">{`${standard}`}</p>
-                      </div>
-                    )
+            <div className="collapse collapse-arrow join-item border-base-300 border">
+              <input type="radio" name="my-accordion" defaultChecked />
+              <div className="collapse-title font-semibold lg:text-xl text-lg">Select a Core Idea:</div>
+              <div className="flex flex-col items-center justify-center collapse-content">
 
-                  })
-                }
-              </ul>
+                <p className="lg:text-xl text-lg my-2">
+                  NY life science standards are split into multiple core ideas. Which one are you interested in?
+                </p>
+
+                <select 
+                  defaultValue="Structure and Function" 
+                  className="select lg:text-lg lg:w-130 text-md w-70 my-2"
+                  onChange={(i) => {updateCore(i.target.value)}}
+                  disabled={props.isGenerating === true ? true : false}
+                >                  
+                  <option disabled={true}>Pick a core idea</option>
+                  {
+                    Object.keys(PLD).map((core, idx) => {
+                        return (
+                          <option key={idx}>{core}</option>
+                        )
+                      })
+                  }
+                </select>                
+                </div>
             </div>
-          </div>
 
-          <div className="flex flex-col">
-            <Input updateInput={(i) => {props.setMCQuestions(parseInt(i.target.value))}} name="Multiple-Choice Questions" placeholder="1" class="w-68 text-lg input m-0"/>
-            <Input updateInput={(i) => {props.setOpenQuestions(parseInt(i.target.value))}} name="Open-Ended Questions" placeholder="3" class="w-60 text-lg input m-0"/>
+            <div className="collapse collapse-arrow join-item border-base-300 border">
+              <input type="radio" name="my-accordion" />
+              <div className="collapse-title font-semibold lg:text-xl text-lg">Select Skills and Knowledge:</div>
+              <div className="flex flex-col items-center justify-center collapse-content">
+
+                <p className="lg:text-xl text-lg my-2">
+                  The NY Life Science: Biology exam assesses the following skills for your Core Idea. Which one are you interested in?
+                </p>
+
+                <ul className="list bg-base-100 rounded-box my-3">
+
+                  {
+                    PLD[props.core].map((pld, idx) => {
+                      return (
+                        <li key={idx.toString() + props.core} className="list-row shadow-sm my-2">
+                            <input 
+                              type="checkbox" 
+                              className="checkbox checkbox-accent lg:checkbox-md checkbox-sm" 
+                              onClick={() => {updatePLD(pld)}}
+                              disabled={props.isGenerating === true ? true : false}
+                            />
+                            <p>{pld}</p>
+                        </li>
+                      )
+                    })
+                  }
+                  
+                </ul>
+
+                <p className="text-md max-w-250">
+                  Note: These skills and knowledge are the Level 5 Performance Level Descriptions released by the NY Education Department in Fall 2023.
+                  Click <a className="text-customDarkGreen" href="https://www.nysed.gov/sites/default/files/programs/state-assessment/life-science-biology-pld.pdf" title="Link to Performance Level Descriptions">here</a> for more info.
+                </p>          
+                </div>
+            </div>
+  
+            <div className="collapse collapse-arrow join-item border-base-300 border">
+              <input type="radio" name="my-accordion" />
+              <div className="collapse-title font-semibold lg:text-xl text-lg">Provide Phenomenon (Recommended):</div>
+              <div className="flex flex-col items-center justify-center collapse-content">
+
+                <p className="lg:text-xl text-lg my-2">
+                  The NY Life Science: Biology exam grounds the questions on real-world biological phenomenon or event.
+                </p>
+
+                <Input updateInput={(i) => {updatePhenmenon(i.target.value)}} name="Phenomenon" placeholder="" disabled={props.isGenerating === true ? true : false}></Input>      
+                </div>
+            </div>
+
+            <div className="collapse collapse-arrow join-item border-base-300 border">
+              <input type="radio" name="my-accordion" />
+              <div className="collapse-title font-semibold lg:text-xl text-lg">Select Number of Questions:</div>
+              <div className="flex flex-col items-center justify-center collapse-content">
+
+                <p className="lg:text-xl text-lg my-2">
+                  Select the number of questions to generate.
+                </p>
+
+                <div className="flex lg:flex-row flex-col">
+                  <Input updateInput={(i) => {props.setMCQuestions(parseInt(i.target.value))}} name="Multiple-Choice Questions" placeholder="1" class="w-68 text-lg input mx-2" disabled={props.isGenerating === true ? true : false}/>
+                  <Input updateInput={(i) => {props.setOpenQuestions(parseInt(i.target.value))}} name="Open-Ended Questions" placeholder="3" class="w-60 text-lg input mx-2" disabled={props.isGenerating === true ? true : false}/>
+                </div>
+
+                </div>
+            </div>
+
           </div>
 
       </div>

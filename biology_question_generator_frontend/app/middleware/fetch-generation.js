@@ -15,10 +15,11 @@ export async function fetchGeneration(props) {
             "Authorization" : `Bearer ${jwt_cookie.value}`
         },
         body: JSON.stringify({
-            "topic": props.topic,
+            "core_idea": props.core_idea,
+            "performance_level_descriptions": props.pld,
+            "phenomenon": props.phenomenon,
             "mc_number": props.mc_number,
-            "open_number": props.open_number,
-            "standards": props.standards
+            "open_number": props.open_number
         })
     })
 

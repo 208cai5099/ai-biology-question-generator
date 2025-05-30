@@ -2,23 +2,24 @@
 
 import IntakeForm from "./intake-form"
 import { checkLogin } from "@/app/middleware/check-login"
-import GeneratedContent from "./generated_content"
+import GeneratedContent from "./generated-content"
 import { useState, useEffect } from "react"
 import { fetchGeneration } from "@/app/middleware/fetch-generation"
 
 export default function GeneratePage() {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const [topic, setTopic] = useState("")
-    const [standards, setStandards] = useState("")
-    const [MCQuestions, setMCQuestions] = useState(null)
-    const [openOuestions, setOpenQuestions] = useState(null)
+    const [core, setCore] = useState("Structure and Function")
+    const [PLD, setPLD] = useState(new Set())
+    const [phenomenon, setPhenomenon] = useState("not provided")
+    const [MCQuestions, setMCQuestions] = useState(NaN)
+    const [openOuestions, setOpenQuestions] = useState(NaN)
     const [isGenerating, setIsGenerating] = useState(false)
     const [isGenerated, setIsGenerated] = useState(false)
     const [reading, setReading] = useState({})
     const [data, setData] = useState({})
     const [questionsList, setQuestionsList] = useState([])
-
+    console.log(phenomenon)
     useEffect(() => {
 
       const callCheckLogin = async() => {
@@ -37,7 +38,20 @@ export default function GeneratePage() {
             setIsGenerating(true)
             setIsGenerated(false)
 
-            const res = await fetchGeneration({mc_number: MCQuestions, open_number: openOuestions, topic: topic, standards: standards})
+            let concatPLD = ""
+            let cnt = 1
+            PLD.forEach((pld) => {
+                concatPLD += (cnt.toString() + ". " + pld + "\n")
+                cnt += 1
+            })
+
+            const res = await fetchGeneration({
+                core_idea: core,
+                pld: concatPLD,
+                phenomenon: phenomenon,
+                mc_number: MCQuestions, 
+                open_number: openOuestions
+            })
 
             setQuestionsList(res.question_list)
             setReading(res.reading)
@@ -55,7 +69,16 @@ export default function GeneratePage() {
             {
                 isLoggedIn ?
                 <div className="flex flex-col items-center">
-                    <IntakeForm setTopic={setTopic} setStandards={setStandards} setMCQuestions={setMCQuestions} setOpenQuestions={setOpenQuestions}/>
+                    <IntakeForm 
+                        core={core} 
+                        PLD={PLD} 
+                        isGenerating={isGenerating}
+                        setCore={setCore} 
+                        setPLD={setPLD} 
+                        setPhenomenon={setPhenomenon} 
+                        setMCQuestions={setMCQuestions} 
+                        setOpenQuestions={setOpenQuestions}
+                    />
                     {
                         isGenerating ?
                         <button className="btn btn-success text-lg" disabled={true}>
@@ -66,7 +89,7 @@ export default function GeneratePage() {
                             onClick={() => {generateQuestions()}} 
                             className={"btn btn-success text-lg"}
                             disabled={
-                                (topic !== "" && standards !== "" && MCQuestions !== null && openOuestions !== null) ?
+                                (core !== "" && PLD.size !== 0 && !isNaN(MCQuestions) && !isNaN(openOuestions)) ?
                                 false :
                                 true
                             }

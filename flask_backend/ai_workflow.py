@@ -67,6 +67,8 @@ class QuestionGenerator():
             
             If a biological phenomenon is provided below, write about it.
             The phenomenon is {phenomenon}. If the phenomenon is not provided, research online for real-world examples to write about.
+
+            Make sure the writing is suitable for high school-level biology.
             """,
             expected_output="""
             A text that has 2 distinct paragraphs about a real-life biological phenomenon or event.

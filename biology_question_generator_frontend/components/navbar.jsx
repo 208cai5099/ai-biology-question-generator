@@ -1,24 +1,30 @@
 "use client"
 
-import { useRouter} from "next/navigation"
-import LoginButton from "./login-components/login-button"
+import LoginRouteButton from "./login-route-button"
+import GenerateRouteButton from "./generate-route-button"
+import HomeRouteButton from "./home-route-button"
 
 export default function Navbar() {
 
-    const router = useRouter()
-    
     return (
-        <div className="navbar grid grid-cols-10 shadow-sm bg-customMediumGreen">
-            <button 
-                className="lg:col-span-4 col-span-6 btn btn-ghost border-0 shadow-none bg-customMediumGreen text-xl max-w-85"
-                onClick={() => {router.push("/")}}
-                
-            >
-                <img src="https://openmoji.org/data/color/svg/1F340.svg" width="30" height="30" aria-label="leaf clover image"></img>
-                Biology Question Generator
-            </button>
-            <div className="lg:col-span-4 col-span-2"></div>
-            <LoginButton className="col-span-2" />
+        <div className="drawer">
+            <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+            <div className="drawer-content flex flex-col">
+                <div className="navbar bg-customMediumGreen w-full shadow-md">
+                    <label htmlFor="my-drawer" aria-label="open sidebar" className="btn btn-square btn-ghost bg-customMediumGreen shadow-none border-0">
+                        <img src="https://openmoji.org/data/color/svg/E250.svg" alt="menu icon"></img>
+                    </label>
+                </div>
+            </div>
+
+        <div className="drawer-side">
+            <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
+            <div className="flex-col bg-customMediumGreen min-h-full w-80 p-4">
+                <HomeRouteButton />
+                <LoginRouteButton />
+                <GenerateRouteButton />
+            </div>
+        </div>
         </div>
     )
 }

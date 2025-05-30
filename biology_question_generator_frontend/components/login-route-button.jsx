@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { checkLogin } from "@/app/middleware/check-login"
 import { logout } from "@/app/middleware/logout"
 
-export default function LoginButton() {
+export default function LoginRouteButton() {
 
     const router = useRouter()
 
@@ -27,7 +27,7 @@ export default function LoginButton() {
             {
                 isLoggedIn ?
                 <button
-                    className="btn btn-ghost border-0 shadow-none bg-customMediumGreen text-center text-xl max-w-35"
+                    className="btn btn-ghost border-0 shadow-none bg-customMediumGreen text-lg max-w-30"
                     onClick={async() => {
                         await logout()
                         setIsLoggedIn(false)
@@ -37,10 +37,10 @@ export default function LoginButton() {
                     Logout
                 </button> :
                 <button
-                    className="btn btn-ghost border-0 shadow-none bg-customMediumGreen text-center text-xl max-w-35"
+                    className="btn btn-ghost border-0 shadow-none bg-customMediumGreen text-lg max-w-30"
                     onClick={() => {router.push("/login")}}
                 >
-                    Get Started
+                    Login
                 </button>
             }
         </div>
