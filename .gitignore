@@ -46,5 +46,5 @@ test_result.json
 test_input.txt
 test.md
 flask_backend/biology_question_generator.db
-flask_backend/parse.py
+flask_backend/parse_pld.py
 flask_backend/PLDs.json

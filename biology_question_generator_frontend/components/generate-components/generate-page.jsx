@@ -19,7 +19,7 @@ export default function GeneratePage() {
     const [reading, setReading] = useState({})
     const [data, setData] = useState({})
     const [questionsList, setQuestionsList] = useState([])
-    console.log(phenomenon)
+
     useEffect(() => {
 
       const callCheckLogin = async() => {
@@ -34,7 +34,6 @@ export default function GeneratePage() {
     const generateQuestions = async() => {
 
         try {
-
             setIsGenerating(true)
             setIsGenerated(false)
 
@@ -115,11 +114,8 @@ export default function GeneratePage() {
                     {
                         isGenerated ?
                         <GeneratedContent 
-                            readingTitle={reading.title}
-                            readingContent={reading.content}
-                            dataTitle={data.title}
-                            colNames={data.col_names}
-                            rowValues={data.row_values}
+                            reading={reading}
+                            data={data}
                             questionsList={questionsList}
                         /> :
                         <div></div>

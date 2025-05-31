@@ -56,6 +56,7 @@ class QuestionGenerator():
             "standardized biology exams. You have a deep understanding of the Next Generation Science "
             "standrds. You are talented at writing exam questions that assess understanding of biological concepts.",
             llm=gpt_4o,
+            tools=[SerperDevTool()]
             )
 
 
@@ -65,8 +66,11 @@ class QuestionGenerator():
             Your task is to write a 2-paragraph reading about a real-world biological phenomenon or event, such as coral reef 
             restoration, Devonian extinction, and invasive kudzu species. 
             
-            If a biological phenomenon is provided below, write about it.
-            The phenomenon is {phenomenon}. If the phenomenon is not provided, research online for real-world examples to write about.
+            If a biological phenomenon is provided below, write about it. No need to use any research.
+            If the phenomenon is not provided, research online for real-world biological phenomena that are related to the core idea of 
+            {core_idea} from New York State's Life Science learning standards, which are very similar to the Next Generation Science Standards.
+
+            The phenomenon is {phenomenon}. 
 
             Make sure the writing is suitable for high school-level biology.
             """,
@@ -79,21 +83,15 @@ class QuestionGenerator():
     def exam_task(self) -> Task:
         return Task(
             description="""
-            Using the reading from the previous task, your task is to design exam questions that relate 
-            the reading to major biological concepts.
-            
-            Create hypothetical data values to help with question design.
+            Using the reading from the previous task, your task is to design exam questions. For this specific task, no need to do research online.
 
             Follow these specifications:
-            1) The questions should be higher-order questions at the levels of Apply, Analyze, Evaluate, and Create from Bloom's taxonomy.
-            2) The answers should NOT be found directly in the reading or data values! Students must critically think to arrive at the answers.
-            3) The exam questions should be fitting for high school biology.
-            4) The questions should follow the biological theme of {core_idea}.
-            5) The questions should assess AT LEAST ONE of the following learning outcomes.
-            
-            Learning outcomes: {performance_level_descriptions}
+            1) Create questions that have students apply their biological knowledge to the reading.
+            2) Create hypothetical data values to design questions that have students make predictions or infer conclusions based on the data.
+            3) The exam questions should require students to apply biological principles and create evidence-based responses.
+            4) Create questions that assess understanding of interconnections and feedback mechanisms within systems (i.e. ocean acidity and marine life, mutated protein and disease progression).
+            5) There should be {mc_number} multiple-choice question(s) and {open_number} open-ended question(s).
 
-            There should be {mc_number} multiple-choice question(s) and {open_number} open-ended question(s).
             """,
             expected_output="""
             The exam content should be separated into reading, hypothetical data, and questions.
@@ -103,7 +101,7 @@ class QuestionGenerator():
             {
             "reading": {
                 "title": [insert reading title],
-                "content": [insert reading]
+                "content": [insert reading about {phenomenon}]
             },
             "data": {
                 "title" : [insert table title],
@@ -138,10 +136,33 @@ class QuestionGenerator():
             output_json=ExamFormat
         )
     
+    def revision_task(self) -> Task:
+        return Task(
+            description="""
+            Revise the questions and answers from the previous task.
+            
+            Follow these specifications:
+            1) The questions should be aligned with the New York State Life Science learning standards, which are very similar to the 
+            Next Generation Science Standards (NGSS). Feel free to research online for information about the state's life science standards.
+            2) The questions should be higher-order questions beyond simple recall of vocabulary or concepts.
+            3) The questions require students to analyze the reading and hypothetical data and make connections to biological concepts.
+            4) The questions should assess the students' ability to perform the following task(s) or similar task(s):
+            
+            Task(s): {performance_level_descriptions}
+            """,
+            expected_output="""
+            The revised exam content should follow the same JSON format as the previous task.
+            """,
+            agent=self.exam_agent(),
+            output_json=ExamFormat
+        )
+
+        
+    
     def crew(self) -> Crew:
         return Crew(
             agents=[self.phenomenon_agent(), self.exam_agent()],
-            tasks=[self.story_task(), self.exam_task()],
+            tasks=[self.story_task(), self.exam_task(), self.revision_task()],
             process=Process.sequential,
             verbose=True
         )

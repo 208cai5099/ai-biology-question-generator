@@ -10,10 +10,23 @@ export default function Navbar() {
         <div className="drawer">
             <input id="my-drawer" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content flex flex-col">
-                <div className="navbar bg-customMediumGreen w-full shadow-md">
-                    <label htmlFor="my-drawer" aria-label="open sidebar" className="btn btn-square btn-ghost bg-customMediumGreen shadow-none border-0">
+                <div className="navbar flex justify-between bg-customMediumGreen w-full shadow-md">
+                    
+                    <div className="lg:block hidden">
+                        <HomeRouteButton />
+                    </div>
+
+                    <div className="lg:block hidden">
+                        <div className="flex flex-row">
+                            <GenerateRouteButton />
+                            <LoginRouteButton />
+                        </div>
+                    </div>
+
+                    <label htmlFor="my-drawer" aria-label="open sidebar" className="btn btn-square btn-ghost bg-customMediumGreen shadow-none border-0 lg:hidden block">
                         <img src="https://openmoji.org/data/color/svg/E250.svg" alt="menu icon"></img>
                     </label>
+
                 </div>
             </div>
 
