@@ -4,7 +4,7 @@ import { cookies } from "next/headers"
 
 export async function login(props) {
 
-    const url = props.signUp === true ? (process.env.NEXT_PUBLIC_ENDPOINT + "/signup") : (process.env.NEXT_PUBLIC_ENDPOINT + "/login")
+    const url = props.signUp === true ? (process.env.ENDPOINT + "/signup") : (process.env.ENDPOINT + "/login")
 
     const res = await fetch(url, {
         method: props.signUp === true ? "PUT" : "POST",
@@ -25,7 +25,8 @@ export async function login(props) {
         value: resJSON.jwt_token,
         httpOnly: true,
         path: '/',
-        maxAge: 1800
+        maxAge: 1200,
+        secure: true
     })
 
     return resJSON.msg

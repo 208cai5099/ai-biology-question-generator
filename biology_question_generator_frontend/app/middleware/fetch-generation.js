@@ -7,7 +7,7 @@ export async function fetchGeneration(props) {
     const cookieStore = await cookies()
     const jwt_cookie = cookieStore.get("jwt_token")
 
-    const url = process.env.NEXT_PUBLIC_ENDPOINT + "/generate"
+    const url = process.env.ENDPOINT + "/generate"
     const res = await fetch(url, {
         method: "POST",
         headers: {
