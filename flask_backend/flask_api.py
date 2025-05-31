@@ -17,7 +17,7 @@ CORS(app, origins=["http://localhost:3000/"])
 
 @app.route("/")
 def home_page() -> str:
-    return "<h1>AI Biology Question Generator</h1>"
+    return "<h1>Biology Question Generator</h1>"
 
 @app.route("/signup", methods=["PUT"])
 def signup() -> Dict[str, str]:
