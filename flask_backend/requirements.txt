@@ -3,3 +3,7 @@ crewai-tools == 0.45.0
 python-dotenv == 1.1.0
 pydantic == 2.11.4
 Flask == 3.1.1
+SQLAlchemy == 2.0.41
+flask-cors == 6.0.0
+Flask-JWT-Extended == 4.7.1
+bcrypt == 4.3.0

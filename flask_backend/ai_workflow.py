@@ -54,7 +54,7 @@ class QuestionGenerator():
             goal="Design exam questions aligned to New York State life science standards",
             backstory="You are a veteran teacher with expertise about high school biology education and "
             "standardized biology exams. You have a deep understanding of the Next Generation Science "
-            "standrds. You are talented at writing exam questions that assess understanding of biological concepts.",
+            "Standards. You are talented at writing exam questions that assess understanding of biological concepts.",
             llm=gpt_4o,
             tools=[SerperDevTool()]
             )
@@ -86,11 +86,10 @@ class QuestionGenerator():
             Using the reading from the previous task, your task is to design exam questions. For this specific task, no need to do research online.
 
             Follow these specifications:
-            1) Create questions that have students apply their biological knowledge to the reading.
-            2) Create hypothetical data values to design questions that have students make predictions or infer conclusions based on the data.
-            3) The exam questions should require students to apply biological principles and create evidence-based responses.
-            4) Create questions that assess understanding of interconnections and feedback mechanisms within systems (i.e. ocean acidity and marine life, mutated protein and disease progression).
-            5) There should be {mc_number} multiple-choice question(s) and {open_number} open-ended question(s).
+            1) Create hypothetical data values to design questions that have students make predictions or infer conclusions based on the data.
+            2) The exam questions should require students to apply biological principles and create evidence-based responses.
+            3) Create questions that assess understanding of interconnections and feedback mechanisms within systems (i.e. ocean acidity and marine life, mutated protein and homeostasis disruption).
+            4) There should be {mc_number} multiple-choice question(s) and {open_number} open-ended question(s).
 
             """,
             expected_output="""
@@ -143,11 +142,15 @@ class QuestionGenerator():
             
             Follow these specifications:
             1) The questions should be aligned with the New York State Life Science learning standards, which are very similar to the 
-            Next Generation Science Standards (NGSS). Feel free to research online for information about the state's life science standards.
-            2) The questions should be higher-order questions beyond simple recall of vocabulary or concepts.
-            3) The questions require students to analyze the reading and hypothetical data and make connections to biological concepts.
-            4) The questions should assess the students' ability to perform the following task(s) or similar task(s):
-            
+            Next Generation Science Standards (NGSS). Feel free to research online for information about the state's life science standards
+            about {core_idea}.
+            2) The questions require students to analyze the reading and hypothetical data and make connections to biological concepts.
+            3) The questions require students to make predictions or infer conclusions based on the data.
+            4) The exam questions should require students to apply biological principles and create evidence-based responses.
+            5) Create questions that assess understanding of interconnections and feedback mechanisms within systems (i.e. ocean acidity and marine life, mutated protein and disease progression).
+            6) There should be {mc_number} multiple-choice question(s) and {open_number} open-ended question(s).
+            7) The questions should require students to perform the following task(s):
+
             Task(s): {performance_level_descriptions}
             """,
             expected_output="""
@@ -157,12 +160,10 @@ class QuestionGenerator():
             output_json=ExamFormat
         )
 
-        
-    
     def crew(self) -> Crew:
         return Crew(
             agents=[self.phenomenon_agent(), self.exam_agent()],
             tasks=[self.story_task(), self.exam_task(), self.revision_task()],
             process=Process.sequential,
-            verbose=True
+            verbose=False
         )
