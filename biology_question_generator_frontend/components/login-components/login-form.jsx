@@ -81,13 +81,8 @@ export default function LoginForm() {
             {
                 message === "" ?
                 <div></div> :
-                <div role="alert" className="grid grid-cols-4 alert alert-vertical sm:alert-horizontal mt-5 w-100">
-                    <span className="col-span-3">{message}</span>
-                    <div>
-                        <button className="col-span-1 btn btn-circle btn-xs" onClick={(i) => {setMessage("")}}>
-                            <img src="https://openmoji.org/data/color/svg/E24E.svg" width="15" height="15" alt="close icon"></img>
-                        </button>
-                    </div>
+                <div role="alert" className="flex-row justify-between alert alert-vertical sm:alert-horizontal mt-5 w-80">
+                    <span>{message}</span>
                 </div>
             }
 

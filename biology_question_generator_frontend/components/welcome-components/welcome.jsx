@@ -21,8 +21,8 @@ export default function Welcome() {
         <div className="grid place-items-center lg:mt-30 md:mt-30 mt-20">
             <div className="hero">
                 <div className="hero-content flex-col lg:flex-row">
-                    <div className="w-1/2">
-                        <p className="text-center font-bold text-5xl">Generate questions about</p>
+                    <div className="text-left lg:text-5xl xl:text-5xl 2xl:text-5xl text-4xl w-1/2">
+                        <p className="font-bold">Generate questions about</p>
                         <p></p>
                         <TypewriterEffect labels={labels}></TypewriterEffect>
                     </div>

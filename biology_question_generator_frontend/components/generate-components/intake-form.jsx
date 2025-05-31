@@ -37,7 +37,7 @@ export default function IntakeForm(props) {
     return (
       <div className="flex flex-col items-center">
 
-          <p className="text-center text-lg mx-5 my-5">
+          <p className="text-center text-lg lg:w-120 w-90 mx-5 my-5">
             <span className="font-bold">Instructions: </span> 
             Fill out the form to generate exam preparation content.
           </p>

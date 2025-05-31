@@ -3,9 +3,9 @@
 export default function DataTable(props) {
 
     return (
-        <div className="card card-border mb-5 mx-40 shadow-sm bg-white">
+        <div className="card card-border lg:w-300 w-90 mb-5 mx-2 shadow-sm bg-white">
             <div className="card-body">
-                <div className="mx-10">
+                <div className="mx-2">
                     <h1 className="text-left text-lg">{props.title}</h1>
                     <div className="overflow-x-auto rounded-box border border-base-content/5">
                         <table className="table">

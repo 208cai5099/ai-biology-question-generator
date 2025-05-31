@@ -32,7 +32,7 @@ export default function Navbar() {
 
         <div className="drawer-side">
             <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
-            <div className="flex-col bg-customMediumGreen min-h-full w-80 p-4">
+            <div className="flex-col bg-customMediumGreen min-h-full w-60 p-4">
                 <HomeRouteButton />
                 <LoginRouteButton />
                 <GenerateRouteButton />
