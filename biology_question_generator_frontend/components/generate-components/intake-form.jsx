@@ -1,7 +1,7 @@
 'use client'
 
 import Input from "./text-input"
-import { PLD } from "../utils"
+import { PLD } from "./utils"
 
 export default function IntakeForm(props) {
 
@@ -102,7 +102,7 @@ export default function IntakeForm(props) {
 
                 <p className="text-md max-w-250">
                   Note: These skills and knowledge are the Level 5 Performance Level Descriptions released by the NY Education Department in Fall 2023.
-                  Click <a className="text-customDarkGreen" href="https://www.nysed.gov/sites/default/files/programs/state-assessment/life-science-biology-pld.pdf" title="Link to Performance Level Descriptions">here</a> for more info.
+                  Click <a className="text-customDarkGreen" href="https://www.nysed.gov/sites/default/files/programs/state-assessment/life-science-biology-pld.pdf" title="Link to Performance Level Descriptions" target="_blank" rel="noopener noreferrer">here</a> for more info.
                 </p>          
                 </div>
             </div>

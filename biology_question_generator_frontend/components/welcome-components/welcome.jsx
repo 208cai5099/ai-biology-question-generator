@@ -1,6 +1,6 @@
 'use client'
 
-import { urlAndLabel } from "@/components/utils"
+import { urlAndLabel } from "./utils"
 import TypewriterEffect from "./typewriter-effect"
 import { useState } from "react"
 

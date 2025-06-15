@@ -1,8 +1,9 @@
 "use client"
 
+import HomeRouteButton from "./home-route-button"
 import LoginRouteButton from "./login-route-button"
 import GenerateRouteButton from "./generate-route-button"
-import HomeRouteButton from "./home-route-button"
+import AboutRouteButton from "./about-route-button"
 
 export default function Navbar() {
 
@@ -16,11 +17,15 @@ export default function Navbar() {
                         <HomeRouteButton />
                     </div>
 
-                    <div className="lg:block hidden">
-                        <div className="flex flex-row">
-                            <GenerateRouteButton />
-                            <LoginRouteButton />
-                        </div>
+                    <div className="dropdown dropdown-end dropdown-hover lg:block hidden">
+                        <label tabIndex={0} className="btn btn-square btn-ghost bg-customMediumGreen shadow-none border-0">
+                            <img src="https://openmoji.org/data/color/svg/E250.svg" alt="menu icon"></img>
+                        </label>
+                        <ul tabIndex={0} className="dropdown-content menu bg-customMediumGreen">
+                            <li><LoginRouteButton /></li>
+                            <li><GenerateRouteButton /></li>
+                            <li><AboutRouteButton /></li>
+                        </ul>
                     </div>
 
                     <label htmlFor="my-drawer" aria-label="open sidebar" className="btn btn-square btn-ghost bg-customMediumGreen shadow-none border-0 lg:hidden block">
@@ -36,6 +41,7 @@ export default function Navbar() {
                 <HomeRouteButton />
                 <LoginRouteButton />
                 <GenerateRouteButton />
+                <AboutRouteButton />
             </div>
         </div>
         </div>

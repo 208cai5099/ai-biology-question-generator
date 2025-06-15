@@ -1,4 +1,4 @@
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/navbar-components/navbar";
 import GeneratePage from "@/components/generate-components/generate-page";
 
 export default async function Generate() {
