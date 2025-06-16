@@ -48,3 +48,5 @@ test.md
 flask_backend/biology_question_generator.db
 flask_backend/parse_pld.py
 flask_backend/PLDs.json
+flask_backend/vector_db/text_processing
+flask_backend/vector_db/chroma.sqlite3
