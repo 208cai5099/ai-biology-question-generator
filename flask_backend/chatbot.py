@@ -2,7 +2,7 @@ import os
 import chromadb
 import chromadb.utils.embedding_functions as embedding_functions
 from langchain.chat_models import init_chat_model
-from langchain_core.messages import HumanMessage, SystemMessage, ToolMessage
+from langchain_core.messages import HumanMessage, ToolMessage
 from langgraph.graph import START, END, MessagesState, StateGraph
 from langchain_core.documents import Document
 from langchain_core.retrievers import BaseRetriever
@@ -11,13 +11,19 @@ from dotenv import load_dotenv
 from pydantic import BaseModel, Field
 from langgraph.prebuilt import ToolNode, tools_condition
 
+# primpt for settng the chatbot's main purpose
 SYSTEM_PROMPT = (
-    "You are a friendly chatbot that answers questions about the NYS Life Science: Biology exam. The exam follows the "
-    "high school NYS P-12 Life Science standards, which are mostly based on the Next Generation Science Standards. "
-    "If you don't know something, you should use the rag tool to retrieve any relevant information from the database. "
-    "You keep your responses short and sweet."
+    "Your name is Bi. You are knowledgeable about the NYS Life Science: Biology exam for high schoolers. "
+    "The exam is largely based on the Next Generation Science Standards for life science. "
+    "If you don't know something, you should use the rag tool to retrieve any relevant "
+    "information from the database. Keep your responses short and sweet."
 )
 
+GREETING = (
+    "Hi, I'm Bi. Feel free to ask me questions about the NYS Life Science: Biology exam."
+)
+
+# prompt for evaluating whether the retrieved info is helpful for making a response
 EVALUATE_PROMPT = (
     "You are a chatbot talking about the NYS Life Science: Biology exam. The user said the following: "
     "\n\n{user_message}\n\n"
@@ -28,16 +34,20 @@ EVALUATE_PROMPT = (
     "relevant. Say 'relevant' or 'not relevant'."
 )
 
+# prompt for creating the response to user message
 GENERATE_PROMPT = (
     "You are a chatbot talking about the NYS Life Science: Biology exam. "
     "Use the following pieces of retrieved documents to respond to the user's message. "
-    "If you don't know the answer, just say that you don't know. "
-    "Use three sentences maximum and keep the answer concise."
+    "If you don't have enough information to make a correct or good response, simply say "
+    "you don't have enough info. "
+    "Keep your response as short as possible! Maximum of 50 words."
     "\n\nUser Message: {user_message} \n\n"
     "Documents: {docs}"
 )
 
+
 class RAGRetriever(BaseRetriever):
+
     '''
     Customized retriever for querying a chroma database for info about the NYS Life Science: Biology exam
     '''
@@ -60,19 +70,24 @@ class RAGRetriever(BaseRetriever):
         
         return docs
 
+
 def respond_or_retrieve(state: MessagesState):
+
     """
     Call LLM for response based on chat history. It can query a chroma db for relevant info as needed.
     """
+    
     response = llm_model.invoke(state["messages"])
     return {"messages" : [response]}
 
+
 class DocumentCheck(BaseModel):
-    """Label documents as relevant or not relevant"""
+    """A typing model for ensuring that the LLM classifies retrieved docs as relevant or not"""
 
     label: str = Field(
         description="Two possible values: 'relevant' or 'not relevant'"
     )
+
 
 def evaluate(state: MessagesState):
     '''Checks whether the retrieved documents are relevant to the user message'''
@@ -90,6 +105,7 @@ def evaluate(state: MessagesState):
         state["messages"].pop()
         state["messages"].append(ToolMessage(content="No relevant documents found"))
 
+
 def create_response(state: MessagesState):
     '''Creates a response to user message based on retrieved documents'''
     user_message = state["messages"][-3].content
@@ -98,6 +114,7 @@ def create_response(state: MessagesState):
     prompt = GENERATE_PROMPT.format(user_message=user_message, docs=docs)
     response = llm_model.invoke([HumanMessage(content=prompt)])
     return {"messages": [response]}
+
 
 load_dotenv()
 
@@ -113,23 +130,23 @@ embedding_function = embedding_functions.OpenAIEmbeddingFunction(
 persistent_path = os.getenv("PERSISTENT_PATH")
 chroma_client = chromadb.PersistentClient(path=persistent_path)
 
-# create the collection if it doesn't exist already
+# get the collection of documents
 collection_name = "biology_exam_info"
 collection = chroma_client.get_collection(
     name=collection_name, 
     embedding_function=embedding_function
     )
 
+# create tool for querying chroma db and bind it to the llm
 retriever = RAGRetriever()
-
 retriever_tool = create_retriever_tool(
     retriever, 
     "retrieve_bio_exam_info",
     "Query for information about the NYS Life Science: Biology exam"
     )
-
 llm_model = llm_model.bind_tools([retriever_tool])
 
+# create the workflow for the chatbot
 workflow = StateGraph(MessagesState)
 
 workflow.add_node("respond_or_retrieve", respond_or_retrieve)
@@ -139,6 +156,7 @@ workflow.add_node("retrieve", ToolNode([retriever_tool]))
 
 workflow.add_edge(START, "respond_or_retrieve")
 
+# use rag tool if needed
 workflow.add_conditional_edges(
     "respond_or_retrieve",
     tools_condition,
@@ -153,12 +171,3 @@ workflow.add_edge("evaluate", "create_response")
 workflow.add_edge("create_response", END)
 
 chatbot = workflow.compile()
-
-response = chatbot.invoke({
-    "messages" : [
-        SystemMessage(content=SYSTEM_PROMPT), 
-        HumanMessage(content="What are PLDs?")
-        ]
-    })
-
-print(response["messages"][-1].content)

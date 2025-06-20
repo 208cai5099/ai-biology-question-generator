@@ -51,4 +51,4 @@ flask_backend/vector_db/chroma.sqlite3
 biology_question_generator_frontend/pnpm-lock.yaml
 flask_backend/vector_db/6634163f-d34a-4419-a3c9-58a3e11e7bd3
 flask_backend/vector_db/vector_db_query.py
-flask_backend/vector_db/6a28406e-39ad-4842-9e51-6dda4495e988
+flask_backend/vector_db/bbc076b5-67c5-49f5-a34a-c8a344dfdc4c

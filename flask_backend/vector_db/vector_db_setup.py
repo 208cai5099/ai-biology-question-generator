@@ -30,14 +30,11 @@ collection = chroma_client.get_or_create_collection(
 # create a text splitter that chunks the text into chunks with overlapping portions
 splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 
-# load the documents and split them
-document_filenames = [doc_name.strip() for doc_name in os.getenv("DOCUMENT_NAMES").split("$")]
-document_texts = []
-for filename in document_filenames:
-
-    with open(filename, "r", encoding="utf-8") as file:
-        text = file.read()
-        document_texts.extend(splitter.split_text(text))
+# load the document and split it
+filename = os.getenv("DOCUMENT_NAME")
+with open(filename, "r", encoding="utf-8") as file:
+    text = file.read()
+    document_texts = splitter.split_text(text)
 
 # tokenize the text chunks and create embeddings for them
 # store the embeddings inside the db

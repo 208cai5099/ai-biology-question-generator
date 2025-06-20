@@ -1,6 +1,6 @@
 import sqlalchemy
 from sqlalchemy.orm import Mapped, mapped_column, sessionmaker, declarative_base
-from sqlalchemy import String, Integer
+from sqlalchemy import String
 import bcrypt
 
 # set up db and session classes

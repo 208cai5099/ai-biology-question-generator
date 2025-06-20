@@ -1,14 +1,15 @@
 import os
 import uuid
 from dotenv import load_dotenv
-from flask import Flask, request, jsonify, make_response
+from flask import Flask, request, jsonify
 from ai_workflow import QuestionGenerator
 from flask_cors import CORS
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required
+from langchain_core.messages import HumanMessage, SystemMessage, AIMessage, ToolMessage
 from flask_socketio import SocketIO, emit
 from sql_db_setup import *
 from typing import Dict, Any
-from chatbot import *
+from chatbot import chatbot, SYSTEM_PROMPT, GREETING
 
 load_dotenv()
 
@@ -20,35 +21,32 @@ CORS(app)
 
 ## Web Socket Functionalities
 
-chat_history = {}
+chat_dict = {}
 
 @socketio.on("start_connection")
 def start_conection(data):
     session_id = str(uuid.uuid4())
-    chat_history[session_id] = []
-
-    system_message = "Your name is Bi. You are knowledgeable about the NYS Life Science: Biology exam. It follows the Next Generation Science Standards for life science."
-    chat_history[session_id].append(SystemMessage(content=system_message))
-
-    greeting = "Hi, I'm Bi. Feel free to ask me questions about the NYS Life Science: Biology exam."
-    chat_history[session_id].append(AIMessage(content=greeting))
+    chat_dict[session_id] = {"messages" : [SystemMessage(content=SYSTEM_PROMPT)]}
+    chat_dict[session_id]["messages"].append(AIMessage(content=GREETING))
     
     try:
-        emit("llm_message", {"session_id": session_id, "content": greeting})
+        emit("llm_message", {"session_id": session_id, "content": GREETING})
     except Exception as e:
         print(f"Cannot send message: {e}")
 
+
 @socketio.on("human_message")
 def get_llm_response(data):
+
     session_id = data.get("session_id")
     human_message = data.get("human_message")
 
-    chat_history[session_id].append(HumanMessage(content=human_message))
+    chat_dict[session_id]["messages"].append(HumanMessage(content=human_message))
     
     try:
-        response = call_llm(chat_history[session_id])
-        emit("llm_message", {"session_id": session_id, "content": response})
-        chat_history[session_id].append(AIMessage(content=response))
+        response = chatbot.invoke(chat_dict[session_id])
+        emit("llm_message", {"session_id": session_id, "content": response["messages"][-1].content})
+        chat_dict[session_id] = response
     except Exception as e:
         print(f"Cannot get LLM response: {e}")
 
@@ -71,10 +69,10 @@ def signup() -> Dict[str, str]:
                 if create_user(username, password):
                     return jsonify({"msg" : "Account successfully created. You may now login."})
                 else:
-                    return jsonfiy({"msg" : "Internal error: account is not created."})
+                    return jsonify({"msg" : "Internal error: account is not created."})
         
         except:
-            return jsonfiy({"msg" : "Internal error: account is not created."})
+            return jsonify({"msg" : "Internal error: account is not created."})
 
 @app.route("/login", methods=["POST"])
 def login() -> Dict[str, str]:
