@@ -31,7 +31,7 @@ collection = chroma_client.get_or_create_collection(
 splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 
 # load the documents and split them
-document_filenames = [os.getenv("DOCUMENT_1_NAME"), os.getenv("DOCUMENT_2_NAME")]
+document_filenames = [doc_name.strip() for doc_name in os.getenv("DOCUMENT_NAMES").split("$")]
 document_texts = []
 for filename in document_filenames:
 
