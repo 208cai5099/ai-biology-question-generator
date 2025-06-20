@@ -1,6 +1,6 @@
 'use client'
 
-import { llmPicURL, humanPicURL } from "./utils"
+import { llmPicURL, humanPicURL } from "./content"
 
 export default function ChatBubble(props) {
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { usernames } from "./utils"
+import { usernames } from "./content"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { login } from "@/app/middleware/login"

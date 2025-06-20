@@ -10,15 +10,14 @@ resource to help educators in teaching biology - arguably the best science subje
 
 export const standardsDescription = `
 The NY P-12 Science Learning Standards are a new set of learning standards for science classes from pre-K to grade 12 
-in NY public schools. Teachers are expected to design lessons and learning materials that satisfy these new 
-standards. The standards are largely based on the Next Generation Science Standards (NGSS), which were first published 
-in 2013 and had been increasingly adopted by states nationwide. The design of the NGSS was based on three guiding 
-pillars called Science and Engineering Practices, Disciplinary Core Ideas, and Crosscutting Concepts. The 
-philosophy behind the NGSS is that science education should engage students in scientific thinking through 
+in NY public schools. The standards are largely based on the Next Generation Science Standards (NGSS), a set of 
+learning standards published in 2013 that have been increasingly adopted by states nationwide. The design of the NGSS 
+was based on three guiding dimensions called Science and Engineering Practices, Disciplinary Core Ideas, and Crosscutting 
+Concepts. The philosophy behind the NGSS is that science education should engage students in scientific thinking through 
 explorations and investigations of real-world phenomena.
 `
 
-export const coreIdeas = [
+export const topics = [
     "Structure and Function",
     "Matter and Energy in Organisms and Ecosystems",
     "Interdependent Relationships in Ecosystems",
@@ -32,19 +31,18 @@ export const examDescription = `
 The NY Life Science: Biology exam is a 3-hour assessment with 45 to 55 questions (mix of multiple-choice and open-ended). 
 The questions are organized into groups called clusters. Each cluster is anchored on a specific real-world phenomenon. 
 Sample cluster questions released by the NY Education Department used coral bleaching and the Devonian extinction as 
-the anchoring phenomena. In a cluster, students are expected to read short passage(s) and interpret pieces of stimuli, 
-which can be graphs, tables, or images. The passage(s) and stimuli are related to the cluster's phenomeon. Students 
-will need to apply their biology knowledge, reading comprehension abilities, and critical thinking skills to arrive 
-at the answer for each question.
+the anchoring phenomena. In a cluster, students are expected to interpret multiple stimuli (readings, graphs, 
+tables, or images) that are related to the cluster's phenomeon. Students need to apply their biology knowledge, reading comprehension 
+abilities, and critical thinking skills to arrive at the answer for each question.
 
 \n\n
 
 If you are familiar with the Living Environment exam, you would notice that the old exam focuses on recall of 
 biology facts and concepts. The Living Environment exam questions are more straightforward, and the answers to 
 passage-related questions are often found directly in the passage. In contrast, the Life Science: Biology exam 
-requires students to think at a higher cognitive load. Students need to have a firm understanding of foundational 
+requires students to think at a higher cognitive level. Students need to have a firm understanding of foundational 
 biology concepts on top of strong reading skills and analytcal skills. They need to connect the information given 
-in the passages and the stimuli to determine the correct answers to the questions. Overall, the new exam emphasizes 
+in the readings and other stimuli to determine the correct answers to the questions. Overall, the new exam emphasizes 
 less on recall of biology facts and more on scientific reasoning.
 `
 

@@ -1,7 +1,7 @@
 'use client'
 
 import Input from "./text-input"
-import { PLD } from "./utils"
+import { PLD } from "./content"
 
 export default function IntakeForm(props) {
 

@@ -1,6 +1,6 @@
 import NavBar from "@/components/navbar-components/navbar"
 import Chatbot from "@/components/chatbot-components/chatbot"
-import { websiteDescription, standardsDescription, coreIdeas, examDescription, bio} from "./utils"
+import { websiteDescription, standardsDescription, topics, examDescription, bio} from "./content"
 
 export default function About() {
 
@@ -32,20 +32,20 @@ export default function About() {
                             .
                         </p>
 
-                        <p>In the set of new P-12 standards, a handful of them are Life Science standards. The high school Life Science Standards are categorized under 5 core ideas:</p>
+                        <p>In the set of new P-12 standards, a handful of them are Life Science standards. The high school Life Science Standards are categorized under 5 topics:</p>
                         
                         <ul>
-                            {coreIdeas.slice(0, 5).map((idea, idx) => {
+                            {topics.slice(0, 5).map((idea, idx) => {
                                 return (
                                     <li key={idx}>{"•  " + idea}</li>
                                 )
                             })}
                         </ul>
 
-                        <p>The Life Science: Biology exam assesses two extra core ideas: </p>
+                        <p>The Life Science: Biology exam assesses two extra topics: </p>
                         
                         <ul>
-                            {coreIdeas.slice(5, 7).map((idea, idx) => {
+                            {topics.slice(5, 7).map((idea, idx) => {
                                 return (
                                     <li key={idx}>{"•  " + idea}</li>
                                 )
