@@ -67,8 +67,8 @@ class QuestionGenerator():
             restoration, Devonian extinction, and invasive kudzu species. 
             
             If a biological phenomenon is provided below, write about it. No need to use any research.
-            If the phenomenon is not provided, research online for real-world biological phenomena that are related to the core idea of 
-            {core_idea} from New York State's Life Science learning standards, which are very similar to the Next Generation Science Standards.
+            If the phenomenon is not provided, research online for real-world biological phenomena that are related to the topic of 
+            {topic} from New York State's Life Science learning standards, which are very similar to the Next Generation Science Standards.
 
             The phenomenon is {phenomenon}. 
 
@@ -143,7 +143,7 @@ class QuestionGenerator():
             Follow these specifications:
             1) The questions should be aligned with the New York State Life Science learning standards, which are very similar to the 
             Next Generation Science Standards (NGSS). Feel free to research online for information about the state's life science standards
-            about {core_idea}.
+            about {topic}.
             2) The questions require students to analyze the reading and hypothetical data and make connections to biological concepts.
             3) The questions require students to make predictions or infer conclusions based on the data.
             4) The exam questions should require students to apply biological principles and create evidence-based responses.

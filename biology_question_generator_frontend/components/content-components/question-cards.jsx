@@ -1,10 +1,10 @@
 'use client'
 
-export default function QuestionCards(props) {
+export default function QuestionCards({questionsList}) {
 
     return (
         <div className="lg:w-300 w-90 my-5 mx-2">
-            {props.questionsList.map((question, idx) => {
+            {questionsList.map((question, idx) => {
 
                 if (question.question_type === "multiple choice") {
 

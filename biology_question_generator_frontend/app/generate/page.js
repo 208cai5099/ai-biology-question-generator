@@ -1,5 +1,5 @@
 import Navbar from "@/components/navbar-components/navbar";
-import GeneratePage from "@/components/generate-components/generate-page";
+import GenerateForm from "@/components/generate-components/generate-form";
 
 export default async function Generate() {
   
@@ -7,7 +7,7 @@ export default async function Generate() {
     <div className="bg-customBackground min-h-screen">
 
       <Navbar />
-      <GeneratePage />
+      <GenerateForm />
 
     </div>
   );

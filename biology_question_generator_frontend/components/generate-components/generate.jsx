@@ -1,25 +1,24 @@
 'use client'
 
-import IntakeForm from "./intake-form"
+import IntakeForm from "./generate-form"
 import { checkLogin } from "@/app/middleware/check-login"
-import GeneratedContent from "./generated-content"
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { fetchGeneration } from "@/app/middleware/fetch-generation"
 
-export default function GeneratePage() {
+export default function Generate() {
 
+    const router = useRouter()
     const [isLoggedIn, setIsLoggedIn] = useState(false)
-    const [core, setCore] = useState("Structure and Function")
+    const [topic, setTopic] = useState("Structure and Function")
     const [PLD, setPLD] = useState(new Set())
     const [phenomenon, setPhenomenon] = useState("not provided")
     const [MCQuestions, setMCQuestions] = useState(NaN)
     const [openOuestions, setOpenQuestions] = useState(NaN)
     const [isGenerating, setIsGenerating] = useState(false)
     const [isGenerated, setIsGenerated] = useState(false)
-    const [reading, setReading] = useState({})
-    const [data, setData] = useState({})
-    const [questionsList, setQuestionsList] = useState([])
 
+    // only allow use of generation if user is logged in
     useEffect(() => {
 
       const callCheckLogin = async() => {
@@ -31,12 +30,24 @@ export default function GeneratePage() {
 
     }, [])
 
+
+    // redirect to page for reviewing the generated content
+    useEffect(() => {
+
+        if (isGenerated) {
+            router.push("/review")
+        }
+
+    }, [isGenerated])
+
+
+    // sends inputs to generate the readings, table, and questions
     const generateQuestions = async() => {
 
         try {
             setIsGenerating(true)
-            setIsGenerated(false)
 
+            // concatenate the selected PLDs into a numbered list
             let concatPLD = ""
             let cnt = 1
             PLD.forEach((pld) => {
@@ -45,16 +56,15 @@ export default function GeneratePage() {
             })
 
             const res = await fetchGeneration({
-                core_idea: core,
+                topic: topic,
                 pld: concatPLD,
                 phenomenon: phenomenon,
                 mc_number: MCQuestions, 
                 open_number: openOuestions
             })
 
-            setQuestionsList(res.question_list)
-            setReading(res.reading)
-            setData(res.data)
+            sessionStorage.setItem("generated_content", JSON.stringify(res))
+
             setIsGenerating(false)
             setIsGenerated(true)
 
@@ -69,10 +79,10 @@ export default function GeneratePage() {
                 isLoggedIn ?
                 <div className="flex flex-col items-center">
                     <IntakeForm 
-                        core={core} 
+                        topic={topic} 
                         PLD={PLD} 
                         isGenerating={isGenerating}
-                        setCore={setCore} 
+                        setTopic={setTopic} 
                         setPLD={setPLD} 
                         setPhenomenon={setPhenomenon} 
                         setMCQuestions={setMCQuestions} 
@@ -87,38 +97,10 @@ export default function GeneratePage() {
                         <button 
                             onClick={() => {generateQuestions()}} 
                             className={"btn btn-success text-lg"}
-                            disabled={
-                                (core !== "" && PLD.size !== 0 && !isNaN(MCQuestions) && !isNaN(openOuestions)) ?
-                                false :
-                                true
-                            }
+                            disabled={topic === "" || PLD.size === 0 || isNaN(MCQuestions) || isNaN(openOuestions)}
                             >
                             Generate
                         </button>
-                    }
-                    {
-                        (isGenerating) ?
-                        <div className="flex flex-col items-center justify-center">
-                            {[1, 1, 1].map((q, idx) => {
-                                return (
-                                    <div key={idx} className="card flex flex-col items-center justify-center animate-pulse h-50 w-200 bg-gray-100 my-5">
-                                        <span className="loading loading-spinner loading-xl"></span>
-                                    </div>
-                                )
-                            })
-                            }
-                        </div> :
-                        <div></div>
-
-                    }
-                    {
-                        isGenerated ?
-                        <GeneratedContent 
-                            reading={reading}
-                            data={data}
-                            questionsList={questionsList}
-                        /> :
-                        <div></div>
                     }
                 </div> :
                 <div role="alert" className="alert alert-warning mt-5">

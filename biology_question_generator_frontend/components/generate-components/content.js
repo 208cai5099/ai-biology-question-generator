@@ -1,4 +1,8 @@
-export const PLD = {
+export const PLDURL = "https://www.nysed.gov/sites/default/files/programs/state-assessment/life-science-biology-pld.pdf"
+
+export const handURL = "https://openmoji.org/data/color/svg/270B.svg"
+
+export const AllPLD = {
     "Structure and Function": [
         "Construct and revise an explanation based on evidence for how the structure of DNA determines the structure of proteins which carry out the essential functions of life through systems of specialized cells.",
         "Develop and revise a model based on evidence to illustrate the hierarchical organization of interacting systems that provide specific functions within multicellular organisms.",

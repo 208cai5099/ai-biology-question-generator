@@ -104,14 +104,14 @@ def get_questions() -> Dict[str, Any]:
 
     if request.is_json is True:
 
-        core_idea = request.json.get("core_idea")
+        topic = request.json.get("topic")
         phenomenon = request.json.get("phenomenon")
         performance_level_descriptions = request.json.get("performance_level_descriptions")
         mc_number = request.json.get("mc_number")
         open_number = request.json.get("open_number")
 
         inputs = {
-            "core_idea" : core_idea,
+            "topic" : topic,
             "phenomenon" : phenomenon,
             "performance_level_descriptions" : performance_level_descriptions,
             "mc_number" : mc_number,
