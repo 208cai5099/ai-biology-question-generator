@@ -1,4 +1,4 @@
-import NavBar from "@/components/navbar-components/navbar"
+import Navbar from "@/components/navbar-components/navbar"
 import Chatbot from "@/components/chatbot-components/chatbot"
 import { websiteDescription, standardsDescription, topics, examDescription, bio} from "./content"
 
@@ -7,7 +7,7 @@ export default function About() {
     return (
         <div className="bg-customBackground min-h-screen">
 
-            <NavBar />
+            <Navbar />
 
             <div className="fixed right-5 bottom-5 z-10">
                 <Chatbot />

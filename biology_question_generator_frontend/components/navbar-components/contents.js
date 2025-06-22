@@ -1,0 +1,1 @@
+export const hamburgerURL = "https://openmoji.org/data/color/svg/E250.svg"

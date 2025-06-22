@@ -1,11 +1,9 @@
 'use client'
 
-import { checkLogin } from "@/app/middleware/check-login"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { fetchGeneration } from "@/app/middleware/fetch-generation"
 import { formContext } from "./context"
-import LoginReminder from "./login-reminder"
 import TopicInput from "./topic-input"
 import PLDInput from "./pld-input"
 import PhenomenonInput from "./phenomenon-input"
@@ -14,7 +12,6 @@ import QuestionInput from "./question-input"
 export default function GenerateForm() {
   
   const router = useRouter()
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [topic, setTopic] = useState("Structure and Function")
   const [PLD, setPLD] = useState(new Set())
   const [phenomenon, setPhenomenon] = useState("not provided")
@@ -22,19 +19,6 @@ export default function GenerateForm() {
   const [openOuestions, setOpenQuestions] = useState(NaN)
   const [isGenerating, setIsGenerating] = useState(false)
   const [isGenerated, setIsGenerated] = useState(false)
-
-  // only allow use of generation if user is logged in
-  useEffect(() => {
-
-    const callCheckLogin = async() => {
-      const status = await checkLogin()
-      setIsLoggedIn(status)
-    }
-
-    callCheckLogin()
-
-  }, [])
-
 
   // redirect to page for reviewing the generated content
   useEffect(() => {
@@ -50,6 +34,9 @@ export default function GenerateForm() {
   const generateQuestions = async() => {
 
       try {
+
+          sessionStorage.removeItem("generated_content")
+
           setIsGenerating(true)
 
           // concatenate the selected PLDs into a numbered list
@@ -59,7 +46,7 @@ export default function GenerateForm() {
               concatPLD += (cnt.toString() + ". " + pld + "\n")
               cnt += 1
           })
-
+          
           const res = await fetchGeneration({
               topic: topic,
               pld: concatPLD,
@@ -67,8 +54,6 @@ export default function GenerateForm() {
               mc_number: MCQuestions, 
               open_number: openOuestions
           })
-
-          console.log(res)
 
           sessionStorage.setItem("generated_content", JSON.stringify(res))
 
@@ -80,11 +65,13 @@ export default function GenerateForm() {
       }
   }
 
+  // records the selected topic and clears the selected PLDs
   const updateTopic = (topic) => {
     setTopic(topic)
     setPLD(new Set())
   }
 
+  // records the selected PLDs
   const updatePLD = (newPLD) => {
 
     let current = new Set()
@@ -101,6 +88,7 @@ export default function GenerateForm() {
 
   }
 
+  // records the inputted phenomenon, if any
   const updatePhenomenon = (phenomenon) => {
     if (phenomenon.trim() === "") {
       setPhenomenon("not provided")
@@ -111,10 +99,17 @@ export default function GenerateForm() {
 
   return (
     <div className="flex flex-col items-center">
-    {
-      isLoggedIn ? 
-      <div className="flex flex-col items-center">
 
+      {
+        isGenerating ?
+        <div className="absolute top-20 alert alert-info bg-customLightGreen shadow-sm border-none">
+          <span className="loading loading-spinner loading-xs"></span>
+          <span>Your content is being generated (takes around 30 to 60 seconds).</span>
+        </div> :
+        <div></div>
+      }
+
+      <div className="flex flex-col items-center">
           <p className="text-center text-lg lg:w-300 w-90 mx-5 my-5">
             <span className="font-bold">Instructions: </span> 
             Fill out the form to generate exam preparation content.
@@ -143,14 +138,11 @@ export default function GenerateForm() {
           <button 
               onClick={() => {generateQuestions()}} 
               className={"btn btn-success text-lg"}
-              disabled={topic === "" || PLD.size === 0 || isNaN(MCQuestions) || isNaN(openOuestions || isGenerating)}
+              disabled={topic === "" || PLD.size === 0 || isNaN(MCQuestions) || isNaN(openOuestions) || isGenerating}
           >
               Generate
           </button>
-
-      </div> :
-      <LoginReminder />
-    }
+      </div>
     </div>
 
   )
