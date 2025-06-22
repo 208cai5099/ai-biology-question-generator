@@ -1,12 +1,12 @@
-import Content from "@/components/content-components/content"
 import Navbar from "@/components/navbar-components/navbar"
+import ReviewContent from "@/components/review-components/review-content"
 
-export default function Edit() {
+export default function Review() {
 
     return (
         <div>
             <Navbar />
-            <Content />
+            <ReviewContent />
         </div>
     )
 }

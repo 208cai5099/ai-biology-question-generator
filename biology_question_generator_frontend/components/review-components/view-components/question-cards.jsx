@@ -1,10 +1,15 @@
 'use client'
 
-export default function QuestionCards({questionsList}) {
+import { useContext } from "react"
+import { reviewContext } from "../review-context"
+
+export default function QuestionCards() {
+
+    const context = useContext(reviewContext)
 
     return (
         <div className="lg:w-300 w-90 my-5 mx-2">
-            {questionsList.map((question, idx) => {
+            {context.question_list.map((question, idx) => {
 
                 if (question.question_type === "multiple choice") {
 

@@ -1,3 +1,11 @@
+export const ngssURL = "https://www.nextgenscience.org/" 
+
+export const nysScienceURL = "https://www.nysed.gov/standards-instruction/science"
+
+export const nysLifeScienceURL = "https://www.nysed.gov/state-assessment/life-science-biology"
+
+export const picURL = "https://openmoji.org/data/color/svg/1F44B-1F3FB.svg"
+
 export const websiteDescription = `
 This website is designed to be a tool for New York State (NYS) teachers to create practice questions for the NYS 
 Life Science: Biology Regents exam. This exam is a new Regents exam that is aligned to the P-12 Science Learning 
