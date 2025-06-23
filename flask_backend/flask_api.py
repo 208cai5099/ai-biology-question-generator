@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify
 from ai_workflow import QuestionGenerator
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required
-from langchain_core.messages import HumanMessage, SystemMessage, AIMessage, ToolMessage
+from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 from flask_socketio import SocketIO, emit
 from sql_db_setup import *
 from typing import Dict, Any
@@ -21,13 +21,16 @@ CORS(app)
 
 ## Web Socket Functionalities
 
-chat_dict = {}
-
 @socketio.on("start_connection")
 def start_conection(data):
+    
+    # create and store initial messages
     session_id = str(uuid.uuid4())
-    chat_dict[session_id] = {"messages" : [SystemMessage(content=SYSTEM_PROMPT)]}
-    chat_dict[session_id]["messages"].append(AIMessage(content=GREETING))
+    with open("session_ids.txt", "a") as file:
+        file.write(session_id)
+        file.write("\n")
+    add_message(session_id=session_id, role="System", message=SYSTEM_PROMPT)
+    add_message(session_id=session_id, role="AI", message=GREETING)
     
     try:
         emit("llm_message", {"session_id": session_id, "content": GREETING})
@@ -41,12 +44,26 @@ def get_llm_response(data):
     session_id = data.get("session_id")
     human_message = data.get("human_message")
 
-    chat_dict[session_id]["messages"].append(HumanMessage(content=human_message))
+    # add the new human message to the chat history
+    add_message(session_id=session_id, role="Human", message=human_message)
+
+    # retrieve the chat history for the given session ID
+    chat_history = query_messages(session_id=session_id)
+
+    # format the chat history before passing to chatbot
+    formatted_messages = {"messages" : []}
+    for m in chat_history:
+        if m.role == "AI":
+            formatted_messages["messages"].append(AIMessage(content=m.message))
+        elif m.role == "Human":
+            formatted_messages["messages"].append(HumanMessage(content=m.message))
+        elif m.role == "System":
+            formatted_messages["messages"].append(SystemMessage(content=m.message))
     
     try:
-        response = chatbot.invoke(chat_dict[session_id])
+        response = chatbot.invoke(formatted_messages)
         emit("llm_message", {"session_id": session_id, "content": response["messages"][-1].content})
-        chat_dict[session_id] = response
+        add_message(session_id=session_id, role="AI", message=response["messages"][-1].content)
     except Exception as e:
         print(f"Cannot get LLM response: {e}")
 

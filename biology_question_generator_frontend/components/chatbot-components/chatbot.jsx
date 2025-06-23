@@ -3,6 +3,7 @@
 import ChatBubble from "./chat-bubble"
 import { useState, useEffect, useRef } from "react"
 import { startConnection, receiveMessage, sendMessage } from "@/app/middleware/socket"
+import { chatURL, sendURL } from "./content"
 
 export default function Chatbot() {
 
@@ -79,7 +80,7 @@ export default function Chatbot() {
                                 onClick={sendChatHistory}
                                 hidden={humanMessage.length === 0}
                             >
-                                <img className="h-5 w-5" src="https://upload.wikimedia.org/wikipedia/commons/2/22/VK_icons_send_outline_28.svg" alt="send icon"></img>
+                                <img className="h-8 w-8" src={sendURL} alt="send icon"></img>
                             </button>
                         </div>
                     </div>
@@ -88,7 +89,7 @@ export default function Chatbot() {
                 :
                 <div> 
                     <button className="btn bg-gray-100 w-15 h-15 rounded-full shadow-md" onClick={toggleVisibility}>
-                        <img src="https://openmoji.org/data/black/svg/E263.svg" alt="chatbot icon"></img>
+                        <img src={chatURL} alt="chat icon"></img>
                     </button>
                 </div>
 

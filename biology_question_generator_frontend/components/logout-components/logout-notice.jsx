@@ -8,6 +8,8 @@ export default function LogoutNotice() {
     const [loginStatus, setLoginStatus] = useState(true)
 
     useEffect(() => {
+
+        sessionStorage.removeItem("generated_content")
         
         const runLogout = async() => {
             const res = await logout()

@@ -4,14 +4,17 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { fetchGeneration } from "@/app/middleware/fetch-generation"
 import { formContext } from "./context"
+import { checkLogin } from "@/app/middleware/check-login"
 import TopicInput from "./topic-input"
 import PLDInput from "./pld-input"
 import PhenomenonInput from "./phenomenon-input"
 import QuestionInput from "./question-input"
+import LoginReminder from "./login-reminder"
 
 export default function GenerateForm() {
   
   const router = useRouter()
+  const [loginStatus, setLoginStatus] = useState(false)
   const [topic, setTopic] = useState("Structure and Function")
   const [PLD, setPLD] = useState(new Set())
   const [phenomenon, setPhenomenon] = useState("not provided")
@@ -19,6 +22,17 @@ export default function GenerateForm() {
   const [openOuestions, setOpenQuestions] = useState(NaN)
   const [isGenerating, setIsGenerating] = useState(false)
   const [isGenerated, setIsGenerated] = useState(false)
+
+  useEffect(() => {
+
+      const runCheckLogin = async() => {
+          const status = await checkLogin()
+          setLoginStatus(status)
+      }
+
+      runCheckLogin()
+
+  }, [])
 
   // redirect to page for reviewing the generated content
   useEffect(() => {
@@ -98,52 +112,63 @@ export default function GenerateForm() {
   }
 
   return (
-    <div className="flex flex-col items-center">
 
+    <div className="flex flex-col justify-center items-center">
       {
-        isGenerating ?
-        <div className="absolute top-20 alert alert-info bg-customLightGreen shadow-sm border-none">
-          <span className="loading loading-spinner loading-xs"></span>
-          <span>Your content is being generated (takes around 30 to 60 seconds).</span>
-        </div> :
-        <div></div>
-      }
+          loginStatus ?
+          <div className="flex flex-col items-center">
 
-      <div className="flex flex-col items-center">
-          <p className="text-center text-lg lg:w-300 w-90 mx-5 my-5">
-            <span className="font-bold">Instructions: </span> 
-            Fill out the form to generate exam preparation content.
-          </p>
+            {
+              isGenerating ?
+              <div className="absolute top-20 alert alert-info bg-customLightGreen shadow-sm border-none">
+                <span className="loading loading-spinner loading-xs"></span>
+                <span>Your content is being generated (takes around 30 to 60 seconds).</span>
+              </div> :
+              <div></div>
+            }
 
-          <div className="join join-vertical bg-base-100 lg:w-300 w-90 mb-5">
-          
-          <formContext.Provider value={{
-            updateTopic: updateTopic,
-            topic: topic,
-            updatePLD: updatePLD,
-            isGenerating: isGenerating,
-            updatePhenomenon: updatePhenomenon,
-            setMCQuestions: setMCQuestions,
-            setOpenQuestions: setOpenQuestions
-            }}
-          >
-            <TopicInput/>
-            <PLDInput />
-            <PhenomenonInput />
-            <QuestionInput />
-          </formContext.Provider>
+            <div className="flex flex-col items-center">
+                <p className="text-center text-lg lg:w-300 w-90 mx-5 my-5">
+                  <span className="font-bold">Instructions: </span> 
+                  Fill out the form to generate exam preparation content.
+                </p>
 
+                <div className="join join-vertical bg-base-100 lg:w-300 w-90 mb-5">
+                
+                <formContext.Provider value={{
+                  updateTopic: updateTopic,
+                  topic: topic,
+                  updatePLD: updatePLD,
+                  isGenerating: isGenerating,
+                  updatePhenomenon: updatePhenomenon,
+                  setMCQuestions: setMCQuestions,
+                  setOpenQuestions: setOpenQuestions
+                  }}
+                >
+                  <TopicInput/>
+                  <PLDInput />
+                  <PhenomenonInput />
+                  <QuestionInput />
+                </formContext.Provider>
+
+                </div>
+
+                <button 
+                    onClick={() => {generateQuestions()}} 
+                    className={"btn btn-success text-lg"}
+                    disabled={topic === "" || PLD.size === 0 || isNaN(MCQuestions) || isNaN(openOuestions) || isGenerating}
+                >
+                    Generate
+                </button>
+            </div>
           </div>
-
-          <button 
-              onClick={() => {generateQuestions()}} 
-              className={"btn btn-success text-lg"}
-              disabled={topic === "" || PLD.size === 0 || isNaN(MCQuestions) || isNaN(openOuestions) || isGenerating}
-          >
-              Generate
-          </button>
-      </div>
+          :
+          <LoginReminder />
+          
+      }
     </div>
+
+    
 
   )
 }

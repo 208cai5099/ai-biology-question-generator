@@ -2,8 +2,8 @@
 
 import { useContext } from "react"
 import { reviewContext } from "../review-context"
-import EditMCQuestion from "./edit-mc-question"
-import EditOpenQuestion from "./edit-open-question"
+import MCQuestion from "./mc-question"
+import OpenQuestion from "./open-question"
 
 export default function EditQuestion() {
 
@@ -17,13 +17,13 @@ export default function EditQuestion() {
                 if (question.question_type === "multiple choice") {
 
                     return (
-                        <EditMCQuestion question={question} idx={idx} key={idx} />
+                        <MCQuestion question={question} idx={idx} key={idx} />
                     )
 
                 } else {
 
                     return (
-                        <EditOpenQuestion question={question} idx={idx} key={idx} />
+                        <OpenQuestion question={question} idx={idx} key={idx} />
                     )
                 }
             })}

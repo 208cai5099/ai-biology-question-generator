@@ -25,7 +25,7 @@ export async function login(props) {
         value: resJSON.jwt_token,
         httpOnly: true,
         path: '/',
-        maxAge: 1200,
+        maxAge: 1170,
         secure: true
     })
 

@@ -12,7 +12,7 @@ export default function DataTable() {
             <div className="card-body">
                 <div className="mx-2">
                     <h1 className="text-left text-lg">{context.data.title}</h1>
-                    <div className="overflow-x-auto rounded-box border border-base-content/5">
+                    <div className="overflow-x-auto rounded-box border-1 border-gray-300">
                         <table className="table">
                             <thead>
                                 <tr>

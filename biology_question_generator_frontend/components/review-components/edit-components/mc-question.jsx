@@ -3,7 +3,7 @@
 import { useContext, useState, useEffect } from "react"
 import { reviewContext } from "../review-context"
 
-export default function EditMCQuestion({question, idx}) {
+export default function MCQuestion({question, idx}) {
 
     const context = useContext(reviewContext)
     const [mcQuestion, setMCQuestion] = useState(question.question)
@@ -35,24 +35,20 @@ export default function EditMCQuestion({question, idx}) {
 
     return (
         <div className="card card-border my-5 shadow-sm bg-white" key={idx}>
-            <div className="join join-vertical lg:w-290 w-85 m-2">
-                <label className="join-item">
-                    <span className="font-bold m-2">{`Question ${question.question_num}:`}</span>
-                </label>
-                <div className="join-item">
-                    <textarea 
-                        className="join-item m-2 w-full h-20 border-1 border-gray-200"
-                        value={mcQuestion}
-                        onChange={(e) => {setMCQuestion(e.target.value)}}
-                    />
-                </div>
+            <div className="flex flex-col items-start lg:w-290 w-85 m-2">
+                <span className="font-bold m-2">{`Question ${question.question_num}:`}</span>
+                <textarea 
+                    className="m-2 w-full h-20 border-1 border-gray-400 rounded-md outline-customDarkGreen"
+                    value={mcQuestion}
+                    onChange={(e) => {setMCQuestion(e.target.value)}}
+                />
                 {
                     choices.map((choice, index) => {
                         return (
-                            <label className="join-item my-4" key={index}>
+                            <label className="my-2 w-full" key={index}>
                                 <span className="font-bold mx-2">{`Choice ${letters[index]}: `}</span>
                                 <input 
-                                    className="mx-2 w-full h-10 border-1 border-gray-200" 
+                                    className="mx-2 w-full h-10 border-1 border-gray-400 rounded-md outline-customDarkGreen" 
                                     value={choice}
                                     onChange={(event) => {updateChoices(event, index)}}
                                 />
@@ -60,17 +56,13 @@ export default function EditMCQuestion({question, idx}) {
                         )
                     })
                 }
-                <label className="join-item">
-                    <span className="font-bold m-2">Answer:</span>
-                </label>
+                <span className="font-bold m-2">Answer:</span>
 
-                <div className="join-item">
-                    <input 
-                        className="join-item m-2 w-full h-10 border-1 border-gray-200" 
-                        value={answer}
-                        onChange={(e) => {setAnswer(e.target.value)}}
-                    />
-                </div>
+                <input 
+                    className="m-2 w-full h-10 border-1 border-gray-400 rounded-md outline-customDarkGreen" 
+                    value={answer}
+                    onChange={(e) => {setAnswer(e.target.value)}}
+                />
             </div>
         </div>
     )

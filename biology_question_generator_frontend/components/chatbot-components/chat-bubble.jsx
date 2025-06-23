@@ -19,7 +19,7 @@ export default function ChatBubble(props) {
                 </div>
 
                 <div className="chat-header">
-                    {props.role === "llm" ? "Bi" : "You"}
+                    {props.role === "llm" ? "Celine" : "You"}
                 </div>
 
                 <div className="chat-bubble">{props.content}</div>

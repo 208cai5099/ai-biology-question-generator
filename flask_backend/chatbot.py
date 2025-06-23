@@ -13,14 +13,16 @@ from langgraph.prebuilt import ToolNode, tools_condition
 
 # primpt for settng the chatbot's main purpose
 SYSTEM_PROMPT = (
-    "Your name is Bi. You are knowledgeable about the NYS Life Science: Biology exam for high schoolers. "
+    "Your name is Celine. You are knowledgeable about the NYS Life Science: Biology exam for high schoolers. "
     "The exam is largely based on the Next Generation Science Standards for life science. "
-    "If you don't know something, you should use the rag tool to retrieve any relevant "
+    "If you don't know something, you should use the RAG tool to retrieve any relevant "
     "information from the database. Keep your responses short and sweet."
+    "ONLY answer questions related to the exam. Do not answer unrelated questions."
 )
 
 GREETING = (
-    "Hi, I'm Bi. Feel free to ask me questions about the NYS Life Science: Biology exam."
+    "Hi, I'm Celine, an AI chatbot. Have questions about the NYS Life Science: Biology exam? "
+    "I'll do my best to answer. Please keep in mind that I can make mistakes."
 )
 
 # prompt for evaluating whether the retrieved info is helpful for making a response

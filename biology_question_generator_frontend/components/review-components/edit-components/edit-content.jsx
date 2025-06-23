@@ -4,6 +4,7 @@ import { useContext } from "react"
 import { reviewContext } from "../review-context"
 import EditReading from "./edit-reading"
 import EditQuestion from "./edit-question"
+import EditDataTable from "./edit-data-table"
 
 export default function EditContent() {
 
@@ -25,6 +26,7 @@ export default function EditContent() {
 
                     <div>
                         <EditReading />
+                        <EditDataTable />
                         <EditQuestion />
                     </div>
 
