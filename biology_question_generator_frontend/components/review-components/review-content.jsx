@@ -29,13 +29,7 @@ export default function ReviewContent() {
 
     useEffect(() => {
 
-        if (reading === undefined) {
-            const content = JSON.parse(sessionStorage.getItem("generated_content"))
-
-            setReading(content.reading)
-            setData(content.data)
-            setQuestions(content.question_list)
-        } else {
+        if (reading !== undefined) {
             
             const newContent = {
                 reading: reading,
@@ -44,6 +38,14 @@ export default function ReviewContent() {
             }
 
             sessionStorage.setItem("generated_content", JSON.stringify(newContent))
+        } else {
+            const content = JSON.parse(sessionStorage.getItem("generated_content"))
+
+            if (content !== null) {
+                setReading(content.reading)
+                setData(content.data)
+                setQuestions(content.question_list)
+            }
         }
 
 
