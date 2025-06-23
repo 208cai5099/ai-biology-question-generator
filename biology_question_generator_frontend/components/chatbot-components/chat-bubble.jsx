@@ -4,7 +4,7 @@ import { llmPicURL, humanPicURL } from "./content"
 
 export default function ChatBubble(props) {
 
-    const startOrEnd = props.role === "llm" ? "chat-start" : "chat-end"
+    const startOrEnd = props.role === "AI" ? "chat-start" : "chat-end"
 
     return (
             <div className={`chat ${startOrEnd} text-sm`}>
@@ -13,13 +13,13 @@ export default function ChatBubble(props) {
                     <div className="w-10 rounded-full">
                         <img
                             alt="face icon"
-                            src={props.role === "llm" ? llmPicURL : humanPicURL}
+                            src={props.role === "AI" ? llmPicURL : humanPicURL}
                         />
                     </div>
                 </div>
 
                 <div className="chat-header">
-                    {props.role === "llm" ? "Celine" : "You"}
+                    {props.role === "AI" ? "Celine" : "You"}
                 </div>
 
                 <div className="chat-bubble">{props.content}</div>
