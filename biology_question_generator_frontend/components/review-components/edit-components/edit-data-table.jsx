@@ -29,7 +29,7 @@ export default function EditDataTable() {
                     onChange={(e) => {setTitle(e.target.value)}}
                 />
 
-                <div className="overflow-x-auto border-1 border-gray-400 rounded-sm w-full lg:w-290 w-85 m-2">
+                <div className="overflow-x-auto border-1 border-gray-400 rounded-sm lg:w-290 w-85 m-2">
                     <Row row={context.data.col_names} />
                     {
                         context.data.row_values.map((row, idx) => {

@@ -1,6 +1,6 @@
 "use client"
 
-import { checkLogin } from "@/app/middleware/check-login"
+import { checkLogin } from "@/app/utils/check-login"
 import { useEffect, useState } from "react"
 import Topbar from "./topbar"
 import Sidebar from "./sidebar"

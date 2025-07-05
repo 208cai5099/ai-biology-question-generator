@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { reviewContext } from "./review-context"
-import { checkLogin } from "@/app/middleware/check-login"
+import { checkLogin } from "@/app/utils/check-login"
 import EditContent from "./edit-components/edit-content"
 import ViewContent from "./view-components/view-content"
 import LoginReminder from "../generate-components/login-reminder"

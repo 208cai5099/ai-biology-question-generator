@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { fetchGeneration } from "@/app/middleware/fetch-generation"
+import { fetchGeneration } from "@/app/utils/fetch-generation"
 import { formContext } from "./context"
-import { checkLogin } from "@/app/middleware/check-login"
+import { checkLogin } from "@/app/utils/check-login"
 import TopicInput from "./topic-input"
 import PLDInput from "./pld-input"
 import PhenomenonInput from "./phenomenon-input"

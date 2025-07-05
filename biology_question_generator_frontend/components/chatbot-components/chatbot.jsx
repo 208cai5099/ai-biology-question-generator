@@ -3,8 +3,8 @@
 import ChatBubble from "./chat-bubble"
 import { useState, useEffect, useRef } from "react"
 import { chatURL, sendURL } from "./content"
-import { startChat } from "@/app/middleware/start-chat"
-import { sendChat } from "@/app/middleware/send-chat"
+import { startChat } from "@/app/utils/start-chat"
+import { sendChat } from "@/app/utils/send-chat"
 
 export default function Chatbot() {
 

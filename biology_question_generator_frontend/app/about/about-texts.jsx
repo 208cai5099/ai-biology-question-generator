@@ -1,5 +1,4 @@
 import * as content from "./content"
-// import { websiteDescription, standardsDescription, topics, examDescription, bio, ngssURL, nysScienceURL, nysLifeScienceURL, picURL} from "./content"
 
 export default function AboutTexts() {
     return (
@@ -77,7 +76,7 @@ export default function AboutTexts() {
 
                     <div className="flex lg:flex-row md:flex-row flex-col lg:justify-start lg:items-center">
                         
-                        <div className="w-1/5 w-30 h-30 mr-2 lg:block hidden">
+                        <div className="w-30 h-30 mr-2 lg:block hidden">
                             <img src={content.picURL}></img>
                         </div>
 

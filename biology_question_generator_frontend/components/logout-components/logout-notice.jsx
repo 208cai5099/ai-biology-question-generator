@@ -1,6 +1,6 @@
 'use client'
 
-import { logout } from "@/app/middleware/logout"
+import { logout } from "@/app/utils/logout"
 import { useEffect, useState } from "react"
 
 export default function LogoutNotice() {
