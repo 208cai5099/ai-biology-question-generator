@@ -4,7 +4,7 @@ import { cookies } from "next/headers"
 
 export async function login(props) {
 
-    const url = props.signUp === true ? (process.env.ENDPOINT + "/signup") : (process.env.ENDPOINT + "/login")
+    const url = process.env.ENDPOINT + "/login"
 
     const res = await fetch(url, {
         method: "POST",
@@ -20,15 +20,33 @@ export async function login(props) {
     const resJSON = await res.json()
 
     const cookieStore = await cookies()
-    cookieStore.set({
-        name: "jwt_token",
-        value: resJSON.jwt_token,
-        httpOnly: true,
-        path: '/',
-        maxAge: 1170,
-        secure: true
-    })
 
-    return resJSON.msg
+    const accessCookieAge = 120
+    const refreshCookieAge = 3600
+    const ageBuffer = 30
+
+    if (resJSON.status === "success") {
+
+        cookieStore.set({
+            name: "ai_bio_access_token",
+            value: resJSON.access_token,
+            httpOnly: true,
+            path: '/',
+            maxAge: accessCookieAge - ageBuffer,
+            secure: true
+        })
+
+        cookieStore.set({
+            name: "ai_bio_refresh_token",
+            value: resJSON.refresh_token,
+            httpOnly: true,
+            path: '/',
+            maxAge: refreshCookieAge - ageBuffer,
+            secure: true
+        })
+
+    }
+    
+    return resJSON
 
 }

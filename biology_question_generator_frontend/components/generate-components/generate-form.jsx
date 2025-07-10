@@ -10,6 +10,7 @@ import PLDInput from "./pld-input"
 import PhenomenonInput from "./phenomenon-input"
 import QuestionInput from "./question-input"
 import LoginReminder from "./login-reminder"
+import { refreshToken } from "@/app/utils/refresh-token"
 
 export default function GenerateForm() {
   
@@ -26,8 +27,14 @@ export default function GenerateForm() {
   useEffect(() => {
 
       const runCheckLogin = async() => {
-          const status = await checkLogin()
-          setLoginStatus(status)
+        
+        let status = await checkLogin()
+
+        if (!status) {
+          status = await refreshToken()
+        }
+
+        setLoginStatus(status)
       }
 
       runCheckLogin()

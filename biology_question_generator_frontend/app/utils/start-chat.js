@@ -1,6 +1,5 @@
 'use server'
 
-// starts the conversation with the chatbot
 export async function startChat() {
 
     const url = process.env.ENDPOINT + "/chat/start"

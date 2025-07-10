@@ -6,7 +6,8 @@ export async function logout() {
 
     try {
         const cookieStore = await cookies()
-        cookieStore.delete('jwt_token')
+        cookieStore.delete('ai_bio_access_token')
+        cookieStore.delete('ai_bio_refresh_token')
     } catch(e) {
         console.log(e)
     }

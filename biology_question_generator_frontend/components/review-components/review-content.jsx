@@ -6,6 +6,7 @@ import { checkLogin } from "@/app/utils/check-login"
 import EditContent from "./edit-components/edit-content"
 import ViewContent from "./view-components/view-content"
 import LoginReminder from "../generate-components/login-reminder"
+import { refreshToken } from "@/app/utils/refresh-token"
 
 export default function ReviewContent() {
 
@@ -18,7 +19,12 @@ export default function ReviewContent() {
     useEffect(() => {
 
         const runCheckLogin = async() => {
-            const status = await checkLogin()
+            let status = await checkLogin()
+
+            if (!status) {
+                status = await refreshToken()
+            }
+
             setLoginStatus(status)
         }
 

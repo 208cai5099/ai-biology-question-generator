@@ -4,6 +4,7 @@ import { usernames } from "./content"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { login } from "@/app/utils/login"
+import { signUp } from "@/app/utils/sign-up"
 
 export default function LoginForm() {
 
@@ -34,17 +35,24 @@ export default function LoginForm() {
 
         try {
 
-            const msg = await login({signUp: isSignUp, usernameFirst: usernameFirst, usernameSecond: usernameSecond, password: password})
+            let resJSON = null
 
+            if (isSignUp) {
+                resJSON = await signUp({usernameFirst: usernameFirst, usernameSecond: usernameSecond, password: password})
+            } else if (isLogin) {
+                resJSON = await login({usernameFirst: usernameFirst, usernameSecond: usernameSecond, password: password})
+            }
+            
             setUsernameFirst("Select one")
             setUsernameSecond("")
             setPassword("")
-            setMessage(msg)
+            setMessage(resJSON.msg)
 
-            if (isLogin === true && msg === "Account successfully logged in.") {
+            if (isLogin === true && resJSON.status === "success") {
                 setTimeout(() => {
                     setProcessing(false)
                     router.push("/generate")
+                    sessionStorage.setItem("login_status", "logged in")
                 }, 2000)
             } else {
                 setProcessing(false)
