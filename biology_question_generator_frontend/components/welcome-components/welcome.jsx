@@ -1,53 +1,38 @@
 'use client'
 
-import { urlAndLabel } from "./content"
-import TypewriterEffect from "./typewriter-effect"
-import { useState } from "react"
+import { URLs, labels } from "./content"
 
 export default function Welcome() {
 
-    const [index, setIndex] = useState(0)
-    const [imageURL, setImageURL] = useState(urlAndLabel[0][0])    
-    const [labels, setLabels] = useState(urlAndLabel[0][1])
-
-
-    const updateImage = (idx) => {
-        setIndex(idx)
-        setImageURL(urlAndLabel[idx][0])
-        setLabels(urlAndLabel[idx][1])
-    }
-
     return (
-        <div className="grid place-items-center lg:mt-30 md:mt-30 mt-20">
-            <div className="hero">
-                <div className="hero-content flex-col lg:flex-row">
-                    <div className="text-left lg:text-5xl xl:text-5xl 2xl:text-5xl text-4xl w-1/2">
-                        <p className="font-bold">Generate questions about</p>
-                        <p></p>
-                        <TypewriterEffect labels={labels}></TypewriterEffect>
-                    </div>
-                    <div className="flex flex-col justify-center items-center w-1/3 max-h-sm">
-                        <img src={imageURL} alt="cartoon image"/>
-                        <div className="join">
-                            {
-                                urlAndLabel.map((i, idx) => {
-                                    return (
-                                        <input 
-                                            key={idx}
-                                            className={index === idx ? "join-item btn btn-square btn-success" : "join-item btn btn-square"}
-                                            type="radio"
-                                            name="options" 
-                                            aria-label={`${idx+1}`}
-                                            checked={index === idx}
-                                            onChange={() => {updateImage(idx)}}
-                                        />
-                                    )
-                                })
-                            }
-                        </div>
-                    </div>
-                </div>
+
+        <div className="flex flex-col items-center">
+
+            <h1 className="font-bold lg:text-5xl text-4xl mt-20 mb-[20px] text-center">
+                Generate questions about <em className="text-customDarkGreen">any</em> biology topic
+            </h1>
+
+            <div className="w-4/5 min-w-[300px] max-w-[1000px] h-[300px] relative mt-10 mx-auto overflow-hidden mask-l-from-97% mask-l-to-100% mask-r-from-97% mask-r-to-100%">
+
+                {
+                    URLs.map((imgURL, idx) => {
+
+                        return (
+                            <div key={idx} className="flex flex-col justify-center items-center absolute w-[300px] h-[300px] left-full animate-scroll-marquee" 
+                            style={{animationDelay: `${-1 * 20 / URLs.length * (URLs.length - (idx + 1))}s`}}>
+                                <div className="h-[100px]">
+                                    <p className="text-center font-bold lg:text-3xl md:text-3xl text-xl lg:w-[300px] md:w-[300px] w-[100px]">{labels[idx]}</p>
+                                </div>
+                                <img className="lg:h-[200px] md:h-[200px] h-1/2" src={imgURL}></img>
+                            </div>
+                        )
+
+                    })
+
+                }
+
             </div>
         </div>
+
     )
 }

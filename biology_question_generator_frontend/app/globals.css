@@ -10,4 +10,16 @@
   --color-customMediumGreen: #129990;
   --color-customDarkGreen: #096B68;
 
+  --animate-scroll-marquee: scroll-marquee 20s infinite;
+  
+  @keyframes scroll-marquee {
+    from {
+      left: 100%;
+      animation-timing-function: linear;
+    }
+    to {
+      left: -300px;
+    }
+  }
+
 }
