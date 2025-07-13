@@ -14,11 +14,27 @@
   
   @keyframes scroll-marquee {
     from {
-      left: 100%;
+      right: 100%;
       animation-timing-function: linear;
     }
     to {
-      left: -300px;
+      right: -300px;
+    }
+  }
+
+  --animate-left-slide-in: left-slide-in 1s forwards;
+
+  @keyframes left-slide-in {
+    from {
+      right: 10%;
+      animation-timing-function: linear;
+      opacity: 0%;
+      filter: blur(2px);
+    }
+    to {
+      right: 0%;
+      opacity: 100%;
+      filter:;
     }
   }
 
