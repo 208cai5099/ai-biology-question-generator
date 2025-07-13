@@ -5,11 +5,12 @@ import { reviewContext } from "./review-context"
 import { checkLogin } from "@/app/utils/check-login"
 import EditContent from "./edit-components/edit-content"
 import ViewContent from "./view-components/view-content"
-import LoginReminder from "../generate-components/login-reminder"
 import { refreshToken } from "@/app/utils/refresh-token"
+import { useRouter } from "next/navigation"
 
 export default function ReviewContent() {
 
+    const router = useRouter()
     const [loginStatus, setLoginStatus] = useState(false)
     const [reading, setReading] = useState(undefined)
     const [data, setData] = useState(undefined)
@@ -23,6 +24,10 @@ export default function ReviewContent() {
 
             if (!status) {
                 status = await refreshToken()
+            }
+
+            if (!status) {
+                router.push("/login")
             }
 
             setLoginStatus(status)
@@ -90,7 +95,7 @@ export default function ReviewContent() {
                     </reviewContext.Provider>
                 </div>
                 :
-                <LoginReminder />
+                <div></div>
             }
         </div>
 

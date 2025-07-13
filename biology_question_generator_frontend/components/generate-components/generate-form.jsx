@@ -9,7 +9,6 @@ import TopicInput from "./topic-input"
 import PLDInput from "./pld-input"
 import PhenomenonInput from "./phenomenon-input"
 import QuestionInput from "./question-input"
-import LoginReminder from "./login-reminder"
 import { refreshToken } from "@/app/utils/refresh-token"
 
 export default function GenerateForm() {
@@ -32,6 +31,10 @@ export default function GenerateForm() {
 
         if (!status) {
           status = await refreshToken()
+        }
+
+        if (!status) {
+          router.push("/login")
         }
 
         setLoginStatus(status)
@@ -170,7 +173,7 @@ export default function GenerateForm() {
             </div>
           </div>
           :
-          <LoginReminder />
+          <div></div>
           
       }
     </div>
