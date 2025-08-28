@@ -2,6 +2,8 @@
 
 import { llmPicURL, humanPicURL } from "./content"
 
+// Input: props with role and message content
+// Output: a chat bubble message
 export default function ChatBubble(props) {
 
     const startOrEnd = props.role === "AI" ? "chat-start" : "chat-end"

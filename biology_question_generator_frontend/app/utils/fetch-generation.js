@@ -4,10 +4,10 @@ import { cookies } from "next/headers"
 
 export async function fetchGeneration(props) {
 
+    // sends a POST request to generate content based on user inputs
+    // authorized by user access token
     const cookieStore = await cookies()
-        
     const access_cookie = cookieStore.get("ai_bio_access_token")
-
     const url = process.env.ENDPOINT + "/generate"
     const res = await fetch(url, {
         method: "POST",
@@ -24,8 +24,8 @@ export async function fetchGeneration(props) {
         })
     })
 
+    // return the generated content as JSON
     const resJSON = await res.json()
-    
     return resJSON
 
 }

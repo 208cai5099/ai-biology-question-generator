@@ -4,6 +4,7 @@ import { cookies } from "next/headers"
 
 export async function logout() {
 
+    // delete access and refresh tokens to logout
     try {
         const cookieStore = await cookies()
         cookieStore.delete('ai_bio_access_token')

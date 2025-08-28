@@ -2,8 +2,8 @@
 
 export async function signUp(props) {
 
+    // send a POST request with username and password to register for a new account
     const url = process.env.ENDPOINT + "/signup"
-
     const res = await fetch(url, {
         method: "POST",
         headers: {

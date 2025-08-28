@@ -4,8 +4,8 @@ import { cookies } from "next/headers"
 
 export async function login(props) {
 
+    // sends a POST request with username and password to login
     const url = process.env.ENDPOINT + "/login"
-
     const res = await fetch(url, {
         method: "POST",
         headers: {
@@ -17,11 +17,11 @@ export async function login(props) {
         })
     })
 
+    // store the access token for 2 min and the refresh token for 1 hr
+    // with a time buffer of 30 sec
     const resJSON = await res.json()
-
     const cookieStore = await cookies()
-
-    const accessCookieAge = 120
+    const accessCookieAge = 300
     const refreshCookieAge = 3600
     const ageBuffer = 30
 

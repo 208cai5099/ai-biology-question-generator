@@ -9,6 +9,7 @@ export default function EditReading() {
     const [title, setTitle] = useState(context.reading.title)
     const [content, setContent] = useState(context.reading.content)
 
+    // update the reading everytime the user types in the input area
     useEffect(() => {
 
         context.setReading({
@@ -22,6 +23,8 @@ export default function EditReading() {
         <div className="card card-border lg:w-300 w-90 my-5 mx-2 shadow-sm bg-white">
 
             <div className="flex flex-col items-start lg:w-290 w-85 m-2">
+
+                {/* edit the reading title */}
                 <span className="font-bold m-2">Reading Title</span>
                 <input 
                     className="m-2 w-full h-10 border-1 border-gray-400 rounded-md outline-customDarkGreen" 
@@ -29,6 +32,7 @@ export default function EditReading() {
                     onChange={(e) => {setTitle(e.target.value)}}
                 />
 
+                {/* edit the reading passage */}
                 <span className="font-bold m-2">Reading Content</span>
 
                 <textarea 

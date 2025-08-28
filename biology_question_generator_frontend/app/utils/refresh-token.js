@@ -6,6 +6,8 @@ export async function refreshToken() {
 
     const cookieStore = await cookies()
 
+    // if the refresh token has not expired, 
+    // use the refresh token to get a new access token
     if (cookieStore.has("ai_bio_refresh_token")) {
 
         const refresh_token = cookieStore.get("ai_bio_refresh_token")
@@ -24,7 +26,7 @@ export async function refreshToken() {
 
         if (resJSON.status === "success") {
 
-            const accessCookieAge = 120
+            const accessCookieAge = 300
             const ageBuffer = 30
 
             cookieStore.set({

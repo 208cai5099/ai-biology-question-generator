@@ -4,6 +4,8 @@ import { useEffect, useState } from "react"
 import Topbar from "./topbar"
 import Sidebar from "./sidebar"
 
+// Input: None
+// Output: a top navigation bar and a side navigation bar
 export default function Navbar() {
 
     const [loginStatus, setLoginStatus] = useState(false)

@@ -9,6 +9,7 @@ export default function OpenQuestion({question, idx}) {
     const [openQuestion, setOpenQuestion] = useState(question.question)
     const [answer, setAnswer] = useState(question.answer)
 
+    // update the question and its answer every time the user types in the input area
     useEffect(() => {
 
         let currentQuestionList = [...context.question_list]
@@ -21,16 +22,17 @@ export default function OpenQuestion({question, idx}) {
     return (
         <div className="card card-border my-5 shadow-sm bg-white" key={idx}>
             <div className="flex flex-col items-start lg:w-290 w-85 m-2">
-                <span className="font-bold m-2">{`Question ${question.question_num}:`}</span>
 
+                {/* display an editable question */}
+                <span className="font-bold m-2">{`Question ${question.question_num}:`}</span>
                 <textarea 
                     className="m-2 w-full h-20 border-1 border-gray-400 rounded-md outline-customDarkGreen" 
                     value={openQuestion}
                     onChange={(e) => {setOpenQuestion(e.target.value)}}
                 />
 
+                {/* display an editable answer */}
                 <span className="font-bold m-2">Answer:</span>
-
                 <textarea 
                     className="m-2 w-full h-20 border-1 border-gray-400 rounded-md outline-customDarkGreen" 
                     value={answer}

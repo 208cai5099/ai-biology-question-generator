@@ -3,6 +3,7 @@
 // sends the user message to the llm
 export async function sendChat(sessionID, message) {
 
+    // send a POST request with human message to get a new message from chatbot
     const url = process.env.ENDPOINT + "/chat/continue"
     const res = await fetch(url, {
         method: "POST",

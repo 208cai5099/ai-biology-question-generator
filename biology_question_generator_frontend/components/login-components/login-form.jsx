@@ -19,11 +19,13 @@ export default function LoginForm() {
     const [processing, setProcessing] = useState(false)
     const [message, setMessage] = useState("")
 
+    // indicate that the user is signing up for an account
     const confirmSignUp = () => {
         setIsSignUp(true)
         setIsLogin(false)
     }
 
+    // indicate that the user is logging into an account
     const confirmLogin = () => {
         setIsSignUp(false)
         setIsLogin(true)
@@ -31,23 +33,27 @@ export default function LoginForm() {
     
     const clickSubmit = async() => {
 
+        // update state variable to trigger the loading icon
         setProcessing(true)
 
         try {
 
             let resJSON = null
 
+            // send a POST request to sign up or log in
             if (isSignUp) {
                 resJSON = await signUp({usernameFirst: usernameFirst, usernameSecond: usernameSecond, password: password})
             } else if (isLogin) {
                 resJSON = await login({usernameFirst: usernameFirst, usernameSecond: usernameSecond, password: password})
             }
             
+            // reset the username and password to default values
             setUsernameFirst("Select one")
             setUsernameSecond("")
             setPassword("")
             setMessage(resJSON.msg)
 
+            // if login is successful, record the login status in session storage
             if (isLogin === true && resJSON.status === "success") {
                 setTimeout(() => {
                     setProcessing(false)
@@ -65,6 +71,7 @@ export default function LoginForm() {
 
     }
 
+    // validate the inputted username and password
     useEffect(() => {
 
         const usernameSecondRegex = usernameSecond.replace(/[0-9]+/, "")
@@ -86,6 +93,7 @@ export default function LoginForm() {
 
         <div className="flex flex-col justify-center items-center">
 
+            {/* notify the user of the result of the sign up/login request */}
             {
                 message === "" ?
                 <div></div> :
@@ -95,7 +103,9 @@ export default function LoginForm() {
             }
 
             <div className={message === "" ? "grid place-items-center lg:mt-30 md:mt-30 mt-20" : "grid place-items-center lg:mt-20 md:mt-20 mt-10"}>
+                
                 {
+                    // tell the user whether their sign-up/login request is being processed or they are being redirected to another page
                     processing ? 
                     <div className="card flex flex-col justify-center items-center w-80 h-80 shadow-sm rounded-box">
                         <span className="loading loading-spinner text-accent"></span>
@@ -110,6 +120,7 @@ export default function LoginForm() {
                             <button className={isLogin ? "btn btn-active btn-accent join-item w-35" : "btn join-item w-35"} onClick={confirmLogin}>Login</button>
                         </div>
 
+                        {/* the only available usernames are cell orangelles, followed by a number */}
                         <div className="flex flex-col place-items-start">
                             <label className="label">Username</label>
                             <div className="join">

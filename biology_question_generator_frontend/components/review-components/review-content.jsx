@@ -17,15 +17,20 @@ export default function ReviewContent() {
     const [questions, setQuestions] = useState(undefined)
     const [editMode, setEditMode] = useState(false)
 
+    // check the login status
     useEffect(() => {
 
         const runCheckLogin = async() => {
+    
+            // check whether an access token is available
             let status = await checkLogin()
 
+            // if access token is unavailable, try to use refresh token to get new access token
             if (!status) {
                 status = await refreshToken()
             }
 
+            // if refresh token is unavailable, re-route to login page
             if (!status) {
                 router.push("/login")
             }
@@ -37,9 +42,12 @@ export default function ReviewContent() {
 
     }, [])
 
-
+    
+    // updates the reading, data, and question states when the user toggles the edit button
     useEffect(() => {
 
+        // this block triggers after the user has made an edit
+        // updates the generated content stored in session storage
         if (reading !== undefined) {
             
             const newContent = {
@@ -49,7 +57,11 @@ export default function ReviewContent() {
             }
 
             sessionStorage.setItem("generated_content", JSON.stringify(newContent))
+
+        // this block triggers in the beginning before any edits
         } else {
+
+            // retrieves the generated content in session storage and stores them as state variables
             const content = JSON.parse(sessionStorage.getItem("generated_content"))
 
             if (content !== null) {
@@ -78,6 +90,7 @@ export default function ReviewContent() {
                         </label>
                     </fieldset>
 
+                    {/* use reviewContext to pass down variables and functions for updating the generated content */}
                     <reviewContext.Provider value={{
                         reading: reading,
                         data: data,

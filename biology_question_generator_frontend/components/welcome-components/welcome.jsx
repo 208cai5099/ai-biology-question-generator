@@ -18,6 +18,7 @@ export default function Welcome() {
         threshold: 1.0
     }
 
+    // once website description is about to be in the screen, display it
     const animateDescription = (entries) => {
 
         if (entries[0].isIntersecting) {
@@ -25,6 +26,7 @@ export default function Welcome() {
         }
     }
 
+    // once the steps for how to use the website are about to be in the screen, display them
     const animateSteps = (entries) => {
 
         if (entries[0].isIntersecting) {
@@ -32,6 +34,7 @@ export default function Welcome() {
         }
     }
 
+    // use IntersectionObserver to control the display of the website description and website steps
     useEffect(() => {
 
         const descriptionObserver = new IntersectionObserver(animateDescription, options)
@@ -57,6 +60,7 @@ export default function Welcome() {
 
             <div className="w-4/5 min-w-[300px] max-w-[1000px] h-[350px] relative mt-10 mx-auto overflow-hidden mask-l-from-97% mask-l-to-100% mask-r-from-97% mask-r-to-100%">
 
+                {/* create a marquee scroll animation of different biology topics */}
                 {
                     URLs.map((imgURL, idx) => {
 
@@ -80,13 +84,15 @@ export default function Welcome() {
 
             </div>
 
+
+            {/* dynamically display the website description upon scrolling */}
             <h1 ref={websiteDescriptionRef} className="font-bold lg:text-5xl text-4xl lg:mt-20 md:mt-20 my-10">
                 What is this website?
             </h1>
 
             <div className="w-4/5 min-w-[300px] max-w-[1000px]">
                 <div
-                    className="relative w-full border-[1px] border-black rounded-md shadow-md right-[150%] animate-left-slide-in"
+                    className="relative w-full border-[1px] border-gray-200 rounded-md shadow-md right-[150%] animate-left-slide-in"
                     style={{animationPlayState: showDescription ? "running" : "paused"}}
                 >
                     <p className="p-[10px] text-xl">
@@ -107,6 +113,8 @@ export default function Welcome() {
 
             </div>
 
+
+            {/* dynamically display the steps for using the website upon scrolling */}
             <h1 ref={stepsDescriptionRef} className="font-bold lg:text-5xl text-4xl lg:mt-20 md:mt-20 my-10">
                 How does this work?
             </h1>
@@ -114,7 +122,7 @@ export default function Welcome() {
             <div className="flex flex-col gap-[20px] w-4/5 min-w-[300px] max-w-[1000px]">
 
                 <div
-                    className="relative w-full border-[1px] border-black rounded-md right-[150%] shadow-md animate-left-slide-in"
+                    className="relative w-full border-[1px] border-gray-200 rounded-md right-[150%] shadow-md animate-left-slide-in"
                     style={{animationDelay: "0s", animationPlayState: showSteps ? "running" : "paused"}}
                 >
                     <h1 className="text-xl font-bold m-[10px]">1. Create an account (free!)</h1>
@@ -125,18 +133,18 @@ export default function Welcome() {
                 </div>
 
                 <div 
-                    className="relative w-full border-[1px] border-black rounded-md right-[150%] shadow-md animate-left-slide-in"
+                    className="relative w-full border-[1px] border-gray-200 rounded-md right-[150%] shadow-md animate-left-slide-in"
                     style={{animationDelay: "2s", animationPlayState: showSteps ? "running" : "paused"}}                
                 >
                     <h1 className="text-xl font-bold m-[10px]">2. Specify what kinds of questions to create</h1>
                     <p className="text-xl m-[10px]">
                         Fill out a brief input form asking for the topic, skills, and knowledge assessed by the questions.
-                        All content are generated using a LLM (this site currently uses OpenAI's GPT-4o).
+                        All content are generated using OpenAI's GPT-4o.
                     </p>
                 </div>
 
                 <div 
-                    className="relative w-full border-[1px] border-black rounded-md right-[150%] shadow-md animate-left-slide-in"
+                    className="relative w-full border-[1px] border-gray-200 ounded-md right-[150%] shadow-md animate-left-slide-in"
                     style={{animationDelay: "4s", animationPlayState: showSteps ? "running" : "paused"}}
                 >
                     <h1 className="text-xl font-bold m-[10px]">3. Edit the generated content</h1>
@@ -149,15 +157,10 @@ export default function Welcome() {
             </div>
 
             <h1 className="font-bold lg:text-5xl text-4xl lg:mt-10 md:mt-10 my-10">
-                Ready to try it out?
+                Ready to try it out? Make an account today!
             </h1>
             
-            <Link 
-                className="btn rounded-md text-lg text-gray-800 bg-customMediumGreen hover:bg-customDarkGreen animate-left-slide-in" 
-                href="/login"
-            >
-                Yep!
-            </Link>
+
 
             <div className="w-[1px] h-[30px]"></div>
 
