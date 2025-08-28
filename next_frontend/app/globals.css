@@ -1,0 +1,41 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: light --default;
+}
+
+@theme {
+  /* --color-customBackground: #E6F7F5; */
+  --color-customBackground: #FFFFFF;
+  --color-customLightGreen: #90D1CA;
+  --color-customMediumGreen: #129990;
+  --color-customDarkGreen: #096B68;
+
+  --animate-scroll-marquee: scroll-marquee 20s infinite;
+  
+  @keyframes scroll-marquee {
+    from {
+      right: 100%;
+      animation-timing-function: linear;
+    }
+    to {
+      right: -300px;
+    }
+  }
+
+  --animate-left-slide-in: left-slide-in 1s forwards;
+
+  @keyframes left-slide-in {
+    from {
+      right: 10%;
+      animation-timing-function: linear;
+      opacity: 0%;
+      filter: blur(2px);
+    }
+    to {
+      right: 0%;
+      opacity: 100%;
+      filter:;
+    }
+  }
+
+}
