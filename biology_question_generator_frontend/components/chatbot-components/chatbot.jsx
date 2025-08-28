@@ -6,6 +6,8 @@ import { chatURL, sendURL } from "./content"
 import { startChat } from "@/app/utils/start-chat"
 import { sendChat } from "@/app/utils/send-chat"
 
+// Input: None
+// Output: a chatbot interface with input bar, messages, and chatbot header
 export default function Chatbot() {
 
     const chatMessagesRef = useRef(null)
@@ -14,7 +16,7 @@ export default function Chatbot() {
     const [chatHistory, setChatHistory] = useState([])
     const [humanMessage, setHumanMessage] = useState("")
 
-    // gets initial chatbot greeting to start the chat history
+    // gets initial chatbot greeting to start the chat
     useEffect(() => {
 
         const runStartChat = async() => {
@@ -27,8 +29,10 @@ export default function Chatbot() {
 
     }, [])
 
-    // once user submits a message, calls for chatbot response
+    // call for chatbot response when the chat history is updated with a human message
     useEffect(() => {
+
+        // makes sure the latest message is always visible
         chatMessagesRef.current?.scrollIntoView()
 
         if (chatHistory.length > 0 && chatHistory[chatHistory.length - 1].role == "Human") {
@@ -60,12 +64,14 @@ export default function Chatbot() {
                 visible ? 
                 <div className="card rounded-none bg-customBackground lg:w-100 w-80 h-150 shadow-md">
 
+                    {/* customize the header of the chatbot interface */}
                     <div className="card flex flex-row rounded-none justify-end items-center h-10 bg-customMediumGreen shadow-sm">
                         <button className="btn btn-sm text-[15px] hover:opacity-50 bg-customMediumGreen border-0 shadow-none" onClick={toggleVisibility}>
                             X
                         </button>
                     </div>
 
+                    {/* for each message in the chat history, display it in a bubble */}
                     <div className="h-113 overflow-y-auto mb-30"> 
                         {
                             chatHistory.map((chat, idx) => {
@@ -75,9 +81,12 @@ export default function Chatbot() {
                             })
 
                         }
+
+                        {/* sets a reference to help display the latest message */}
                         <div ref={chatMessagesRef}></div>
                     </div>
 
+                    {/* customize the input bar */}
                     <div className="absolute bottom-0 flex flex-col w-full">
                         <input 
                             className="h-15 lg:w-100 w-80 text-sm p-5 my-1 outline-black" 
@@ -86,6 +95,8 @@ export default function Chatbot() {
                             onKeyDown={(e) => {if (e.key === "Enter") {addHumanMessage()}}}
                             value={humanMessage}
                         />
+
+                        {/* the submit button only appears if a message is written */}
                         <div className="h-7 flex flex-row justify-end">
                             <button 
                                 className="btn btn-xs bg-customBackground border-0 shadow-none m-0" 
@@ -99,7 +110,9 @@ export default function Chatbot() {
                 </div>
 
                 :
+
                 <div> 
+                    {/* displays the chatbot icon until it is clicked on */}
                     <button className="btn bg-gray-100 w-15 h-15 rounded-full shadow-md" onClick={toggleVisibility}>
                         <img src={chatURL} alt="chat icon"></img>
                     </button>

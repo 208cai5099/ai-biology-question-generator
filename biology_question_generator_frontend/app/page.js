@@ -7,8 +7,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      <Navbar/>
-      <Welcome/>
+      <Navbar />
+      <Welcome />
     </div>
   );
 }

@@ -1,53 +1,170 @@
 'use client'
 
-import { urlAndLabel } from "./content"
-import TypewriterEffect from "./typewriter-effect"
-import { useState } from "react"
+import { URLs, labels } from "./content"
+import { useState, useRef, useEffect } from "react"
+import Link from "next/link"
 
 export default function Welcome() {
 
-    const [index, setIndex] = useState(0)
-    const [imageURL, setImageURL] = useState(urlAndLabel[0][0])    
-    const [labels, setLabels] = useState(urlAndLabel[0][1])
+    const [motion, setMotion] = useState(true)
+    const [showDescription, setShowDescription] = useState(false)
+    const [showSteps, setShowSteps] = useState(true)
+    const websiteDescriptionRef = useRef(null)
+    const stepsDescriptionRef = useRef(null)
 
-
-    const updateImage = (idx) => {
-        setIndex(idx)
-        setImageURL(urlAndLabel[idx][0])
-        setLabels(urlAndLabel[idx][1])
+    const options = {
+        root: null,
+        rootMargin: "50px",
+        threshold: 1.0
     }
 
+    // once website description is about to be in the screen, display it
+    const animateDescription = (entries) => {
+
+        if (entries[0].isIntersecting) {
+            setShowDescription(true)
+        }
+    }
+
+    // once the steps for how to use the website are about to be in the screen, display them
+    const animateSteps = (entries) => {
+
+        if (entries[0].isIntersecting) {
+            setShowSteps(true)
+        }
+    }
+
+    // use IntersectionObserver to control the display of the website description and website steps
+    useEffect(() => {
+
+        const descriptionObserver = new IntersectionObserver(animateDescription, options)
+        const stepsObserver = new IntersectionObserver(animateSteps, options)
+
+        if (websiteDescriptionRef.current !== null) {
+            descriptionObserver.observe(websiteDescriptionRef.current)
+        }
+
+        if (stepsDescriptionRef.current !== null) {
+            stepsObserver.observe(stepsDescriptionRef.current)
+        }
+
+    }, [websiteDescriptionRef, stepsDescriptionRef, options])
+
     return (
-        <div className="grid place-items-center lg:mt-30 md:mt-30 mt-20">
-            <div className="hero">
-                <div className="hero-content flex-col lg:flex-row">
-                    <div className="text-left lg:text-5xl xl:text-5xl 2xl:text-5xl text-4xl w-1/2">
-                        <p className="font-bold">Generate questions about</p>
-                        <p></p>
-                        <TypewriterEffect labels={labels}></TypewriterEffect>
-                    </div>
-                    <div className="flex flex-col justify-center items-center w-1/3 max-h-sm">
-                        <img src={imageURL} alt="cartoon image"/>
-                        <div className="join">
-                            {
-                                urlAndLabel.map((i, idx) => {
-                                    return (
-                                        <input 
-                                            key={idx}
-                                            className={index === idx ? "join-item btn btn-square btn-success" : "join-item btn btn-square"}
-                                            type="radio"
-                                            name="options" 
-                                            aria-label={`${idx+1}`}
-                                            checked={index === idx}
-                                            onChange={() => {updateImage(idx)}}
-                                        />
-                                    )
-                                })
-                            }
-                        </div>
-                    </div>
-                </div>
+
+        <div className="flex flex-col items-center">
+
+            <h1 className="font-bold lg:text-5xl text-4xl lg:mt-20 md:mt-20 mt-10 text-center">
+                Generate questions about <em className="text-customDarkGreen">any</em> biology topic
+            </h1>
+
+            <div className="w-4/5 min-w-[300px] max-w-[1000px] h-[350px] relative mt-10 mx-auto overflow-hidden mask-l-from-97% mask-l-to-100% mask-r-from-97% mask-r-to-100%">
+
+                {/* create a marquee scroll animation of different biology topics */}
+                {
+                    URLs.map((imgURL, idx) => {
+
+                        return (
+                            <div 
+                                key={idx} className="flex flex-col justify-center items-center absolute transition duration-200 w-[300px] h-[300px] mt-[20px] lg:border-[1px] md:border-[1px] border-gray-100 lg:shadow-md md:shadow-md rounded-md hover:scale-110 animate-scroll-marquee" 
+                                style={{animationDelay: `${-1 * 20 / URLs.length * (URLs.length - (idx + 1))}s`, animationPlayState: motion ? "running" : "paused"}} 
+                                onMouseEnter={() => {setMotion(false)}}
+                                onMouseLeave={() => {setMotion(true)}}
+                            >
+                                <div className="h-[100px] p-5">
+                                    <p className="text-center font-bold lg:text-3xl md:text-3xl text-xl lg:w-[300px] md:w-[300px] w-[100px]">{labels[idx]}</p>
+                                </div>
+                                <img className="lg:h-[200px] md:h-[200px] h-1/2" src={imgURL}></img>
+                            </div>
+                        )
+
+                    })
+
+                }
+
             </div>
+
+
+            {/* dynamically display the website description upon scrolling */}
+            <h1 ref={websiteDescriptionRef} className="font-bold lg:text-5xl text-4xl lg:mt-20 md:mt-20 my-10">
+                What is this website?
+            </h1>
+
+            <div className="w-4/5 min-w-[300px] max-w-[1000px]">
+                <div
+                    className="relative w-full border-[1px] border-gray-200 rounded-md shadow-md right-[150%] animate-left-slide-in"
+                    style={{animationPlayState: showDescription ? "running" : "paused"}}
+                >
+                    <p className="p-[10px] text-xl">
+                        This website is designed to be a tool for New York State (NYS) teachers to create practice questions for the NYS 
+                        Life Science: Biology Regents exam.
+                        First implemented in June 2025, the exam replaces the old Living Environment exam and assesses students' understanding of 
+                        the NYS P-12 Science Learning Standards for high school life science. Because the exam is relatively new, 
+                        some teachers need support in preparing their students for the exam. This tool uses an LLM to generate practice questions 
+                        aligned to the life science standards. The goal is to provide an online resource to support NYS biology teachers.
+                    </p>
+                    <p className="p-[10px] text-lg">
+                        <em>
+                            Disclaimer: This website is not endorsed by the New York State Education Department or any organization. 
+                            Any generated content does not reflect the opinion or view of any individual or organization.
+                        </em>
+                    </p>
+                </div>
+
+            </div>
+
+
+            {/* dynamically display the steps for using the website upon scrolling */}
+            <h1 ref={stepsDescriptionRef} className="font-bold lg:text-5xl text-4xl lg:mt-20 md:mt-20 my-10">
+                How does this work?
+            </h1>
+
+            <div className="flex flex-col gap-[20px] w-4/5 min-w-[300px] max-w-[1000px]">
+
+                <div
+                    className="relative w-full border-[1px] border-gray-200 rounded-md right-[150%] shadow-md animate-left-slide-in"
+                    style={{animationDelay: "0s", animationPlayState: showSteps ? "running" : "paused"}}
+                >
+                    <h1 className="text-xl font-bold m-[10px]">1. Create an account (free!)</h1>
+                    <p className="text-xl m-[10px]">
+                        Make an account by inputting a username and password. Once logged in, you'll be able to generate exam questions 
+                        that resemble the NYS Life Science: Biology exam. 
+                    </p>
+                </div>
+
+                <div 
+                    className="relative w-full border-[1px] border-gray-200 rounded-md right-[150%] shadow-md animate-left-slide-in"
+                    style={{animationDelay: "2s", animationPlayState: showSteps ? "running" : "paused"}}                
+                >
+                    <h1 className="text-xl font-bold m-[10px]">2. Specify what kinds of questions to create</h1>
+                    <p className="text-xl m-[10px]">
+                        Fill out a brief input form asking for the topic, skills, and knowledge assessed by the questions.
+                        All content are generated using OpenAI's GPT-4o.
+                    </p>
+                </div>
+
+                <div 
+                    className="relative w-full border-[1px] border-gray-200 ounded-md right-[150%] shadow-md animate-left-slide-in"
+                    style={{animationDelay: "4s", animationPlayState: showSteps ? "running" : "paused"}}
+                >
+                    <h1 className="text-xl font-bold m-[10px]">3. Edit the generated content</h1>
+                    <p className="text-xl m-[10px]">
+                        You are able to modify the content as you see fit. Feel free to use the site's edit functionality or 
+                        copy and paste the results to your preferred word processor.
+                    </p>
+                </div>
+
+            </div>
+
+            <h1 className="font-bold lg:text-5xl text-4xl lg:mt-10 md:mt-10 my-10">
+                Ready to try it out? Make an account today!
+            </h1>
+            
+
+
+            <div className="w-[1px] h-[30px]"></div>
+
         </div>
+
     )
 }

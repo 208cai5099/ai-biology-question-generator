@@ -9,7 +9,7 @@ import TopicInput from "./topic-input"
 import PLDInput from "./pld-input"
 import PhenomenonInput from "./phenomenon-input"
 import QuestionInput from "./question-input"
-import LoginReminder from "./login-reminder"
+import { refreshToken } from "@/app/utils/refresh-token"
 
 export default function GenerateForm() {
   
@@ -23,18 +23,33 @@ export default function GenerateForm() {
   const [isGenerating, setIsGenerating] = useState(false)
   const [isGenerated, setIsGenerated] = useState(false)
 
+  // check the login status
   useEffect(() => {
 
       const runCheckLogin = async() => {
-          const status = await checkLogin()
-          setLoginStatus(status)
+        
+        // check whether an access token is available
+        let status = await checkLogin()
+        
+        // if access token is unavailable, try to use refresh token to get new access token
+        if (!status) {
+          status = await refreshToken()
+        }
+
+        // if refresh token is unavailable, re-route to login page
+        if (!status) {
+          router.push("/login")
+        }
+
+        setLoginStatus(status)
       }
 
       runCheckLogin()
 
   }, [])
 
-  // redirect to page for reviewing the generated content
+
+  // redirect to the page for reviewing the generated content
   useEffect(() => {
 
       if (isGenerated) {
@@ -44,11 +59,13 @@ export default function GenerateForm() {
 
   }, [isGenerated])
 
-  // sends inputs to generate the readings, table, and questions
+
+  // send user inputs to the backend for generating the desired content
   const generateQuestions = async() => {
 
       try {
 
+          // clear any previous generated content
           sessionStorage.removeItem("generated_content")
 
           setIsGenerating(true)
@@ -61,6 +78,7 @@ export default function GenerateForm() {
               cnt += 1
           })
           
+          // perform a POST request to the backend to start generating content
           const res = await fetchGeneration({
               topic: topic,
               pld: concatPLD,
@@ -69,6 +87,7 @@ export default function GenerateForm() {
               open_number: openOuestions
           })
 
+          // store the generated content in session storage
           sessionStorage.setItem("generated_content", JSON.stringify(res))
 
           setIsGenerating(false)
@@ -79,13 +98,13 @@ export default function GenerateForm() {
       }
   }
 
-  // records the selected topic and clears the selected PLDs
+  // keep track of the selected topic
   const updateTopic = (topic) => {
     setTopic(topic)
-    setPLD(new Set())
+    setPLD(new Set()) // must clear any previously selected PLDs
   }
 
-  // records the selected PLDs
+  // keep track of the selected PLDs
   const updatePLD = (newPLD) => {
 
     let current = new Set()
@@ -102,7 +121,7 @@ export default function GenerateForm() {
 
   }
 
-  // records the inputted phenomenon, if any
+  // keep track of the user-inputted phenomenon, if any
   const updatePhenomenon = (phenomenon) => {
     if (phenomenon.trim() === "") {
       setPhenomenon("not provided")
@@ -116,8 +135,10 @@ export default function GenerateForm() {
     <div className="flex flex-col justify-center items-center">
       {
           loginStatus ?
+          
           <div className="flex flex-col items-center">
 
+            {/* message bar indicating content is being generated */}
             {
               isGenerating ?
               <div className="absolute top-20 alert alert-info bg-customLightGreen shadow-sm border-none">
@@ -134,7 +155,9 @@ export default function GenerateForm() {
                 </p>
 
                 <div className="join join-vertical bg-base-100 lg:w-300 w-90 mb-5">
-                
+
+
+                {/* use the formContext to pass down variables and functions for keeping track of user inputs */}
                 <formContext.Provider value={{
                   updateTopic: updateTopic,
                   topic: topic,
@@ -153,6 +176,7 @@ export default function GenerateForm() {
 
                 </div>
 
+                {/* user can only submit inputs for generating if sufficient portions of the form are filled out */}
                 <button 
                     onClick={() => {generateQuestions()}} 
                     className={"btn btn-success text-lg"}
@@ -163,7 +187,7 @@ export default function GenerateForm() {
             </div>
           </div>
           :
-          <LoginReminder />
+          <div></div>
           
       }
     </div>

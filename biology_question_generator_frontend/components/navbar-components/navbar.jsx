@@ -1,23 +1,24 @@
 "use client"
 
-import { checkLogin } from "@/app/utils/check-login"
 import { useEffect, useState } from "react"
 import Topbar from "./topbar"
 import Sidebar from "./sidebar"
 
+// Input: None
+// Output: a top navigation bar and a side navigation bar
 export default function Navbar() {
 
     const [loginStatus, setLoginStatus] = useState(false)
 
     useEffect(() => {
 
-        const runCheckLogin = async() => {
-            const status = await checkLogin()
-            setLoginStatus(status)
+        const status = sessionStorage.getItem("login_status")
+        if (status === null) {
+            setLoginStatus(false)
+        } else {
+            setLoginStatus(status === "logged in")
         }
-
-        runCheckLogin()
-
+        
     }, [loginStatus])
 
     return (

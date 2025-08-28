@@ -11,9 +11,14 @@ export default function DataTable() {
         <div className="card card-border lg:w-300 w-90 mb-5 mx-2 shadow-sm bg-white">
             <div className="card-body">
                 <div className="mx-2">
+                    
                     <h1 className="text-left text-lg">{context.data.title}</h1>
+
                     <div className="overflow-x-auto rounded-box border-1 border-gray-300">
+                    
                         <table className="table">
+
+                            {/* display the table headers */}
                             <thead>
                                 <tr>
                                     {context.data.col_names.map((col, idx) => {
@@ -23,6 +28,8 @@ export default function DataTable() {
                                     })}
                                 </tr>
                             </thead>
+
+                            {/* iterate through each row and display each item in the row */}
                             <tbody>
                                 {context.data.row_values.map((row, idx) => {
                                     return (
@@ -37,6 +44,7 @@ export default function DataTable() {
                                 })}
                             </tbody>
                         </table>
+                    
                     </div>
                 </div>
             </div>

@@ -10,6 +10,7 @@ export default function Topbar({loginStatus}) {
                     <Link className="text-xl mx-3 hover:opacity-70" href="/">Home</Link>
                 </div>
 
+                {/* using block makes the Links stay visible on large screen and hides them on smaller screens */}
                 <div className="dropdown dropdown-end dropdown-hover lg:block hidden">
                     <label tabIndex={0} className="btn btn-square btn-ghost bg-customMediumGreen shadow-none border-0">
                         <img src={hamburgerURL} alt="menu icon"></img>

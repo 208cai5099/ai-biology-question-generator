@@ -18,6 +18,7 @@ export default function PLDInput() {
 
             <ul className="list bg-base-100 rounded-box my-3">
 
+                {/* display the PLDs as a checkbox menu */}
                 {
                 AllPLD[context.topic].map((pld, idx) => {
                     return (

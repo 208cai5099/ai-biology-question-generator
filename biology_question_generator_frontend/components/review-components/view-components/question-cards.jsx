@@ -9,6 +9,7 @@ export default function QuestionCards() {
 
     return (
         <div className="lg:w-300 w-90 my-5 mx-2">
+
             {context.question_list.map((question, idx) => {
 
                 if (question.question_type === "multiple choice") {
@@ -19,9 +20,12 @@ export default function QuestionCards() {
                         <div className="card card-border my-5 shadow-sm bg-white" key={idx}>
                             <div className="card-body">
                                 <div>
+                                    
                                     <h1 className="text-left text-lg">{`Question Number ${question.question_num}`}</h1>
                                     <p>{question.question}</p>
                                     <p></p>
+
+                                    {/* list every answer choice for the MC question */}
                                     {choices.map((choice, idx) => {
                                         return (
                                             <div key={idx}>
@@ -30,11 +34,14 @@ export default function QuestionCards() {
                                             </div>
                                         )
                                     })}
+
+                                    {/* display the correct answer */}
                                     <p>{`Answer: ${question.answer}`}</p>
                                 </div>
                             </div>
                         </div> 
                     )
+                
                 } else {
 
                     return (

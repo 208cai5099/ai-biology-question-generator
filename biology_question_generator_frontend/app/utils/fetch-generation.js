@@ -4,15 +4,16 @@ import { cookies } from "next/headers"
 
 export async function fetchGeneration(props) {
 
+    // sends a POST request to generate content based on user inputs
+    // authorized by user access token
     const cookieStore = await cookies()
-    const jwt_cookie = cookieStore.get("jwt_token")
-
+    const access_cookie = cookieStore.get("ai_bio_access_token")
     const url = process.env.ENDPOINT + "/generate"
     const res = await fetch(url, {
         method: "POST",
         headers: {
             "Content-Type" : "application/json",
-            "Authorization" : `Bearer ${jwt_cookie.value}`
+            "Authorization" : `Bearer ${access_cookie.value}`
         },
         body: JSON.stringify({
             "core_idea": props.core_idea,
@@ -23,7 +24,8 @@ export async function fetchGeneration(props) {
         })
     })
 
+    // return the generated content as JSON
     const resJSON = await res.json()
-    
     return resJSON
+
 }

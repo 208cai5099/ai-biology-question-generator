@@ -7,16 +7,19 @@ export default function LogoutNotice() {
 
     const [loginStatus, setLoginStatus] = useState(true)
 
+    // remove all session storage data upon logging out
     useEffect(() => {
 
         sessionStorage.removeItem("generated_content")
+        sessionStorage.removeItem("login_status")
         
         const runLogout = async() => {
-            const res = await logout()
+            await logout()
             setLoginStatus(false)
         }
 
         runLogout()
+        
     }, [])
 
     return (
