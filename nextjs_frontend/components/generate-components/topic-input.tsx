@@ -24,11 +24,11 @@ export default function TopicInput() {
             >                  
                 <option disabled={true}>Pick a topic</option>
                 {
-                    Object.keys(AllPLD).map((topic, idx) => {
+                    AllPLD.map((e, idx) => {
                         return (
-                            <option key={idx}>{topic}</option>
+                            <option key={idx}>{e.topic}</option>
                         )
-                        })
+                    })
                 }
             </select>                
             </div>

@@ -8,19 +8,20 @@ export const picURL = "https://openmoji.org/data/color/svg/1F44B-1F3FB.svg"
 
 export const websiteDescription = `
 This website is designed to be a tool for New York State (NYS) teachers to create practice questions for the NYS 
-Life Science: Biology Regents exam. This exam is a new Regents exam that is aligned to the P-12 Science Learning 
-Standards for life science. This exam was first implemented in June 2025, and it replaces the old Living Environment 
-Regents exam that many people might be familiar with. Because the Life Science: Biology exam is relatively new, 
+Life Science: Biology Regents exam. Aligned to the NYS P-12 Science Learning 
+Standards for life science, this exam replaces the old Living Environment 
+Regents exam that many people might be familiar with. This exam was first implemented in June 2025. 
+Because the Life Science: Biology exam is relatively new, 
 some teachers need support in preparing their students for the exam. This tool uses large language models to 
 generate questions about specific biology concepts from the new learning standards. The goal is to offer an online 
-resource to help educators in teaching biology - arguably the best science subject of all!
+resource to help NYS educators in teaching biology.
 `
 
 export const standardsDescription = `
-The NY P-12 Science Learning Standards are a new set of learning standards for science classes from pre-K to grade 12 
-in NY public schools. The standards are largely based on the Next Generation Science Standards (NGSS), a set of 
-learning standards published in 2013 that have been increasingly adopted by states nationwide. The design of the NGSS 
-was based on three guiding dimensions called Science and Engineering Practices, Disciplinary Core Ideas, and Crosscutting 
+The NYS P-12 Science Learning Standards are a set of learning standards for science classes from pre-K to grade 12 
+in NYS public schools. The standards are largely based on the Next Generation Science Standards (NGSS), a set of 
+learning standards published in 2013 that have been increasingly adopted by states nationwide. The NGSS is based on 
+three guiding dimensions called Science and Engineering Practices, Disciplinary Core Ideas, and Crosscutting 
 Concepts. The philosophy behind the NGSS is that science education should engage students in scientific thinking through 
 explorations and investigations of real-world phenomena.
 `
@@ -36,9 +37,9 @@ export const topics = [
 ]
 
 export const examDescription = `
-The NY Life Science: Biology exam is a 3-hour assessment with 45 to 55 questions (mix of multiple-choice and open-ended). 
+The NYS Life Science: Biology exam is a 3-hour assessment with 45 to 55 questions (mix of multiple-choice and open-ended). 
 The questions are organized into groups called clusters. Each cluster is anchored on a specific real-world phenomenon. 
-Sample cluster questions released by the NY Education Department used coral bleaching and the Devonian extinction as 
+Sample cluster questions released by the NYS Education Department used coral bleaching and the Devonian extinction as 
 the anchoring phenomena. In a cluster, students are expected to interpret multiple stimuli (readings, graphs, 
 tables, or images) that are related to the cluster's phenomeon. Students need to apply their biology knowledge, reading comprehension 
 abilities, and critical thinking skills to arrive at the answer for each question.
@@ -58,8 +59,8 @@ export const bio = `
 
 Hi there! 
 
-I'm Zhuo, a former math and biology teacher from New York City. In 2019, I graduated with a BA in Biology and began
-teaching at charter schools in the city. During my time as a teacher, I was curious about the growing integration 
+I'm Zhuo, a former math and biology teacher. In 2019, I graduated with a BA in Biology and began
+teaching at charter schools. During my time as a teacher, I was curious about the growing integration 
 of technology in everyday life. Driven by my curiosity, I eventually left the teaching 
 profession to study computer technology.
 

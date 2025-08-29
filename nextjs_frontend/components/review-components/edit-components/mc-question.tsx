@@ -26,7 +26,7 @@ export default function MCQuestion({question, idx} : EditQuestionInputType) {
     // in the input area
     useEffect(() => {
 
-        if (context?.question_list) {
+        if (context?.question_list && context.question_list) {
             let currentQuestionList = [...context.question_list]
             currentQuestionList[idx].question = mcQuestion
             currentQuestionList[idx].answer = answer

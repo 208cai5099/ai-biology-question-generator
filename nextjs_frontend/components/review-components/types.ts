@@ -43,7 +43,7 @@ export type RowType = {
 export type CellType = {
     cellValue: string | number, 
     cellIndex: number, 
-    rowIndex: number | undefined
+    rowIndex?: number
 }
 
 export type EditQuestionInputType = {

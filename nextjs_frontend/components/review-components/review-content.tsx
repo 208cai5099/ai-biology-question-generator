@@ -50,6 +50,8 @@ export default function ReviewContent() {
         // this block triggers after the user has made an edit
         // updates the generated content stored in session storage
         if (reading) {
+
+            console.log(data)
             
             const newContent = {
                 reading: reading,

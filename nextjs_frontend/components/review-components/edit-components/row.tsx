@@ -10,9 +10,9 @@ export default function Row({row, rowIndex} : RowType) {
 
             {/* iterate through each value in a row and display it in a data table cell */}
             {
-                row?.map((val, i) => {
+                row?.map((val, idx) => {
                     return (
-                        <Cell cellValue={val} cellIndex={i} rowIndex={rowIndex} key={i}/>
+                        <Cell cellValue={val} cellIndex={idx} rowIndex={rowIndex} key={idx}/>
                     )
                 })
             }

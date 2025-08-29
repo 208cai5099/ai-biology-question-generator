@@ -10,7 +10,6 @@ import { SignUpResponse } from "./types"
 export default function LoginForm() {
 
     const router = useRouter()
-
     const [usernameFirst, setUsernameFirst] = useState('Select one')
     const [usernameSecond, setUsernameSecond] = useState('')
     const [password, setPassword] = useState('')
@@ -56,7 +55,7 @@ export default function LoginForm() {
                 setMessage(resJSON.msg)
 
                 // if the login authentication is successful, record the login status in session storage
-                if (isLogin === true && resJSON.status === "success") {
+                if (isLogin && resJSON.status === "success") {
                     setTimeout(() => {
                         setProcessing(false)
                         router.push("/generate")

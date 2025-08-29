@@ -12,18 +12,22 @@ export default function Cell({cellValue, cellIndex, rowIndex}: CellType) {
     // update the values in the data table
     useEffect(() => {
 
-        let data = context?.data
+        if (context && context.data) {
+            
+            let data = context.data
 
-        // this block updates the data table values (not the header values)
-        if (rowIndex && data?.row_values?.[rowIndex]) {
-            data.row_values[rowIndex][cellIndex] = value
+            // this block updates the data table values (not the header values)
+            if (rowIndex !== undefined && data.row_values?.[rowIndex]) {
+                data.row_values[rowIndex][cellIndex] = value
 
-        // this block updates the table headers
-        } else if (data?.col_names) {
-            data.col_names[cellIndex] = value
+            // this block updates the table headers
+            } else if (rowIndex === undefined && data.col_names) {
+                data.col_names[cellIndex] = value
+
+            }
+
+            context.setData(data)
         }
-
-        context?.setData(data)
 
     }, [value])
 

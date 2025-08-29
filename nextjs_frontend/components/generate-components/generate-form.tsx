@@ -23,26 +23,26 @@ export default function GenerateForm() {
   const [isGenerating, setIsGenerating] = useState(false)
   const [isGenerated, setIsGenerated] = useState(false)
 
+  const runCheckLogin = async() => {
+    
+    // check whether an access token is available
+    let status = await checkLogin()
+    
+    // if access token is unavailable, try to use refresh token to get new access token
+    if (!status) {
+      status = await refreshToken()
+    }
+
+    // if refresh token is unavailable, re-route to login page
+    if (!status) {
+      router.push("/login")
+    }
+
+    setLoginStatus(status)
+  }
+
   // check the login status
   useEffect(() => {
-
-      const runCheckLogin = async() => {
-        
-        // check whether an access token is available
-        let status = await checkLogin()
-        
-        // if access token is unavailable, try to use refresh token to get new access token
-        if (!status) {
-          status = await refreshToken()
-        }
-
-        // if refresh token is unavailable, re-route to login page
-        if (!status) {
-          router.push("/login")
-        }
-
-        setLoginStatus(status)
-      }
 
       runCheckLogin()
 
@@ -63,39 +63,44 @@ export default function GenerateForm() {
   // send user inputs to the backend for generating the desired content
   const generateQuestions = async() => {
 
-      try {
+    try {
 
-          // clear any previous generated content
-          sessionStorage.removeItem("generated_content")
+      await runCheckLogin()
 
-          setIsGenerating(true)
+      // clear any previously generated content
+      sessionStorage.removeItem("generated_content")
 
-          // concatenate the selected PLDs into a numbered list
-          let concatPLD = ""
-          let cnt = 1
-          PLD.forEach((pld) => {
-              concatPLD += (cnt.toString() + ". " + pld + "\n")
-              cnt += 1
-          })
-          
-          // perform a POST request to the backend to start generating content
-          const res = await fetchGeneration({
-              topic: topic,
-              pld: concatPLD,
-              phenomenon: phenomenon,
-              mc_number: MCQuestions, 
-              open_number: openOuestions
-          })
+      setIsGenerating(true)
 
-          // store the generated content in session storage
-          sessionStorage.setItem("generated_content", JSON.stringify(res))
+      // concatenate the selected PLDs into a numbered list
+      let concatPLD = ""
+      let cnt = 1
+      PLD.forEach((pld) => {
+          concatPLD += (cnt.toString() + ". " + pld + "\n")
+          cnt += 1
+      })
+      
+      // perform a POST request to the backend to start generating content
+      const res = await fetchGeneration({
+          topic: topic,
+          pld: concatPLD,
+          phenomenon: phenomenon,
+          mc_number: MCQuestions, 
+          open_number: openOuestions
+      })
 
-          setIsGenerating(false)
-          setIsGenerated(true)
+      // if content was generated successfully, store the generated content in session storage
+      if (Object.keys(res).length > 0) {
+        sessionStorage.setItem("generated_content", JSON.stringify(res))
+        setIsGenerated(true)
 
-      } catch (error) {
-          console.log("Error: " + error)
       }
+
+      setIsGenerating(false)
+
+    } catch (error) {
+        console.log("Error: " + error)
+    }
   }
 
   // keep track of the selected topic

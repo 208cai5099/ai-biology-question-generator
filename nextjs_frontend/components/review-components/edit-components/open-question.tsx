@@ -13,7 +13,7 @@ export default function OpenQuestion({question, idx} : EditQuestionInputType) {
     // update the question and its answer every time the user types in the input area
     useEffect(() => {
 
-        if (context?.question_list) {
+        if (context?.question_list && context.question_list) {
             let currentQuestionList = [...context.question_list]
             currentQuestionList[idx].question = openQuestion
             currentQuestionList[idx].answer = answer
