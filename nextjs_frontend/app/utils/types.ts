@@ -29,9 +29,9 @@ export type Question = {
 }
 
 export interface GeneratedContent {
-    reading: Reading,
-    data: Data
-    question_list: Question[]
+    reading: Reading | undefined,
+    data: Data | undefined
+    question_list: Question[] | undefined
 }
 
 export type AccountInfo = {

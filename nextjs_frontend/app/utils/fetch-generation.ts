@@ -3,14 +3,14 @@
 import { cookies } from "next/headers"
 import { UserInputs, GeneratedContent } from "./types"
 
-export async function fetchGeneration({topic, pld, phenomenon, mc_number, open_number}: UserInputs): Promise<GeneratedContent | {}> {
+export async function fetchGeneration({topic, pld, phenomenon, mc_number, open_number}: UserInputs): Promise<GeneratedContent> {
 
     // sends a POST request to generate content based on user inputs
     // authorized by user access token
     const cookieStore = await cookies()
     const access_cookie = cookieStore.get("ai_bio_access_token")
 
-    if (!access_cookie) return {}
+    if (!access_cookie) return {reading: undefined, data: undefined, question_list: undefined}
     
     const url = process.env.ENDPOINT + "/generate"
     const res = await fetch(url, {

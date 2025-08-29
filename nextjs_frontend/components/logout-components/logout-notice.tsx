@@ -28,12 +28,12 @@ export default function LogoutNotice() {
                 {
                     loginStatus ?
                     <div className="flex flex-col justify-center items-center">
-                        <h1 className="card-title">You're being logged out...</h1>
+                        <h1 className="card-title">You&apos;re being logged out...</h1>
                         <span className="card-body loading loading-spinner my-10"></span>
                     </div> :
                     <div className="flex flex-col justify-center items-center">
                         <h1 className="card-title">Thanks for dropping by!</h1>
-                        <p className="card-body">You're logged out.</p>
+                        <p className="card-body">You&apos;re logged out</p>
                     </div>
                 }
             </div>

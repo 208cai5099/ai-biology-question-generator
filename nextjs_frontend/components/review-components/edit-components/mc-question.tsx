@@ -16,7 +16,7 @@ export default function MCQuestion({question, idx} : EditQuestionInputType) {
     // updates the multiple choice answers as the user edits them
     const updateChoices = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
 
-        let current = [...choices]
+        const current = [...choices]
         current[index] = event.target.value
         setChoices(current)
 
@@ -27,7 +27,7 @@ export default function MCQuestion({question, idx} : EditQuestionInputType) {
     useEffect(() => {
 
         if (context?.question_list && context.question_list) {
-            let currentQuestionList = [...context.question_list]
+            const currentQuestionList = [...context.question_list]
             currentQuestionList[idx].question = mcQuestion
             currentQuestionList[idx].answer = answer
             currentQuestionList[idx].choice_a = choices[0]

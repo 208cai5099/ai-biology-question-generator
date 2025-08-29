@@ -14,7 +14,7 @@ export default function OpenQuestion({question, idx} : EditQuestionInputType) {
     useEffect(() => {
 
         if (context?.question_list && context.question_list) {
-            let currentQuestionList = [...context.question_list]
+            const currentQuestionList = [...context.question_list]
             currentQuestionList[idx].question = openQuestion
             currentQuestionList[idx].answer = answer
             context.setQuestions(currentQuestionList)

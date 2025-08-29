@@ -89,7 +89,7 @@ export default function AboutText() {
                     <div className="flex lg:flex-row md:flex-row flex-col lg:justify-start lg:items-center">
                         
                         <div className="w-30 h-30 mr-2 lg:block hidden">
-                            <img src={content.picURL}></img>
+                            <img src={content.picURL} alt="hand waving Hi"></img>
                         </div>
 
                         <div className="lg:w-4/5 w-full">

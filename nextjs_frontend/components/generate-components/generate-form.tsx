@@ -90,7 +90,7 @@ export default function GenerateForm() {
       })
 
       // if content was generated successfully, store the generated content in session storage
-      if (Object.keys(res).length > 0) {
+      if (res.reading && res.data && res.question_list) {
         sessionStorage.setItem("generated_content", JSON.stringify(res))
         setIsGenerated(true)
 
@@ -112,7 +112,7 @@ export default function GenerateForm() {
   // keep track of the selected PLDs
   const updatePLD = (newPLD: string) => {
 
-    let current: Set<string> = new Set()
+    const current: Set<string> = new Set()
 
     PLD.forEach((pld) => {{current.add(pld)}})
 

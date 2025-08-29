@@ -14,7 +14,7 @@ export default function EditDataTable() {
 
         if (context?.data) {
 
-            let data = context.data
+            const data = context.data
             data.title = title
             context.setData(data)
 

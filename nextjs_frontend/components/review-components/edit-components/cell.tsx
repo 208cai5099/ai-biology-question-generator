@@ -14,7 +14,7 @@ export default function Cell({cellValue, cellIndex, rowIndex}: CellType) {
 
         if (context && context.data) {
             
-            let data = context.data
+            const data = context.data
 
             // this block updates the data table values (not the header values)
             if (rowIndex !== undefined && data.row_values?.[rowIndex]) {

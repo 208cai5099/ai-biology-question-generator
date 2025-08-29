@@ -75,7 +75,7 @@ export default function Welcome() {
                                 <div className="h-[100px] p-5">
                                     <p className="text-center font-bold lg:text-3xl md:text-3xl text-xl lg:w-[300px] md:w-[300px] w-[100px]">{labels[idx]}</p>
                                 </div>
-                                <img className="lg:h-[200px] md:h-[200px] h-1/2" src={imgURL}></img>
+                                <img className="lg:h-[200px] md:h-[200px] h-1/2" src={imgURL} alt={`image for ${labels[idx]}`}></img>
                             </div>
                         )
 
@@ -99,7 +99,7 @@ export default function Welcome() {
                     <p className="p-[10px] text-xl">
                         This website is designed to be a tool for New York State (NYS) teachers to create practice questions for the NYS 
                         Life Science: Biology Regents exam.
-                        First implemented in June 2025, the exam replaces the old Living Environment exam and assesses students' understanding of 
+                        First implemented in June 2025, the exam replaces the old Living Environment exam and assesses students&apos; understanding of 
                         the NYS P-12 Science Learning Standards for high school life science. Because the exam is relatively new, 
                         some teachers need support in preparing their students for the exam. This tool uses an LLM to generate practice questions 
                         aligned to the life science standards. The goal is to provide an online resource to support NYS biology teachers.
@@ -128,7 +128,7 @@ export default function Welcome() {
                 >
                     <h1 className="text-xl font-bold m-[10px]">1. Create an account (free!)</h1>
                     <p className="text-xl m-[10px]">
-                        Make an account by inputting a username and password. Once logged in, you'll be able to generate exam questions 
+                        Make an account by inputting a username and password. Once logged in, you&apos;ll be able to generate exam questions 
                         that resemble the NYS Life Science: Biology exam. 
                     </p>
                 </div>
@@ -140,7 +140,7 @@ export default function Welcome() {
                     <h1 className="text-xl font-bold m-[10px]">2. Specify what kinds of questions to create</h1>
                     <p className="text-xl m-[10px]">
                         Fill out a brief input form asking for the topic, skills, and knowledge assessed by the questions.
-                        All content are generated using OpenAI's GPT-4o.
+                        All content are generated using OpenAI&apos;s GPT-4o.
                     </p>
                 </div>
 
@@ -150,7 +150,7 @@ export default function Welcome() {
                 >
                     <h1 className="text-xl font-bold m-[10px]">3. Edit the generated content</h1>
                     <p className="text-xl m-[10px]">
-                        You are able to modify the content as you see fit. Feel free to use the site's edit functionality or 
+                        You are able to modify the content as you see fit. Feel free to use the site&apos;s edit functionality or 
                         copy and paste the results to your preferred word processor.
                     </p>
                 </div>
