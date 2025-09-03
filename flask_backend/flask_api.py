@@ -82,7 +82,7 @@ def signup() -> Dict[str, str]:
 
         try:
             if username_exists(username):
-                return jsonify({"msg" : "Username already exists.", "status" : "failure"})
+                return jsonify({"msg" : "Username already exists. Please enter another username.", "status" : "failure"})
             else:
                 if create_user(username, password):
                     return jsonify({"msg" : "Account successfully created. You may now login.", "status" : "success"})

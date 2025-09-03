@@ -15,7 +15,7 @@ export default function Chatbot() {
     const chatMessagesRef = useRef<HTMLDivElement>(null)
     const [visible, setVisible] = useState(false)
     const [sessionID, setSessionID] = useState("")
-    const [chatHistory, setChatHistory] = useState<ChatMessage[]>([])
+    const [chatHistory, setChatHistory] = useState<ChatMessage[]>([{role: "AI", content: "The chatbot server is taking a minute to start up. Thank you for your patience."}])
     const [humanMessage, setHumanMessage] = useState("")
 
     // gets initial chatbot greeting to start the chat
@@ -26,7 +26,7 @@ export default function Chatbot() {
 
             if (!res.sessionID) {
                 setSessionID("NA")
-                setChatHistory([{role: "AI", content: "Sorry, it looks like we're having some technical difficulty. Please try again later."}])
+                setChatHistory([...chatHistory, {role: "AI", content: "Sorry, it looks like we're having some technical difficulty. Please try again later."}])
             } else {
                 setSessionID(res.sessionID)
                 setChatHistory([{role: "AI", content: res.msg}])

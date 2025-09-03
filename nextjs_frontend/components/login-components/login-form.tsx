@@ -1,6 +1,6 @@
 'use client'
 
-import { usernames } from "./content"
+import { processingMessage, redirectMessage, serverStartMessage, usernames } from "./content"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { login } from "@/app/utils/login"
@@ -110,7 +110,8 @@ export default function LoginForm() {
                     processing ? 
                     <div className="card flex flex-col justify-center items-center w-80 h-80 shadow-sm rounded-box">
                         <span className="loading loading-spinner text-accent"></span>
-                        <p>{message === "Account successfully logged in." ? "Redirecting..." : "Processing..."}</p>
+                        <p>{message === "Account successfully logged in." ? redirectMessage : processingMessage}</p>
+                        <p>{serverStartMessage}</p>
                     </div> :
                     <fieldset className="fieldset flex flex-col justify-center items-center w-80 shadow-sm rounded-box">
 
