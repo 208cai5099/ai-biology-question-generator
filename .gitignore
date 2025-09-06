@@ -51,3 +51,5 @@ flask_backend/vector_db/chroma.sqlite3
 biology_question_generator_frontend/pnpm-lock.yaml
 flask_backend/vector_db/vector_db_query.py
 flask_backend/vector_db/2f682374-e54f-4be2-9e0b-71f61c3aa095
+flask_backend/text_extraction/exams
+flask_backend/text_extraction/exam_clusters.json
