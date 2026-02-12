@@ -7,6 +7,9 @@ This project is designed to support New York State teachers in preparing student
 
 <img width="2352" height="978" alt="home_page" src="https://github.com/user-attachments/assets/f7b627f4-7b34-4a5e-97a2-a95c3b691a29" />
 
+## Current Status of Project
+The project is currently not deployed. It will be deployed in the near future once major changes are implemented.
+
 ## How Does This Work?
 The user has to fill out a form to request the type of questions to be generated. 
 
